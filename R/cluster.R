@@ -3,31 +3,31 @@ clust<-function(h,...){
 		x<<-svalue(h$obj)
 		}
 
-		try(({
+	try(({
 		dat2Affy.m<-dat2Affy.m;datAgOne2.m<-datAgOne2.m;datAgTwo2.m<-datAgTwo2.m;datIllBA2.m2<-datIllBA2.m2;
 		lumi_NQ.m<-lumi_NQ.m;data.matrix_Nimblegen2.m<-data.matrix_Nimblegen2.m;
 		data.matrixNorm.m<-data.matrixNorm.m;data.matrix_onlineNorm.m<-data.matrix_onlineNorm.m;l<-l;tree<-tree;
-			}),silent=TRUE)
-		platforms=NULL;
-		aa=0;bb=0;cc=0;dd=0;ee=0;ff=0;gg=0;hh=0;
-		try(({
-			if(exists("dat2Affy.m"))aa=length(dat2Affy.m)
-			if(exists("datAgOne2.m"))bb=length(datAgOne2.m)
-			if(exists("datAgTwo2.m"))cc=length(datAgTwo2.m)
-			if(exists("datIllBA2.m2"))dd=length(datIllBA2.m2)
-			if(exists("lumi_NQ.m"))ee=length(lumi_NQ.m)
-			if(exists("data.matrix_Nimblegen2.m"))ff=length(data.matrix_Nimblegen2.m)
-			if(exists("data.matrixNorm.m"))gg=length(data.matrixNorm.m)
-			if(exists("data.matrix_onlineNorm.m"))hh=length(data.matrix_onlineNorm.m)
-			}),silent=TRUE)
-		if(aa!=0)platforms=c(platforms,"Affymetrix")
-		if(bb!=0)platforms=c(platforms,"Agilent_OneColor")
-		if(cc!=0)platforms=c(platforms,"Agilent_TwoColor")
-		if(dd!=0)platforms=c(platforms,"Illumina_Beadarray")
-		if(ee!=0)platforms=c(platforms,"Illumina_Lumi")
-		if(ff!=0)platforms=c(platforms,"Nimblegen")
-		if(gg!=0)platforms=c(platforms,"Series_Matrix")
-		if(hh!=0)platforms=c(platforms,"Online_Data")
+		}),silent=TRUE)
+	platforms=NULL;
+	aa=0;bb=0;cc=0;dd=0;ee=0;ff=0;gg=0;hh=0;
+	try(({
+		if(exists("dat2Affy.m"))aa=length(dat2Affy.m)
+		if(exists("datAgOne2.m"))bb=length(datAgOne2.m)
+		if(exists("datAgTwo2.m"))cc=length(datAgTwo2.m)
+		if(exists("datIllBA2.m2"))dd=length(datIllBA2.m2)
+		if(exists("lumi_NQ.m"))ee=length(lumi_NQ.m)
+		if(exists("data.matrix_Nimblegen2.m"))ff=length(data.matrix_Nimblegen2.m)
+		if(exists("data.matrixNorm.m"))gg=length(data.matrixNorm.m)
+		if(exists("data.matrix_onlineNorm.m"))hh=length(data.matrix_onlineNorm.m)
+		}),silent=TRUE)
+	if(aa!=0)platforms=c(platforms,"Affymetrix")
+	if(bb!=0)platforms=c(platforms,"Agilent_OneColor")
+	if(cc!=0)platforms=c(platforms,"Agilent_TwoColor")
+	if(dd!=0)platforms=c(platforms,"Illumina_Beadarray")
+	if(ee!=0)platforms=c(platforms,"Illumina_Lumi")
+	if(ff!=0)platforms=c(platforms,"Nimblegen")
+	if(gg!=0)platforms=c(platforms,"Series_Matrix")
+	if(hh!=0)platforms=c(platforms,"Online_Data")
 	
 	sample.dist_Affy=NULL;sample.dist_Ag1=NULL;sample.dist_Ag2=NULL;sample.dist_Il_B=NULL;sample.dist_Il_L=NULL;
 	sample.dist_N=NULL;sample.dist_S=NULL;sample.dist_O=NULL;
@@ -53,6 +53,7 @@ clust<-function(h,...){
 	},container=gp2_dge,anchor=c(1,-1))
 	y2<-gbutton("OK",border=TRUE,handler=function(h,...){
 		if(length(x)!=0){
+		svalue(sb)<-"				Please wait while Clustering.."
 		if(length(which(x=="Affymetrix"))!=0){
 			sample.dist_c1<-dist(t(dat2Affy.m)) 
 			sample.dist_Affy<<-as.dist(1-cor(dat2Affy.m,method="pearson"))
@@ -165,10 +166,12 @@ clust<-function(h,...){
 				}
 				display()
 			}
+		svalue(sb)<-"Done"
 		dispose(w_dge)
 		}else{
 			gmessage("Plz select the data for Clustering","Select Data")
 			}
+			svalue(sb)<-"Done"
 			dispose(w_dge)
 		},container=gp2_dge,anchor=c(1,-1))
 	visible(w_dge)<-TRUE

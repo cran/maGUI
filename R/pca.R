@@ -4,10 +4,10 @@ pca<-function(h,...){
 		}
 
 	try(({
-	dat2Affy.m<-dat2Affy.m;datAgOne2.m<-datAgOne2.m;datAgTwo2.m<-datAgTwo2.m;datIllBA2.m2<-datIllBA2.m2;
-	lumi_NQ.m<-lumi_NQ.m;data.matrix_Nimblegen2.m<-data.matrix_Nimblegen2.m;
-	data.matrixNorm.m<-data.matrixNorm.m;data.matrix_onlineNorm.m<-data.matrix_onlineNorm.m;l<-l;tree<-tree;
-		}),silent=TRUE)
+		dat2Affy.m<-dat2Affy.m;datAgOne2.m<-datAgOne2.m;datAgTwo2.m<-datAgTwo2.m;datIllBA2.m2<-datIllBA2.m2;
+		lumi_NQ.m<-lumi_NQ.m;data.matrix_Nimblegen2.m<-data.matrix_Nimblegen2.m;
+		data.matrixNorm.m<-data.matrixNorm.m;data.matrix_onlineNorm.m<-data.matrix_onlineNorm.m;l<-l;tree<-tree;
+	}),silent=TRUE)
 
 	platforms=NULL
 	aa=0;bb=0;cc=0;dd=0;ee=0;ff=0;gg=0;hh=0;
@@ -20,7 +20,7 @@ pca<-function(h,...){
 		if(exists("data.matrix_Nimblegen2.m"))ff=length(data.matrix_Nimblegen2.m)
 		if(exists("data.matrixNorm.m"))gg=length(data.matrixNorm.m)
 		if(exists("data.matrix_onlineNorm.m"))hh=length(data.matrix_onlineNorm.m)
-		}),silent=TRUE)
+	}),silent=TRUE)
 	if(aa!=0)platforms=c(platforms,"Affymetrix")
 	if(bb!=0)platforms=c(platforms,"Agilent_OneColor")
 	if(cc!=0)platforms=c(platforms,"Agilent_TwoColor")
@@ -47,6 +47,7 @@ pca<-function(h,...){
 	},container=gp2_dge,anchor=c(1,-1))
 	y2<-gbutton("OK",border=TRUE,handler=function(h,...){
 		if(length(x)!=0){
+		svalue(sb)<-"				Please wait while PCA.."
 		if(length(which(x=="Affymetrix"))!=0){
 			pca_Affy<<-prcomp(t(dat2Affy.m))
 			}
@@ -78,6 +79,7 @@ pca<-function(h,...){
 		if(length(x)!=0){
 		if(length(which(x=="Affymetrix"))!=0){
 			plot(pca_Affy,main="Affymetrix PCA")
+			svalue(sb)<-"Done"
 			if(length(pca_Affy)!=0){
 				visible(g1_1)<-FALSE
 				l$Affymetrix$PCA_Plot<<-list()
@@ -89,6 +91,7 @@ pca<-function(h,...){
 			} else
 		if(length(which(x=="Agilent_OneColor"))!=0){
 			plot(pca_Ag1,main="Agilent_OneColor PCA")
+			svalue(sb)<-"Done"
 			if(length(pca_Ag1)!=0){
 				visible(g1_1)<-FALSE
 				l$Agilent_OneColor$PCA_Plot<<-list()
@@ -100,6 +103,7 @@ pca<-function(h,...){
 			} else
 		if(length(which(x=="Agilent_TwoColor"))!=0){
 			plot(pca_Ag2,main="Agilent_TwoColor PCA")
+			svalue(sb)<-"Done"
 			if(length(pca_Ag2)!=0){
 				visible(g1_1)<-FALSE
 				l$Agilent_TwoColor$PCA_Plot<<-list()
@@ -111,6 +115,7 @@ pca<-function(h,...){
 			} else
 		if(length(which(x=="Illumina_Beadarray"))!=0){
 			plot(pca_Il_B,main="Illumina_Beadarray PCA")
+			svalue(sb)<-"Done"
 			if(length(pca_Il_B)!=0){
 				visible(g1_1)<-FALSE
 				l$Illumina_Beadarray$PCA_Plot<<-list()
@@ -122,6 +127,7 @@ pca<-function(h,...){
 			} else
 		if(length(which(x=="Illumina_Lumi"))!=0){
 			plot(pca_Il_L,main="Illumina_Lumi PCA")
+			svalue(sb)<-"Done"
 			if(length(pca_Il_L)!=0){
 				visible(g1_1)<-FALSE
 				l$Illumina_Lumi$PCA_Plot<<-list()
@@ -133,6 +139,7 @@ pca<-function(h,...){
 			} else
 		if(length(which(x=="Nimblegen"))!=0){
 			plot(pca_N,main="Nimblegen PCA")
+			svalue(sb)<-"Done"
 			if(length(pca_N)!=0){
 				visible(g1_1)<-FALSE
 				l$Nimblegen$PCA_Plot<<-list()
@@ -144,6 +151,7 @@ pca<-function(h,...){
 			} else
 		if(length(which(x=="Series_Matrix"))!=0){
 			plot(pca_S,main="Series_Matrix PCA")
+			svalue(sb)<-"Done"
 			if(length(pca_S)!=0){
 				visible(g1_1)<-FALSE
 				l$Series_Matrix$PCA_Plot<<-list()
@@ -155,6 +163,7 @@ pca<-function(h,...){
 			} else
 		if(length(which(x=="Online_Data"))!=0){
 			plot(pca_O,main="Online_Data PCA")
+			svalue(sb)<-"Done"
 			if(length(pca_O)!=0){
 				visible(g1_1)<-FALSE
 				l$Online_Data$PCA_Plot<<-list()
@@ -166,6 +175,6 @@ pca<-function(h,...){
 			} else
 		dispose(w_dge)
 		}	
-		},container=gp2_dge,anchor=c(1,-1))
+	},container=gp2_dge,anchor=c(1,-1))
 	visible(w_dge)<-TRUE
-	}
+}

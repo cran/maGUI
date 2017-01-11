@@ -41,12 +41,14 @@ clas<-function(h,...){
 	if(hh!=0)platforms=c(platforms,"Online_Data")
 
 	use_DE_Affy=NULL;use_DE_Ag1=NULL;use_DE_Ag2=NULL;use_DE_Il_B=NULL;use_DE_Il_L=NULL;
-	use_DE_N=NULL;use_DE_S=NULL;use_DE_O=NULL;
+	use_DE_N=NULL;use_DE_S=NULL;use_DE_O=NULL;heatcol=NULL;
 	Clas_Affy=NULL;	Clas_Ag1=NULL;Clas_Ag2=NULL;Clas_Il_B=NULL;Clas_Il_L=NULL;Clas_N=NULL;Clas_S=NULL;Clas_O=NULL;
+	samp_Affy=NULL;samp_Ag1=NULL;samp_Ag2=NULL;samp_Il_B=NULL;samp_Il_L=NULL;samp_N=NULL;samp_S=NULL;samp_O=NULL;
 
 	rm(use_DE_Affy,use_DE_Ag1,use_DE_Ag2,use_DE_Il_B,use_DE_Il_L,
-	use_DE_N,use_DE_S,use_DE_O,
-	Clas_Affy,	Clas_Ag1,Clas_Ag2,Clas_Il_B,Clas_Il_L,Clas_N,Clas_S,Clas_O)
+	use_DE_N,use_DE_S,use_DE_O,heatcol,
+	Clas_Affy,Clas_Ag1,Clas_Ag2,Clas_Il_B,Clas_Il_L,Clas_N,Clas_S,Clas_O,
+	samp_Affy,samp_Ag1,samp_Ag2,samp_Il_B,samp_Il_L,samp_N,samp_S,samp_O)
 
 	x=NULL
 	z=NULL
@@ -62,259 +64,191 @@ clas<-function(h,...){
 	},container=gp2_dge,anchor=c(1,-1))
 	y2<-gbutton("OK",border=TRUE,handler=function(h,...){
 		if(length(x)!=0){
-		if(length(which(x=="Affymetrix"))!=0){
-			err2=NULL;err3=NULL
-			er_x<-try(use_DE_Affy<<-DE_Affy,silent=TRUE)
-			if(length(grep("Error",er_x))!=0)
-			{
-				rownames(DE_Affy)<<-as.character(DE_Affy)
-				use_DE_Affy<<-DE_Affy
-				}
-			err2<-try((Clas_Affy<<-use.dat2Affy.m[rownames(use_DE_Affy),which(design_Affy[,1]==1 | design_Affy[,2]==1)]),silent=TRUE)
-			if(length(grep("Error",err2))!=0)
-			{
-				err3<-try((Clas_Affy<<-use.dat2Affy.m[rownames(use_DE_Affy),which(design_Affy[,1]==1 | design_Affy[,2]==1)] | design_Affy[,3]==1),silent=TRUE)
-				if(length(grep("Error",err3))!=0)
+			svalue(sb)<-"				Please wait while Classification.."
+			heatcol<<-colorRampPalette(c("Green","Red"))(32) ##############
+			if(length(which(x=="Affymetrix"))!=0){
+				er_x<-try(use_DE_Affy<<-DE_Affy,silent=TRUE)
+				if(length(grep("Error",er_x))!=0)
 				{
-					err4<-try(Clas_Affy<<-use.dat2Affy.m[rownames(use_DE_Affy),],silent=TRUE)
-					if(length(grep("Error",err4))!=0)
-					{
-						try(Clas_Affy<<-use.dat2Affy.m[as.numeric(rownames(use_DE_Affy)),],silent=TRUE)
-					}
+					rownames(DE_Affy)<<-as.character(DE_Affy)
+					use_DE_Affy<<-DE_Affy
 				}
-			}
-			heatmap(Clas_Affy,Rowv=NA)
-			if(length(Clas_Affy)!=0){
-				visible(g1_1)<-FALSE
-				l$Affymetrix$Classification<<-list()
-				tr<<-gtree(offspring=tree,container=g1_1)
-				size(tr)<-c(300,400)
-				visible(g1_1)<-TRUE
+				err_x<-try(Clas_Affy<<-use.dat2Affy.m[rownames(use_DE_Affy),samp_Affy],silent=TRUE)
+				if(length(grep("Error",err_x))!=0)
+				{
+					Clas_Affy<<-use.dat2Affy.m[rownames(use_DE_Affy),]
+				}
+				heatmap(Clas_Affy,margins=c(7,7),Rowv=NA,Colv=NA,cexCol=0.8,cexRow=0.8,col=heatcol)
+				if(length(Clas_Affy)!=0){
+					visible(g1_1)<-FALSE
+					l$Affymetrix$Classification<<-list()
+					tr<<-gtree(offspring=tree,container=g1_1)
+					size(tr)<-c(300,400)
+					visible(g1_1)<-TRUE
 				}
 				display()
 			}
-		if(length(which(x=="Agilent_OneColor"))!=0){
-			err2=NULL;err3=NULL
-			er_x<-try(use_DE_Ag1<<-DE_Ag1,silent=TRUE)
-			if(length(grep("Error",er_x))!=0)
-			{
-				rownames(DE_Ag1)<<-as.character(DE_Ag1)
-				use_DE_Ag1<<-DE_Ag1
-				}
-			err2<-try((Clas_Ag1<<-use.datAgOne2.m[rownames(use_DE_Ag1),which(design_Ag1[,1]==1 | design_Ag1[,2]==1)]),silent=TRUE)
-			if(length(grep("Error",err2))!=0)
-			{
-				err3<-try((Clas_Ag1<<-use.datAgOne2.m[rownames(use_DE_Ag1),which(design_Ag1[,1]==1 | design_Ag1[,2]==1)] | design_Ag1[,3]==1),silent=TRUE)
-				if(length(grep("Error",err3))!=0)
+			if(length(which(x=="Agilent_OneColor"))!=0){
+				er_x<-try(use_DE_Ag1<<-DE_Ag1,silent=TRUE)
+				if(length(grep("Error",er_x))!=0)
 				{
-					err4<-try(Clas_Ag1<<-use.datAgOne2.m[rownames(use_DE_Ag1),],silent=TRUE)
-					if(length(grep("Error",err4))!=0)
-					{
-						try(Clas_Ag1<<-use.datAgOne2.m[as.numeric(rownames(use_DE_Ag1)),],silent=TRUE)
-					}
+					rownames(DE_Ag1)<<-as.character(DE_Ag1)
+					use_DE_Ag1<<-DE_Ag1
 				}
-			}
-			heatmap(Clas_Ag1,Rowv=NA)
-			if(length(Clas_Ag1)!=0){
-				visible(g1_1)<-FALSE
-				l$Agilent_OneColor$Classification<<-list()
-				tr<<-gtree(offspring=tree,container=g1_1)
-				size(tr)<-c(300,400)
-				visible(g1_1)<-TRUE
+				err_x<-try(Clas_Ag1<<-use.datAgOne2.m[rownames(use_DE_Ag1),samp_Ag1],silent=TRUE)
+				if(length(grep("Error",err_x))!=0)
+				{
+					Clas_Ag1<<-use.datAgOne2.m[rownames(use_DE_Ag1),]
+				}
+				heatmap(Clas_Ag1,margins=c(7,7),Rowv=NA,Colv=NA,cexCol=0.8,cexRow=0.8,col=heatcol)
+				if(length(Clas_Ag1)!=0){
+					visible(g1_1)<-FALSE
+					l$Agilent_OneColor$Classification<<-list()
+					tr<<-gtree(offspring=tree,container=g1_1)
+					size(tr)<-c(300,400)
+					visible(g1_1)<-TRUE
 				}
 				display()
 			}
-		if(length(which(x=="Agilent_TwoColor"))!=0){
-			err2=NULL;err3=NULL
-			er_x<-try(use_DE_Ag2<<-DE_Ag2,silent=TRUE)
-			if(length(grep("Error",er_x))!=0)
-			{
-				rownames(DE_Ag2)<<-as.character(DE_Ag2)
-				use_DE_Ag2<<-DE_Ag2
-				}
-			err2<-try((Clas_Ag2<<-use.datAgTwo2.m[rownames(use_DE_Ag2),which(design_Ag2[,1]==1 | design_Ag2[,2]==1)]),silent=TRUE)
-			if(length(grep("Error",err2))!=0)
-			{
-				err3<-try((Clas_Ag2<<-use.datAgTwo2.m[rownames(use_DE_Ag2),which(design_Ag2[,1]==1 | design_Ag2[,2]==1)] | design_Ag2[,3]==1),silent=TRUE)
-				if(length(grep("Error",err3))!=0)
+			if(length(which(x=="Agilent_TwoColor"))!=0){
+				er_x<-try(use_DE_Ag2<<-DE_Ag2,silent=TRUE)
+				if(length(grep("Error",er_x))!=0)
 				{
-					err4<-try(Clas_Ag2<<-use.datAgTwo2.m[rownames(use_DE_Ag2),],silent=TRUE)
-					if(length(grep("Error",err4))!=0)
-					{
-						try(Clas_Ag2<<-use.datAgTwo2.m[as.numeric(rownames(use_DE_Ag2)),],silent=TRUE)
-					}
+					rownames(DE_Ag2)<<-as.character(DE_Ag2)
+					use_DE_Ag2<<-DE_Ag2
 				}
-			}
-			heatmap(Clas_Ag2,Rowv=NA)
-			if(length(Clas_Ag2)!=0){
-				visible(g1_1)<-FALSE
-				l$Agilent_TwoColor$Classification<<-list()
-				tr<<-gtree(offspring=tree,container=g1_1)
-				size(tr)<-c(300,400)
-				visible(g1_1)<-TRUE
+				err_x<-try(Clas_Ag2<<-use.datAgTwo2.m[rownames(use_DE_Ag2),samp_Ag2],silent=TRUE)
+				if(length(grep("Error",err_x))!=0)
+				{
+					Clas_Ag2<<-use.datAgTwo2.m[rownames(use_DE_Ag2),]
+				}
+				heatmap(Clas_Ag2,margins=c(7,7),Rowv=NA,Colv=NA,cexCol=0.8,cexRow=0.8,col=heatcol)
+				if(length(Clas_Ag2)!=0){
+					visible(g1_1)<-FALSE
+					l$Agilent_TwoColor$Classification<<-list()
+					tr<<-gtree(offspring=tree,container=g1_1)
+					size(tr)<-c(300,400)
+					visible(g1_1)<-TRUE
 				}
 				display()
 			}
-		if(length(which(x=="Illumina_Beadarray"))!=0){
-			err2=NULL;err3=NULL
-			er_x<-try(use_DE_Il_B<<-DE_Il_B,silent=TRUE)
-			if(length(grep("Error",er_x))!=0)
-			{
-				rownames(DE_Il_B)<<-as.character(DE_Il_B)
-				use_DE_Il_B<<-DE_Il_B
-				}
-			err2<-try((Clas_Il_B<<-use.datIllBA2.m2[rownames(use_DE_Il_B),which(design_Il_B[,1]==1 | design_Il_B[,2]==1)]),silent=TRUE)
-			if(length(grep("Error",err2))!=0)
-			{
-				err3<-try((Clas_Il_B<<-use.datIllBA2.m2[rownames(use_DE_Il_B),which(design_Il_B[,1]==1 | design_Il_B[,2]==1)] | design_Il_B[,3]==1),silent=TRUE)
-				if(length(grep("Error",err3))!=0)
+			if(length(which(x=="Illumina_Beadarray"))!=0){
+				er_x<-try(use_DE_Il_B<<-DE_Il_B,silent=TRUE)
+				if(length(grep("Error",er_x))!=0)
 				{
-					err4<-try(Clas_Il_B<<-use.datIllBA2.m2[rownames(use_DE_Il_B),],silent=TRUE)
-					if(length(grep("Error",err4))!=0)
-					{
-						try(Clas_Il_B<<-use.datIllBA2.m2[as.numeric(rownames(use_DE_Il_B)),],silent=TRUE)
-					}
+					rownames(DE_Il_B)<<-as.character(DE_Il_B)
+					use_DE_Il_B<<-DE_Il_B
 				}
-			}
-			heatmap(Clas_Il_B,Rowv=NA)
-			if(length(Clas_Il_B)!=0){
-				visible(g1_1)<-FALSE
-				l$Illumina_Beadarray$Classification<<-list()
-				tr<<-gtree(offspring=tree,container=g1_1)
-				size(tr)<-c(300,400)
-				visible(g1_1)<-TRUE
+				err_x<-try(Clas_Il_B<<-use.datIllBA2.m2[rownames(use_DE_Il_B),samp_Il_B],silent=TRUE)
+				if(length(grep("Error",err_x))!=0)
+				{
+					Clas_Il_B<<-use.datIllBA2.m2[rownames(use_DE_Il_B),]
+				}
+				heatmap(Clas_Il_B,margins=c(7,7),Rowv=NA,Colv=NA,cexCol=0.8,cexRow=0.8,col=heatcol)
+				if(length(Clas_Il_B)!=0){
+					visible(g1_1)<-FALSE
+					l$Illumina_Beadarray$Classification<<-list()
+					tr<<-gtree(offspring=tree,container=g1_1)
+					size(tr)<-c(300,400)
+					visible(g1_1)<-TRUE
 				}
 				display()
 			}
-		if(length(which(x=="Illumina_Lumi"))!=0){
-			err2=NULL;err3=NULL
-			er_x<-try(use_DE_Il_L<<-DE_Il_L,silent=TRUE)
-			if(length(grep("Error",er_x))!=0)
-			{
-				rownames(DE_Il_L)<<-as.character(DE_Il_L)
-				use_DE_Il_L<<-DE_Il_L
-				}
-			err2<-try((Clas_Il_L<<-use.lumi_NQ.m[rownames(use_DE_Il_L),which(design_Il_L[,1]==1 | design_Il_L[,2]==1)]),silent=TRUE)
-			if(length(grep("Error",err2))!=0)
-			{
-				err3<-try((Clas_Il_L<<-use.lumi_NQ.m[rownames(use_DE_Il_L),which(design_Il_L[,1]==1 | design_Il_L[,2]==1)] | design_Il_L[,3]==1),silent=TRUE)
-				if(length(grep("Error",err3))!=0)
+			if(length(which(x=="Illumina_Lumi"))!=0){
+				er_x<-try(use_DE_Il_L<<-DE_Il_L,silent=TRUE)
+				if(length(grep("Error",er_x))!=0)
 				{
-					err4<-try(Clas_Il_L<<-use.lumi_NQ.m[rownames(use_DE_Il_L),],silent=TRUE)
-					if(length(grep("Error",err4))!=0)
-					{
-						try(Clas_Il_L<<-use.lumi_NQ.m[as.numeric(rownames(use_DE_Il_L)),],silent=TRUE)
-					}
+					rownames(DE_Il_L)<<-as.character(DE_Il_L)
+					use_DE_Il_L<<-DE_Il_L
 				}
-			}
-			heatmap(Clas_Il_L,Rowv=NA)
-			if(length(Clas_Il_L)!=0){
-				visible(g1_1)<-FALSE
-				l$Illumina_Lumi$Classification<<-list()
-				tr<<-gtree(offspring=tree,container=g1_1)
-				size(tr)<-c(300,400)
-				visible(g1_1)<-TRUE
+				err_x<-try(Clas_Il_L<<-use.lumi_NQ.m[rownames(use_DE_Il_L),samp_Il_L],silent=TRUE)
+				if(length(grep("Error",err_x))!=0)
+				{
+					Clas_Il_L<<-use.lumi_NQ.m[rownames(use_DE_Il_L),]
+				}
+				heatmap(Clas_Il_L,margins=c(7,7),Rowv=NA,Colv=NA,cexCol=0.8,cexRow=0.8,col=heatcol)
+				if(length(Clas_Il_L)!=0){
+					visible(g1_1)<-FALSE
+					l$Illumina_Lumi$Classification<<-list()
+					tr<<-gtree(offspring=tree,container=g1_1)
+					size(tr)<-c(300,400)
+					visible(g1_1)<-TRUE
 				}
 				display()
 			}
-		if(length(which(x=="Nimblegen"))!=0){
-			err2=NULL;err3=NULL
-			er_x<-try(use_DE_N<<-DE_N,silent=TRUE)
-			if(length(grep("Error",er_x))!=0)
-			{
-				rownames(DE_N)<<-as.character(DE_N)
-				use_DE_N<<-DE_N
-				}
-			err2<-try((Clas_N<<-use.data.matrix_Nimblegen2.m[rownames(use_DE_N),which(design_N[,1]==1 | design_N[,2]==1)]),silent=TRUE)
-			if(length(grep("Error",err2))!=0)
-			{
-				err3<-try((Clas_N<<-use.data.matrix_Nimblegen2.m[rownames(use_DE_N),which(design_N[,1]==1 | design_N[,2]==1)] | design_N[,3]==1),silent=TRUE)
-				if(length(grep("Error",err3))!=0)
+			if(length(which(x=="Nimblegen"))!=0){
+				er_x<-try(use_DE_N<<-DE_N,silent=TRUE)
+				if(length(grep("Error",er_x))!=0)
 				{
-					err4<-try(Clas_N<<-use.data.matrix_Nimblegen2.m[rownames(use_DE_N),],silent=TRUE)
-					if(length(grep("Error",err4))!=0)
-					{
-						try(Clas_N<<-use.data.matrix_Nimblegen2.m[as.numeric(rownames(use_DE_N)),],silent=TRUE)
-					}
+					rownames(DE_N)<<-as.character(DE_N)
+					use_DE_N<<-DE_N
 				}
-			}
-			heatmap(Clas_N,Rowv=NA)
-			if(length(Clas_N)!=0){
-				visible(g1_1)<-FALSE
-				l$Nimblegen$Classification<<-list()
-				tr<<-gtree(offspring=tree,container=g1_1)
-				size(tr)<-c(300,400)
-				visible(g1_1)<-TRUE
+				err_x<-try(Clas_N<<-use.data.matrix_Nimblegen2.m[rownames(use_DE_N),samp_N],silent=TRUE)
+				if(length(grep("Error",err_x))!=0)
+				{
+					Clas_N<<-use.data.matrix_Nimblegen2.m[rownames(use_DE_N),]
+				}
+				heatmap(Clas_N,margins=c(7,7),Rowv=NA,Colv=NA,cexCol=0.8,cexRow=0.8,col=heatcol)
+				if(length(Clas_N)!=0){
+					visible(g1_1)<-FALSE
+					l$Nimblegen$Classification<<-list()
+					tr<<-gtree(offspring=tree,container=g1_1)
+					size(tr)<-c(300,400)
+					visible(g1_1)<-TRUE
 				}
 				display()
   			}
-		if(length(which(x=="Series_Matrix"))!=0){
-			err2=NULL;err3=NULL
-			er_x<-try(use_DE_S<<-DE_S,silent=TRUE)
-			if(length(grep("Error",er_x))!=0)
-			{
-				rownames(DE_S)<<-as.character(DE_S)
-				use_DE_S<<-DE_S
-				}
-			err2<-try((Clas_S<<-use.data.matrixNorm.m[rownames(use_DE_S),which(design_S[,1]==1 | design_S[,2]==1)]),silent=TRUE)
-			if(length(grep("Error",err2))!=0)
-			{
-				err3<-try((Clas_S<<-use.data.matrixNorm.m[rownames(use_DE_S),which(design_S[,1]==1 | design_S[,2]==1)] | design_S[,3]==1),silent=TRUE)
-				if(length(grep("Error",err3))!=0)
+			if(length(which(x=="Series_Matrix"))!=0){
+				er_x<-try(use_DE_S<<-DE_S,silent=TRUE)
+				if(length(grep("Error",er_x))!=0)
 				{
-					err4<-try(Clas_S<<-use.data.matrixNorm.m[rownames(use_DE_S),],silent=TRUE)
-					if(length(grep("Error",err4))!=0)
-					{
-						try(Clas_S<<-use.data.matrixNorm.m[as.numeric(rownames(use_DE_S)),],silent=TRUE)
-					}
+					rownames(DE_S)<<-as.character(DE_S)
+					use_DE_S<<-DE_S
 				}
-			}
-			heatmap(Clas_S,Rowv=NA)
-			if(length(Clas_S)!=0){
-				visible(g1_1)<-FALSE
-				l$Series_Matrix$Classification<<-list()
-				tr<<-gtree(offspring=tree,container=g1_1)
-				size(tr)<-c(300,400)
-				visible(g1_1)<-TRUE
+				err_x<-try(Clas_S<<-use.data.matrixNorm.m[rownames(use_DE_S),samp_S],silent=TRUE)
+				if(length(grep("Error",err_x))!=0)
+				{
+					Clas_S<<-use.data.matrixNorm.m[rownames(use_DE_S),]
+				}
+				heatmap(Clas_S,margins=c(7,7),Rowv=NA,Colv=NA,cexCol=0.8,cexRow=0.8,col=heatcol)
+				if(length(Clas_S)!=0){
+					visible(g1_1)<-FALSE
+					l$Series_Matrix$Classification<<-list()
+					tr<<-gtree(offspring=tree,container=g1_1)
+					size(tr)<-c(300,400)
+					visible(g1_1)<-TRUE
 				}
 				display()
 			}
-		if(length(which(x=="Online_Data"))!=0){
-			err2=NULL;err3=NULL
-			er_x<-try(use_DE_O<<-DE_O,silent=TRUE)
-			if(length(grep("Error",er_x))!=0)
-			{
-				rownames(DE_O)<<-as.character(DE_O)
-				use_DE_O<<-DE_O
-				}
-			err2<-try((Clas_O<<-use.data.matrix_onlineNorm.m[rownames(use_DE_O),which(design_O[,1]==1 | design_O[,2]==1)]),silent=TRUE)
-			if(length(grep("Error",err2))!=0)
-			{
-				err3<-try((Clas_O<<-use.data.matrix_onlineNorm.m[rownames(use_DE_O),which(design_O[,1]==1 | design_O[,2]==1)] | design_O[,3]==1),silent=TRUE)
-				if(length(grep("Error",err3))!=0)
+			if(length(which(x=="Online_Data"))!=0){
+				er_x<-try(use_DE_O<<-DE_O,silent=TRUE)
+				if(length(grep("Error",er_x))!=0)
 				{
-					err4<-try(Clas_O<<-use.data.matrix_onlineNorm.m[rownames(use_DE_O),],silent=TRUE)
-					if(length(grep("Error",err4))!=0)
-					{
-						try(Clas_O<<-use.data.matrix_onlineNorm.m[as.numeric(rownames(use_DE_O)),],silent=TRUE)
-					}
+					rownames(DE_O)<<-as.character(DE_O)
+					use_DE_O<<-DE_O
 				}
-			}
-			heatmap(Clas_O,Rowv=NA)
-			if(length(Clas_O)!=0){
-				visible(g1_1)<-FALSE
-				l$Online_Data$Classification<<-list()
-				tr<<-gtree(offspring=tree,container=g1_1)
-				size(tr)<-c(300,400)
-				visible(g1_1)<-TRUE
+				err_x<-try(Clas_O<<-use.data.matrix_onlineNorm.m[rownames(use_DE_O),samp_O],silent=TRUE)
+				if(length(grep("Error",err_x))!=0)
+				{
+					Clas_O<<-use.data.matrix_onlineNorm.m[rownames(use_DE_O),]
+				}
+				heatmap(Clas_O,margins=c(7,7),Rowv=NA,Colv=NA,cexCol=0.8,cexRow=0.8,col=heatcol)
+				if(length(Clas_O)!=0){
+					visible(g1_1)<-FALSE
+					l$Online_Data$Classification<<-list()
+					tr<<-gtree(offspring=tree,container=g1_1)
+					size(tr)<-c(300,400)
+					visible(g1_1)<-TRUE
 				}
 				display()
 			}
+		svalue(sb)<-"Done"
 		dispose(w_dge)
 		}else{
 			gmessage("Plz select the data for Classification","Select Data")
-			}
-			dispose(w_dge)
-		},container=gp2_dge,anchor=c(1,-1))
+		}
+		svalue(sb)<-"Done"
+		dispose(w_dge)
+	},container=gp2_dge,anchor=c(1,-1))
 	visible(w_dge)<-TRUE
-	}
+}

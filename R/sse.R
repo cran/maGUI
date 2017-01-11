@@ -46,12 +46,10 @@ sse<-function(h,...){
 	},container=gp2_dge,anchor=c(1,-1))
 	y2<-gbutton("OK",border=TRUE,handler=function(h,...){
 		dispose(w_dge)
+		svalue(sb)<-"				Please wait while SSE.."
 		if(length(x)!=0){
 		if(length(which(x=="Affymetrix"))!=0){
-			galert("Please wait while Sample size estimation",title="Miscellaneous",delay=5,parent=c(600,400))
-			svalue(sb)<-"Working... Plz wait..."
-			Sys.sleep(1)
-
+			svalue(sb)<-"				Please wait while SSE.."
 			sds<-rowSds(dat2Affy.m)
 			size_Affy<<-ssize(sd=sds,delta=log2(2),sig.level=0.05,power=0.8)
 			ssize.plot(size_Affy,xlim=c(0,20),main=paste("Sample size to detect 2-fold change",sep=""))
@@ -68,10 +66,7 @@ sse<-function(h,...){
 			svalue(sb)<-"Done"
 			}
 		if(length(which(x=="Agilent_OneColor"))!=0){
-			galert("Please wait while Sample size estimation",title="Miscellaneous",delay=5,parent=c(600,400))
-			svalue(sb)<-"Working... Plz wait..."
-			Sys.sleep(1)
-
+			svalue(sb)<-"				Please wait while SSE.."
 			sds<-rowSds(datAgOne2.m)
 			size_Ag1<<-ssize(sd=sds,delta=log2(2),sig.level=0.05,power=0.8)
 			ssize.plot(size_Ag1,xlim=c(0,20),main=paste("Sample size to detect 2-fold change",sep=""))
@@ -88,10 +83,7 @@ sse<-function(h,...){
 			display()	
 			}
 		if(length(which(x=="Agilent_TwoColor"))!=0){
-			galert("Please wait while Sample size estimation",title="Miscellaneous",delay=5,parent=c(600,400))
-			svalue(sb)<-"Working... Plz wait..."
-			Sys.sleep(1)
-
+			svalue(sb)<-"				Please wait while SSE.."
 			sds<-rowSds(datAgTwo2.m)
 			size_Ag2<<-ssize(sd=sds,delta=log2(2),sig.level=0.05,power=0.8)
 			ssize.plot(size_Ag2,xlim=c(0,20),main=paste("Sample size to detect 2-fold change",sep=""))
@@ -108,10 +100,7 @@ sse<-function(h,...){
 			display()	
 			}
 		if(length(which(x=="Illumina_Beadarray"))!=0){
-			galert("Please wait while Sample size estimation",title="Miscellaneous",delay=5,parent=c(600,400))
-			svalue(sb)<-"Working... Plz wait..."
-			Sys.sleep(1)
-
+			svalue(sb)<-"				Please wait while SSE.."
 			sds<-rowSds(datIllBA2.m2)
 			size_Il_B<<-ssize(sd=sds,delta=log2(2),sig.level=0.05,power=0.8)
 			ssize.plot(size_Il_B,xlim=c(0,20),main=paste("Sample size to detect 2-fold change",sep=""))
@@ -128,10 +117,7 @@ sse<-function(h,...){
 			display()	
 			}
 		if(length(which(x=="Illumina_Lumi"))!=0){
-			galert("Please wait while Sample size estimation",title="Miscellaneous",delay=5,parent=c(600,400))
-			svalue(sb)<-"Working... Plz wait..."
-			Sys.sleep(1)
-
+			svalue(sb)<-"				Please wait while SSE.."
 			sds<-rowSds(lumi_NQ.m)
 			size_Il_L<<-ssize(sd=sds,delta=log2(2),sig.level=0.05,power=0.8)
 			ssize.plot(size_Il_L,xlim=c(0,20),main=paste("Sample size to detect 2-fold change",sep=""))
@@ -148,10 +134,7 @@ sse<-function(h,...){
 			svalue(sb)<-"Done"
 			}
 		if(length(which(x=="Nimblegen"))!=0){
-			galert("Please wait while Sample size estimation",title="Miscellaneous",delay=5,parent=c(600,400))
-			svalue(sb)<-"Working... Plz wait..."
-			Sys.sleep(1)
-
+			svalue(sb)<-"				Please wait while SSE.."
 			sds<-rowSds(data.matrix_Nimblegen2.m)
 			size_N<<-ssize(sd=sds,delta=log2(2),sig.level=0.05,power=0.8)
 			ssize.plot(size_N,xlim=c(0,20),main=paste("Sample size to detect 2-fold change",sep=""))
@@ -168,10 +151,7 @@ sse<-function(h,...){
 			svalue(sb)<-"Done"
   			}
 		if(length(which(x=="Series_Matrix"))!=0){
-			galert("Please wait while Sample size estimation",title="Miscellaneous",delay=5,parent=c(600,400))
-			svalue(sb)<-"Working... Plz wait..."
-			Sys.sleep(1)
-
+			svalue(sb)<-"				Please wait while SSE.."
 			sds<-rowSds(data.matrixNorm.m)
 			size_S<<-ssize(sd=sds,delta=log2(2),sig.level=0.05,power=0.8)
 			ssize.plot(size_S,xlim=c(0,20),main=paste("Sample size to detect 2-fold change",sep=""))
@@ -188,10 +168,7 @@ sse<-function(h,...){
 			svalue(sb)<-"Done"
 			}
 		if(length(which(x=="Online_Data"))!=0){
-			galert("Please wait while Sample size estimation",title="Miscellaneous",delay=5,parent=c(600,400))
-			svalue(sb)<-"Working... Plz wait..."
-			Sys.sleep(1)
-
+			svalue(sb)<-"				Please wait while SSE.."
 			sds<-rowSds(data.matrix_onlineNorm.m)
 			size_O<<-ssize(sd=sds,delta=log2(2),sig.level=0.05,power=0.8)
 			ssize.plot(size_O,xlim=c(0,20),main=paste("Sample size to detect 2-fold change",sep=""))

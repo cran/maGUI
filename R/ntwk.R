@@ -56,10 +56,8 @@ ntwk<-function(h,...){
 	y2<-gbutton("OK",border=TRUE,handler=function(h,...){
 		if(length(x)!=0){
 			dispose(w_dge)
+			svalue(sb)<-"			Please wait while Co-Expression Network.."
 		if(length(which(x=="Affymetrix"))!=0){
-			galert("Please wait while generating Co-expression network",title="Miscellaneous",delay=5,parent=c(600,400))
-			svalue(sb)<-"Working... Plz wait..."
-			Sys.sleep(1)
 
 			myData_Sel<-use.dat2Affy.m[rownames(DE_Affy),]
 			myData_Sel<-t(myData_Sel)
@@ -80,13 +78,10 @@ ntwk<-function(h,...){
 				
 				}
 			display()	
-			galert("Done",title="Miscellaneous",delay=5,parent=c(600,400))
+#			galert("Done",title="Miscellaneous",delay=5,parent=c(600,400))
 			svalue(sb)<-"Done"
 			}
 		if(length(which(x=="Agilent_OneColor"))!=0){
-			galert("Please wait while generating Co-expression network",title="Miscellaneous",delay=5,parent=c(600,400))
-			svalue(sb)<-"Working... Plz wait..."
-			Sys.sleep(1)
 
 			myData_Sel<-use.datAgOne2.m[rownames(DE_Ag1),]
 			myData_Sel<-t(myData_Sel)
@@ -107,13 +102,10 @@ ntwk<-function(h,...){
 				
 				}
 			display()	
-			galert("Done",title="Miscellaneous",delay=5,parent=c(600,400))
+#			galert("Done",title="Miscellaneous",delay=5,parent=c(600,400))
 			svalue(sb)<-"Done"
 			}
 		if(length(which(x=="Agilent_TwoColor"))!=0){
-			galert("Please wait while generating Co-expression network",title="Miscellaneous",delay=5,parent=c(600,400))
-			svalue(sb)<-"Working... Plz wait..."
-			Sys.sleep(1)
 
 			myData_Sel<-use.datAgTwo2.m[rownames(DE_Ag2),]
 			myData_Sel<-t(myData_Sel)
@@ -134,13 +126,10 @@ ntwk<-function(h,...){
 				
 				}
 			display()	
-			galert("Done",title="Miscellaneous",delay=5,parent=c(600,400))
+#			galert("Done",title="Miscellaneous",delay=5,parent=c(600,400))
 			svalue(sb)<-"Done"
 			}
 		if(length(which(x=="Illumina_Beadarray"))!=0){
-			galert("Please wait while generating Co-expression network",title="Miscellaneous",delay=5,parent=c(600,400))
-			svalue(sb)<-"Working... Plz wait..."
-			Sys.sleep(1)
 
 			myData_Sel<-use.datIllBA2.m2[rownames(DE_Il_B),]
 			myData_Sel<-t(myData_Sel)
@@ -161,13 +150,10 @@ ntwk<-function(h,...){
 				
 				}
 			display()	
-			galert("Done",title="Miscellaneous",delay=5,parent=c(600,400))
+#			galert("Done",title="Miscellaneous",delay=5,parent=c(600,400))
 			svalue(sb)<-"Done"
 			}
 		if(length(which(x=="Illumina_Lumi"))!=0){
-			galert("Please wait while generating Co-expression network",title="Miscellaneous",delay=5,parent=c(600,400))
-			svalue(sb)<-"Working... Plz wait..."
-			Sys.sleep(1)
 
 			myData_Sel<-use.lumi_NQ.m[rownames(DE_Il_L),]
 			myData_Sel<-t(myData_Sel)
@@ -188,13 +174,10 @@ ntwk<-function(h,...){
 				
 				}
 			display()	
-			galert("Done",title="Miscellaneous",delay=5,parent=c(600,400))
+#			galert("Done",title="Miscellaneous",delay=5,parent=c(600,400))
 			svalue(sb)<-"Done"
 			}
 		if(length(which(x=="Nimblegen"))!=0){
-			galert("Please wait while generating Co-expression network",title="Miscellaneous",delay=5,parent=c(600,400))
-			svalue(sb)<-"Working... Plz wait..."
-			Sys.sleep(1)
 
 			myData_Sel<-use.data.matrix_Nimblegen2.m[rownames(DE_N),]
 			myData_Sel<-t(myData_Sel)
@@ -215,13 +198,10 @@ ntwk<-function(h,...){
 				
 				}
 			display()	
-			galert("Done",title="Miscellaneous",delay=5,parent=c(600,400))
+#			galert("Done",title="Miscellaneous",delay=5,parent=c(600,400))
 			svalue(sb)<-"Done"
   			}
 		if(length(which(x=="Series_Matrix"))!=0){
-			galert("Please wait while generating Co-expression network",title="Miscellaneous",delay=5,parent=c(600,400))
-			svalue(sb)<-"Working... Plz wait..."
-			Sys.sleep(1)
 
 			myData_Sel<-use.data.matrixNorm.m[rownames(DE_S),]
 			myData_Sel<-t(myData_Sel)
@@ -242,13 +222,10 @@ ntwk<-function(h,...){
 				
 				}
 			display()	
-			galert("Done",title="Miscellaneous",delay=5,parent=c(600,400))
+#			galert("Done",title="Miscellaneous",delay=5,parent=c(600,400))
 			svalue(sb)<-"Done"
 			}
 		if(length(which(x=="Online_Data"))!=0){
-			galert("Please wait while generating Co-expression network",title="Miscellaneous",delay=5,parent=c(600,400))
-			svalue(sb)<-"Working... Plz wait..."
-			Sys.sleep(1)
 
 			myData_Sel<-use.data.matrix_onlineNorm.m[rownames(DE_O),]
 			myData_Sel<-t(myData_Sel)
@@ -269,13 +246,15 @@ ntwk<-function(h,...){
 				
 				}
 			display()	
-			galert("Done",title="Miscellaneous",delay=5,parent=c(600,400))
+#			galert("Done",title="Miscellaneous",delay=5,parent=c(600,400))
 			svalue(sb)<-"Done"
 			}
+		svalue(sb)<-"Done"
 		dispose(w_dge)
 		}else{
 			gmessage("Plz select the data for generating Co-expression network","Select Data")
 			}
+			svalue(sb)<-"Done"
 			dispose(w_dge)
 		},container=gp2_dge,anchor=c(1,-1))
 	visible(w_dge)<-TRUE

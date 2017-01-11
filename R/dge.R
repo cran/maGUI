@@ -3,10 +3,12 @@ dge<-function(h,...){
 		x<<-svalue(h$obj)
 		}
 		try(({
-		dat2Affy.f<-dat2Affy.f;datAgOne2.f<-datAgOne2.f;datAgTwo2.f<-datAgTwo2.f;
-		datIllBA2.f<-datIllBA2.f;lumi_NQ.f<-lumi_NQ.f;data.matrix_Nimblegen2.f<-data.matrix_Nimblegen2.f;
-		data.matrixNorm.f<-data.matrixNorm.f;data.matrix_onlineNorm.f<-data.matrix_onlineNorm.f;l<-l;tree<-tree;
-			}),silent=TRUE)
+			dat2Affy.f<-dat2Affy.f;datAgOne2.f<-datAgOne2.f;datAgTwo2.f<-datAgTwo2.f;
+			datIllBA2.f<-datIllBA2.f;lumi_NQ.f<-lumi_NQ.f;data.matrix_Nimblegen2.f<-data.matrix_Nimblegen2.f;
+			data.matrixNorm.f<-data.matrixNorm.f;data.matrix_onlineNorm.f<-data.matrix_onlineNorm.f;
+			groups_Affy<-groups_Affy;groups_Ag1<-groups_Ag1;groups_Ag2<-groups_Ag2;groups_Il_B<-groups_Il_B;groups_Il_L<-groups_Il_L;
+			groups_N<-groups_N;groups_S<-groups_S;groups_O<-groups_O;l<-l;tree<-tree;
+		}),silent=TRUE)
 	platforms=NULL;
 	aa=0;bb=0;cc=0;dd=0;ee=0;ff=0;gg=0;hh=0;
 	try(({
@@ -29,7 +31,9 @@ dge<-function(h,...){
 	if(hh!=0)platforms=c(platforms,"Online_Data")
 
 	DE_Affy=NULL;DE_Ag1=NULL;DE_Ag2=NULL;DE_Il_B=NULL;DE_Il_L=NULL;DE_N=NULL;DE_S=NULL;DE_O=NULL;
-	rm(DE_Affy,DE_Ag1,DE_Ag2,DE_Il_B,DE_Il_L,DE_N,DE_S,DE_O)
+	DE_Affy2=NULL;DE_Ag1_2=NULL;DE_Ag2_2=NULL;DE_Il_B2=NULL;DE_Il_L2=NULL;DE_N2=NULL;DE_S2=NULL;DE_O2=NULL;
+	types=NULL;
+	rm(DE_Affy,DE_Ag1,DE_Ag2,DE_Il_B,DE_Il_L,DE_N,DE_S,DE_O,DE_Affy2,DE_Ag1_2,DE_Ag2_2,DE_Il_B2,DE_Il_L2,DE_N2,DE_S2,DE_O2,types)
 
 	x=NULL
 	z=NULL
@@ -38,23 +42,31 @@ dge<-function(h,...){
 	cbg_dge<-gcheckboxgroup(platforms,container=gp_dge,handler=f)
 	svalue(cbg_dge,index=FALSE)<-1:8
 
-	p_value<-0.01;adjust_value<-"BH";s_value<-"p"
+
+	gp_dge_t<-ggroup(container=gp_dge,horizontal=TRUE)
+	dge_t<-gradio(c("Top genes","Gene lists"),selected=1,container=gp_dge_t,anchor=c(-1,1),horizontal=FALSE)
+#	size(dge_t)=c(80,25)
+	gp_dge_gn<-ggroup(container=gp_dge,horizontal=TRUE)
+	glabel("\t",container=gp_dge_gn)
+	genes_lists<-gedit("",initial.msg="gene names",width=25,height=20,container=gp_dge_gn,anchor=c(-1,1))
+
+	p_value<-1;adjust_value<-"BH";s_value<-"p"
 		
 	gp_dge_p1<-ggroup(container=gp_dge,horizontal=TRUE)
 	numb_l<-gbutton("Number",container=gp_dge_p1,anchor=c(-1,1))
 	size(numb_l)=c(80,25)
-	numb_numb<-gedit("",initial.msg="Maximum genes to list",width=10,height=20,container=gp_dge_p1,anchor=c(-1,1))
-	
+	numb_numb<-gedit("",initial.msg="10",width=10,height=20,container=gp_dge_p1,anchor=c(-1,1))
+		
 	gp_dge_p2<-ggroup(container=gp_dge,horizontal=TRUE)
 	logfc_l<-gbutton("logFC",container=gp_dge_p2,anchor=c(-1,1))
 	size(logfc_l)=c(80,25)
-	logfc_logfc<-gedit("",initial.msg="Log fold change",width=10,height=20,container=gp_dge_p2,anchor=c(-1,1))
+	logfc_logfc<-gedit("",initial.msg="0",width=10,height=20,container=gp_dge_p2,anchor=c(-1,1))
 
 	gp_dge_p3<-ggroup(container=gp_dge,horizontal=TRUE)
 	pvalue_l<-gbutton("P-value",container=gp_dge_p3,anchor=c(-1,1))
 	size(pvalue_l)=c(80,25)
-	p_list<-c(0.0001,0.001,0.01,0.05,0.1,0.5,1,10)
-	p_value_combo<-gcombobox(p_list,selected=3,container=gp_dge_p3,handler=function(hcp,...){
+	p_list<-c(10,1,0.5,0.1,0.05,0.01,0.001,0.0001)
+	p_value_combo<-gcombobox(p_list,selected=2,container=gp_dge_p3,handler=function(hcp,...){
 		x<-svalue(hcp$obj)
 		p_value=NULL;
 		p_value<<-x
@@ -92,29 +104,43 @@ dge<-function(h,...){
 		dispose(w_dge)
 		},container=gp2_dge,anchor=c(1,-1))
 	y2<-gbutton("OK",border=TRUE,handler=function(h,...){
+		top<-svalue(dge_t)
+		glist<-svalue(genes_lists)
+#		print(top)
+#		print("dhamma")
+#		print(glist)
+#		print("dhamma")
 		dge_n<-svalue(numb_numb)
-		if(dge_n=="")dge_n<-10
+		if(dge_n=="")dge_n<-10;
 		dge_lfc<-svalue(logfc_logfc)
-		if(dge_lfc=="")dge_lfc=2
+		if(dge_lfc=="")dge_lfc=0;
 		if(length(x)!=0){
+			svalue(sb)<-"				Please wait while DGE.."
 			if(length(which(x=="Affymetrix"))!=0){
-				err<-try(DE_Affy<<-toptable(dat2Affy.f,coef=2,number=dge_n,lfc=dge_lfc,adjust.method=adjust_value,
-				p.value=p_value,sort.by=s_value),silent=TRUE)
-				if(dim(DE_Affy)[1]==0 || length(DE_Affy)==0)
+				err<-try(types<<-length(unique(groups_Affy)),silent=TRUE)
+				if(length(grep("Error",err))==0)
 				{
-					err<-try(DE_Affy<<-toptable(dat2Affy.f,coef=3,number=dge_n,lfc=dge_lfc,adjust.method=adjust_value,
-					p.value=p_value,sort.by=s_value),silent=TRUE)
+					DE_Affy<<-toptable(dat2Affy.f,coef=types,number=as.numeric(dge_n),lfc=as.numeric(dge_lfc),adjust.method=adjust_value,sort.by=s_value,p.value=p_value);
+					DE_Affy2<<-toptable(dat2Affy.f,coef=types,number=nrow(dat2Affy.f),lfc=as.numeric(dge_lfc),adjust.method=adjust_value,sort.by=s_value,p.value=p_value);
 				}
-				if(dim(DE_Affy)[1]==0 || length(DE_Affy)==0)
+				else
 				{
-					err<-try(DE_Affy<<-toptable(dat2Affy.f,coef=4,number=dge_n,lfc=dge_lfc,adjust.method=adjust_value,
-					p.value=p_value,sort.by=s_value),silent=TRUE)
+#					print("dhamnma pal")
+					DE_Affy<<-toptable(dat2Affy.f,number=as.numeric(dge_n),lfc=as.numeric(dge_lfc),adjust.method=adjust_value,sort.by=s_value,p.value=p_value);print(DE_Affy)					
+					DE_Affy2<<-toptable(dat2Affy.f,number=nrow(dat2Affy.f),lfc=as.numeric(dge_lfc),adjust.method=adjust_value,sort.by=s_value,p.value=p_value);print(DE_Affy)					
 				}
-				if(dim(DE_Affy)[1]==0 || length(DE_Affy)==0)
+				if(glist!="")
 				{
-					dim_mat<-dim(dat2Affy.f)
-					DE_Affy<<-toptable(dat2Affy.f,number=dge_n,lfc=dge_lfc,adjust.method=adjust_value,p.value=p_value,
-					sort.by=s_value)
+					xf<-strsplit(glist[1],",")
+					new_dge<-matrix(,ncol=5)
+					colnames(new_dge)<-names(DE_Affy)
+					for(i in 1:length(unlist(xf)))
+					{
+						new_dge<-rbind(new_dge,DE_Affy2[as.character(xf[[1]][i]),])
+						print(new_dge)
+					}
+					new_dge<-new_dge[-1,]
+					DE_Affy<<-new_dge
 				}
 				if(length(DE_Affy)!=0){
 					visible(g1_1)<-FALSE
@@ -126,24 +152,32 @@ dge<-function(h,...){
 				display()
  				}
 			if(length(which(x=="Agilent_OneColor"))!=0){
-				err<-try(DE_Ag1<<-toptable(datAgOne2.f,coef=2,number=dge_n,lfc=dge_lfc,adjust.method=adjust_value,p.value=p_value,
-				sort.by=s_value),silent=TRUE)
-				if(dim(DE_Ag1)[1]==0 || length(DE_Ag1)==0)
+				err<-try(types<<-length(unique(groups_Ag1)),silent=TRUE)
+				if(length(grep("Error",err))==0)
 				{
-					err<-try(DE_Ag1<<-toptable(datAgOne2.f,coef=3,number=dge_n,lfc=dge_lfc,adjust.method=adjust_value,
-					p.value=p_value,sort.by=s_value),silent=TRUE)
+					DE_Ag1<<-toptable(datAgOne2.f,coef=types,number=as.numeric(dge_n),lfc=as.numeric(dge_lfc),adjust.method=adjust_value,sort.by=s_value,p.value=p_value)
+					DE_Ag1_2<<-toptable(datAgOne2.f,coef=types,number=nrow(datAgOne2.f),lfc=as.numeric(dge_lfc),adjust.method=adjust_value,sort.by=s_value,p.value=p_value)
 				}
-				if(dim(DE_Ag1)[1]==0 || length(DE_Ag1)==0)
+				else
 				{
-					err<-try(DE_Ag1<<-toptable(datAgOne2.f,coef=4,number=dge_n,lfc=dge_lfc,adjust.method=adjust_value,
-					p.value=p_value,sort.by=s_value),silent=TRUE)
+
+					DE_Ag1<<-toptable(datAgOne2.f,number=as.numeric(dge_n),lfc=as.numeric(dge_lfc),adjust.method=adjust_value,sort.by=s_value,p.value=p_value)				
+					DE_Ag1_2<<-toptable(datAgOne2.f,number=nrow(datAgOne2.f),lfc=as.numeric(dge_lfc),adjust.method=adjust_value,sort.by=s_value,p.value=p_value)				
+					print(DE_Ag1)
 				}
-				if(dim(DE_Ag1)[1]==0 || length(DE_Ag1)==0)
+				if(glist!="")
 				{
-					dim_mat<-dim(datAgOne2.f)
-					DE_Ag1<<-toptable(datAgOne2.f,number=dge_n,lfc=dge_lfc,adjust.method=adjust_value,p.value=p_value,
-					sort.by=s_value)
+					xf<-strsplit(glist[1],",")
+					new_dge<-matrix(,ncol=5)
+					colnames(new_dge)<-names(DE_Ag1)
+					for(i in 1:length(unlist(xf)))
+					{
+						new_dge<-rbind(new_dge,DE_Ag1_2[as.character(xf[[1]][i]),])
+						print(new_dge)
 					}
+					new_dge<-new_dge[-1,]
+					DE_Ag1<<-new_dge
+				}
 				if(length(DE_Ag1)!=0){
 					visible(g1_1)<-FALSE
 					l$Agilent_OneColor$DGE<<-list()
@@ -154,24 +188,30 @@ dge<-function(h,...){
 				display()
 				}
 			if(length(which(x=="Agilent_TwoColor"))!=0){
-				err<-try(DE_Ag2<<-toptable(datAgTwo2.f,coef=2,number=dge_n,lfc=dge_lfc,adjust.method=adjust_value,p.value=p_value,
-				sort.by=s_value),silent=TRUE)
-				if(dim(DE_Ag2)[1]==0 || length(DE_Ag2)==0)
+				err<-try(types<<-length(unique(groups_Ag2)),silent=TRUE)
+				if(length(grep("Error",err))==0)
 				{
-					err<-try(DE_Ag2<<-toptable(datAgTwo2.f,coef=3,number=dge_n,lfc=dge_lfc,adjust.method=adjust_value,
-					p.value=p_value,sort.by=s_value),silent=TRUE)
+					DE_Ag2<<-toptable(datAgTwo2.f,coef=types,number=as.numeric(dge_n),lfc=as.numeric(dge_lfc),adjust.method=adjust_value,sort.by=s_value,p.value=p_value)
+					DE_Ag2_2<<-toptable(datAgTwo2.f,coef=types,number=nrow(datAgTwo2.f),lfc=as.numeric(dge_lfc),adjust.method=adjust_value,sort.by=s_value,p.value=p_value)
 				}
-				if(dim(DE_Ag2)[1]==0 || length(DE_Ag2)==0)
+				else
 				{
-					err<-try(DE_Ag2<<-toptable(datAgTwo2.f,coef=4,number=dge_n,lfc=dge_lfc,adjust.method=adjust_value,
-					p.value=p_value,sort.by=s_value),silent=TRUE)
+					DE_Ag2<<-toptable(datAgTwo2.f,number=as.numeric(dge_n),lfc=as.numeric(dge_lfc),adjust.method=adjust_value,sort.by=s_value,p.value=p_value)				
+					DE_Ag2_2<<-toptable(datAgTwo2.f,number=nrow(datAgTwo2.f),lfc=as.numeric(dge_lfc),adjust.method=adjust_value,sort.by=s_value,p.value=p_value)				
 				}
-				if(dim(DE_Ag2)[1]==0 || length(DE_Ag2)==0)
+				if(glist!="")
 				{
-					dim_mat<-dim(datAgTwo2.f)
-					DE_Ag2<<-toptable(datAgTwo2.f,number=dge_n,lfc=dge_lfc,adjust.method=adjust_value,p.value=p_value,
-					sort.by=s_value)
+					xf<-strsplit(glist[1],",")
+					new_dge<-matrix(,ncol=5)
+					colnames(new_dge)<-names(DE_Ag2)
+					for(i in 1:length(unlist(xf)))
+					{
+						new_dge<-rbind(new_dge,DE_Ag2_2[as.character(xf[[1]][i]),])
+						print(new_dge)
 					}
+					new_dge<-new_dge[-1,]
+					DE_Ag2<<-new_dge
+				}
 				if(length(DE_Ag2)!=0){
 					visible(g1_1)<-FALSE
 					l$Agilent_TwoColor$DGE<<-list()
@@ -182,52 +222,64 @@ dge<-function(h,...){
 				display()
 				}
 			if(length(which(x=="Illumina_Beadarray"))!=0){
-				err<-try(DE_Il_B<<-toptable(datIllBA2.f,coef=2,number=dge_n,lfc=dge_lfc,adjust.method=adjust_value,
-				p.value=p_value,sort.by=s_value),silent=TRUE)
-				if(dim(DE_Il_B)[1]==0 || length(DE_Il_B)==0)
+				err<-try(types<<-length(unique(groups_Il_B)),silent=TRUE)
+				if(length(grep("Error",err))==0)
 				{
-					err<-try(DE_Il_B<<-toptable(datIllBA2.f,coef=3,number=dge_n,lfc=dge_lfc,adjust.method=adjust_value,
-					p.value=p_value,sort.by=s_value),silent=TRUE)
+					DE_Il_B<<-toptable(datIllBA2.f,coef=types,number=as.numeric(dge_n),lfc=as.numeric(dge_lfc),adjust.method=adjust_value,sort.by=s_value,p.value=p_value)
+					DE_Il_B2<<-toptable(datIllBA2.f,coef=types,number=nrow(datIllBA2.f),lfc=as.numeric(dge_lfc),adjust.method=adjust_value,sort.by=s_value,p.value=p_value)
 				}
-				if(dim(DE_Il_B)[1]==0 || length(DE_Il_B)==0)
+				else
 				{
-					err<-try(DE_Il_B<<-toptable(datIllBA2.f,coef=4,number=dge_n,lfc=dge_lfc,adjust.method=adjust_value,
-					p.value=p_value,sort.by=s_value),silent=TRUE)
+					DE_Il_B<<-toptable(datIllBA2.f,number=as.numeric(dge_n),lfc=as.numeric(dge_lfc),adjust.method=adjust_value,sort.by=s_value,p.value=p_value)
+					DE_Il_B2<<-toptable(datIllBA2.f,number=nrow(datIllBA2.f),lfc=as.numeric(dge_lfc),adjust.method=adjust_value,sort.by=s_value,p.value=p_value)
 				}
-				if(dim(DE_Il_B)[1]==0 || length(DE_Il_B)==0)
+				if(glist!="")
 				{
-					dim_mat<-dim(datIllBA2.f)
-				    DE_Il_B<<-toptable(datIllBA2.f,number=dge_n,lfc=dge_lfc,adjust.method=adjust_value,p.value=p_value,
-				    sort.by=s_value)
+					xf<-strsplit(glist[1],",")
+					new_dge<-matrix(,ncol=5)
+					colnames(new_dge)<-names(DE_Il_B)
+					for(i in 1:length(unlist(xf)))
+					{
+						new_dge<-rbind(new_dge,DE_Il_B2[as.character(xf[[1]][i]),])
+						print(new_dge)
 					}
+					new_dge<-new_dge[-1,]
+					DE_Il_B<<-new_dge
+				}
 				if(length(DE_Il_B)!=0){
 					visible(g1_1)<-FALSE
 					l$Illumina_Beadarray$DGE<<-list()
 					tr<<-gtree(offspring=tree,container=g1_1)
 					size(tr)<-c(300,400)
 					visible(g1_1)<-TRUE
-					}
+					}	
 				display()
 				}
 			if(length(which(x=="Illumina_Lumi"))!=0){
-				err<-try(DE_Il_L<<-toptable(lumi_NQ.f,coef=2,number=dge_n,lfc=dge_lfc,adjust.method=adjust_value,p.value=p_value,
-				sort.by=s_value),silent=TRUE)
-				if(dim(DE_Il_L)[1]==0 || length(DE_Il_L)==0)
+				err<-try(types<<-length(unique(groups_Il_L)),silent=TRUE)
+				if(length(grep("Error",err))==0)
 				{
-					err<-try(DE_Il_L<<-toptable(lumi_NQ.f,coef=3,number=dge_n,lfc=dge_lfc,adjust.method=adjust_value,
-					p.value=p_value,sort.by=s_value),silent=TRUE)
+					DE_Il_L<<-toptable(lumi_NQ.f,coef=types,number=as.numeric(dge_n),lfc=as.numeric(dge_lfc),adjust.method=adjust_value,sort.by=s_value,p.value=p_value)
+					DE_Il_L2<<-toptable(lumi_NQ.f,coef=types,number=nrow(lumi_NQ.f),lfc=as.numeric(dge_lfc),adjust.method=adjust_value,sort.by=s_value,p.value=p_value)
 				}
-				if(dim(DE_Il_L)[1]==0 || length(DE_Il_L)==0)
+				else
 				{
-					err<-try(DE_Il_L<<-toptable(lumi_NQ.f,coef=4,number=dge_n,lfc=dge_lfc,adjust.method=adjust_value,
-					p.value=p_value,sort.by=s_value),silent=TRUE)
+					DE_Il_L<<-toptable(lumi_NQ.f,number=as.numeric(dge_n),lfc=as.numeric(dge_lfc),adjust.method=adjust_value,sort.by=s_value,p.value=p_value)
+					DE_Il_L2<<-toptable(lumi_NQ.f,number=nrow(lumi_NQ.f),lfc=as.numeric(dge_lfc),adjust.method=adjust_value,sort.by=s_value,p.value=p_value)
 				}
-				if(dim(DE_Il_L)[1]==0 || length(DE_Il_L)==0)
+				if(glist!="")
 				{
-					dim_mat<-dim(lumi_NQ.f)
-					DE_Il_L<<-toptable(lumi_NQ.f,number=dge_n,lfc=dge_lfc,adjust.method=adjust_value,p.value=p_value,
-				sort.by=s_value)
+					xf<-strsplit(glist[1],",")
+					new_dge<-matrix(,ncol=5)
+					colnames(new_dge)<-names(DE_Il_L)
+					for(i in 1:length(unlist(xf)))
+					{
+						new_dge<-rbind(new_dge,DE_Il_L2[as.character(xf[[1]][i]),])
+						print(new_dge)
 					}
+					new_dge<-new_dge[-1,]
+					DE_Il_L<<-new_dge
+				}
 				if(length(DE_Il_L)!=0){
 					visible(g1_1)<-FALSE
 					l$Illumina_Lumi$DGE<<-list()
@@ -238,24 +290,30 @@ dge<-function(h,...){
 				display()
 				}
 			if(length(which(x=="Nimblegen"))!=0){
-				err<-try(DE_N<<-toptable(data.matrix_Nimblegen2.f,coef=2,number=dge_n,lfc=dge_lfc,adjust.method=adjust_value,
-				p.value=p_value,sort.by=s_value),silent=TRUE)
-				if(dim(DE_N)[1]==0 || length(DE_N)==0)
+				err<-try(types<<-length(unique(groups_N)),silent=TRUE)
+				if(length(grep("Error",err))==0)
 				{
-					err<-try(DE_N<<-toptable(data.matrix_Nimblegen2.f,coef=3,number=dge_n,lfc=dge_lfc,adjust.method=adjust_value,
-					p.value=p_value,sort.by=s_value),silent=TRUE)
+					DE_N<<-toptable(data.matrix_Nimblegen2.f,coef=types,number=as.numeric(dge_n),lfc=as.numeric(dge_lfc),adjust.method=adjust_value,sort.by=s_value,p.value=p_value)
+					DE_N2<<-toptable(data.matrix_Nimblegen2.f,coef=types,number=nrow(data.matrix_Nimblegen2.f),lfc=as.numeric(dge_lfc),adjust.method=adjust_value,sort.by=s_value,p.value=p_value)
 				}
-				if(dim(DE_N)[1]==0 || length(DE_N)==0)
+				else
 				{
-					err<-try(DE_N<<-toptable(data.matrix_Nimblegen2.f,coef=4,number=dge_n,lfc=dge_lfc,adjust.method=adjust_value,
-					p.value=p_value,sort.by=s_value),silent=TRUE)
+					DE_N<<-toptable(data.matrix_Nimblegen2.f,number=as.numeric(dge_n),lfc=as.numeric(dge_lfc),adjust.method=adjust_value,sort.by=s_value,p.value=p_value)
+					DE_N2<<-toptable(data.matrix_Nimblegen2.f,number=nrow(data.matrix_Nimblegen2.f),lfc=as.numeric(dge_lfc),adjust.method=adjust_value,sort.by=s_value,p.value=p_value)
 				}
-				if(dim(DE_N)[1]==0 || length(DE_N)==0)
+				if(glist!="")
 				{
-					dim_mat<-dim(data.matrix_Nimblegen2.f)
-					DE_N<<-toptable(data.matrix_Nimblegen2.f,number=dge_n,lfc=dge_lfc,adjust.method=adjust_value,
-					p.value=p_value,sort.by=s_value)
+					xf<-strsplit(glist[1],",")
+					new_dge<-matrix(,ncol=5)
+					colnames(new_dge)<-names(DE_N)
+					for(i in 1:length(unlist(xf)))
+					{
+						new_dge<-rbind(new_dge,DE_N2[as.character(xf[[1]][i]),])
+						print(new_dge)
 					}
+					new_dge<-new_dge[-1,]
+					DE_N<<-new_dge
+				}
 				if(length(DE_N)!=0){
 					visible(g1_1)<-FALSE
 					l$Nimblegen$DGE<<-list()
@@ -266,24 +324,30 @@ dge<-function(h,...){
 				display()
 				}
 			if(length(which(x=="Series_Matrix"))!=0){
-				err<-try(DE_S<<-toptable(data.matrixNorm.f,coef=2,number=dge_n,lfc=dge_lfc,adjust.method=adjust_value,
-				p.value=p_value,sort.by=s_value),silent=TRUE)
-				if(dim(DE_S)[1]==0 || length(DE_S)==0)
+				err<-try(types<<-length(unique(groups_S)),silent=TRUE)
+				if(length(grep("Error",err))==0)
 				{
-					err<-try(DE_S<<-toptable(data.matrixNorm.f,coef=3,number=dge_n,lfc=dge_lfc,adjust.method=adjust_value,
-					p.value=p_value,sort.by=s_value),silent=TRUE)
+					DE_S<<-toptable(data.matrixNorm.f,coef=types,number=as.numeric(dge_n),lfc=as.numeric(dge_lfc),adjust.method=adjust_value,sort.by=s_value,p.value=p_value)
+					DE_S2<<-toptable(data.matrixNorm.f,coef=types,number=nrow(data.matrixNorm.f),lfc=as.numeric(dge_lfc),adjust.method=adjust_value,sort.by=s_value,p.value=p_value)
 				}
-				if(dim(DE_S)[1]==0 || length(DE_S)==0)
+				else
 				{
-					err<-try(DE_S<<-toptable(data.matrixNorm.f,coef=4,number=dge_n,lfc=dge_lfc,adjust.method=adjust_value,
-					p.value=p_value,sort.by=s_value),silent=TRUE)
+					DE_S<<-toptable(data.matrixNorm.f,number=as.numeric(dge_n),lfc=as.numeric(dge_lfc),adjust.method=adjust_value,sort.by=s_value,p.value=p_value)
+					DE_S2<<-toptable(data.matrixNorm.f,number=nrow(data.matrixNorm.f),lfc=as.numeric(dge_lfc),adjust.method=adjust_value,sort.by=s_value,p.value=p_value)
 				}
-				if(dim(DE_S)[1]==0 || length(DE_S)==0)
+				if(glist!="")
 				{
-					dim_mat<-dim(data.matrixNorm.f)
-					DE_S<<-toptable(data.matrixNorm.f,number=dge_n,lfc=dge_lfc,adjust.method=adjust_value,p.value=p_value,
-				sort.by=s_value)
+					xf<-strsplit(glist[1],",")
+					new_dge<-matrix(,ncol=5)
+					colnames(new_dge)<-names(DE_S)
+					for(i in 1:length(unlist(xf)))
+					{
+						new_dge<-rbind(new_dge,DE_S2[as.character(xf[[1]][i]),])
+						print(new_dge)
 					}
+					new_dge<-new_dge[-1,]
+					DE_S<<-new_dge
+				}
 				if(length(DE_S)!=0){
 					visible(g1_1)<-FALSE
 					l$Series_Matrix$DGE<<-list()
@@ -294,24 +358,30 @@ dge<-function(h,...){
 				display()
 				}
 			if(length(which(x=="Online_Data"))!=0){
-				err<-try(DE_O<<-toptable(data.matrix_onlineNorm.f,coef=2,number=dge_n,lfc=dge_lfc,adjust.method=adjust_value,
-				p.value=p_value,sort.by=s_value),silent=TRUE)
-				if(dim(DE_O)[1]==0 || length(DE_O)==0)
+				err<-try(types<<-length(unique(groups_O)),silent=TRUE)
+				if(length(grep("Error",err))==0)
 				{
-					err<-try(DE_O<<-toptable(data.matrix_onlineNorm.f,coef=3,number=dge_n,lfc=dge_lfc,adjust.method=adjust_value,
-					p.value=p_value,sort.by=s_value),silent=TRUE)
+					DE_O<<-toptable(data.matrix_onlineNorm.f,coef=types,number=as.numeric(dge_n),lfc=as.numeric(dge_lfc),adjust.method=adjust_value,sort.by=s_value,p.value=p_value)
+					DE_O2<<-toptable(data.matrix_onlineNorm.f,coef=types,number=nrow(data.matrix_onlineNorm.f),lfc=as.numeric(dge_lfc),adjust.method=adjust_value,sort.by=s_value,p.value=p_value)
 				}
-				if(dim(DE_O)[1]==0 || length(DE_O)==0)
+				else
 				{
-					err<-try(DE_O<<-toptable(data.matrix_onlineNorm.f,coef=4,number=dge_n,lfc=dge_lfc,adjust.method=adjust_value,
-					p.value=p_value,sort.by=s_value),silent=TRUE)
+					DE_O<<-toptable(data.matrix_onlineNorm.f,number=as.numeric(dge_n),lfc=as.numeric(dge_lfc),adjust.method=adjust_value,sort.by=s_value,p.value=p_value)
+					DE_O2<<-toptable(data.matrix_onlineNorm.f,number=nrow(data.matrix_onlineNorm.f),lfc=as.numeric(dge_lfc),adjust.method=adjust_value,sort.by=s_value,p.value=p_value)
 				}
-				if(dim(DE_O)[1]==0 || length(DE_O)==0)
+				if(glist!="")
 				{
-					dim_mat<-dim(data.matrix_onlineNorm.f)
-					DE_O<<-toptable(data.matrix_onlineNorm.f,number=dge_n,lfc=dge_lfc,adjust.method=adjust_value,p.value=p_value,
-				sort.by=s_value)
+					xf<-strsplit(glist[1],",")
+					new_dge<-matrix(,ncol=5)
+					colnames(new_dge)<-names(DE_O)
+					for(i in 1:length(unlist(xf)))
+					{
+						new_dge<-rbind(new_dge,DE_O2[as.character(xf[[1]][i]),])
+						print(new_dge)
 					}
+					new_dge<-new_dge[-1,]
+					DE_O<<-new_dge
+				}
 				if(length(DE_O)!=0){
 					visible(g1_1)<-FALSE
 					l$Online_Data$DGE<<-list()
@@ -321,6 +391,7 @@ dge<-function(h,...){
 					}
 				display()
   				}
+			svalue(sb)<-"Done"
 			dispose(w_dge)
 			}else{
 			gmessage("Plz select the data for Differential Gene Expression","Select Data")

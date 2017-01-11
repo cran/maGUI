@@ -83,8 +83,9 @@ pre_rs<-c("GPL32","GPL33","GPL34","GPL71","GPL72","GPL74","GPL75","GPL76","GPL77
 		dispose(w_dge)
 	},container=gp2_dge,anchor=c(1,-1))
 	y2<-gbutton("OK",border=TRUE,handler=function(h,...){
-		if(length(x)!=0){
 		dispose(w_dge)
+		svalue(sb)<-"			Please wait while Identifying Symbols.."
+		if(length(x)!=0){
 		if(length(which(x=="Affymetrix"))!=0){
 			if(length(ann_Affy)!=0 && is.na(ann_Affy)==FALSE)
 			{
@@ -130,9 +131,6 @@ pre_rs<-c("GPL32","GPL33","GPL34","GPL71","GPL72","GPL74","GPL75","GPL76","GPL77
 				}	
 			if(length(ann_Affy)!=0)
 			{
-				galert("Please wait while Identifing Symbols",title="Miscellaneous",delay=5,parent=c(600,400))
-				svalue(sb)<-"Working... Plz wait..."
-				Sys.sleep(1)
 				Identifier<-rownames(dat2Affy.m)
 				db<-annPkgName(ann_Affy)
 				err<-try(library(db,character.only=TRUE),silent=TRUE)
@@ -155,7 +153,7 @@ pre_rs<-c("GPL32","GPL33","GPL34","GPL71","GPL72","GPL74","GPL75","GPL76","GPL77
 					
 					}
 				display()	
-				galert("Done",title="Miscellaneous",delay=5,parent=c(600,400))
+#				galert("Done",title="Miscellaneous",delay=5,parent=c(600,400))
 				svalue(sb)<-"Done"
 				}
 			}
@@ -203,9 +201,6 @@ pre_rs<-c("GPL32","GPL33","GPL34","GPL71","GPL72","GPL74","GPL75","GPL76","GPL77
 				}
 			if(length(ann_Ag1)!=0)
 			{
-				galert("Please wait while Identifing Symbols",title="Miscellaneous",delay=5,parent=c(600,400))
-				svalue(sb)<-"Working... Plz wait..."
-				Sys.sleep(1)
 				Identifier<-rownames(datAgOne2.m)
 				db<-annPkgName(ann_Ag1)
 				err<-try(library(db,character.only=TRUE),silent=TRUE)
@@ -228,7 +223,7 @@ pre_rs<-c("GPL32","GPL33","GPL34","GPL71","GPL72","GPL74","GPL75","GPL76","GPL77
 					
 					}
 				display()	
-				galert("Done",title="Miscellaneous",delay=5,parent=c(600,400))
+#				galert("Done",title="Miscellaneous",delay=5,parent=c(600,400))
 				svalue(sb)<-"Done"
 				}
 			}
@@ -297,7 +292,7 @@ pre_rs<-c("GPL32","GPL33","GPL34","GPL71","GPL72","GPL74","GPL75","GPL76","GPL77
 					
 					}
 				display()	
-				galert("Done",title="Miscellaneous",delay=5,parent=c(600,400))
+#				galert("Done",title="Miscellaneous",delay=5,parent=c(600,400))
 				svalue(sb)<-"Done"
 				}
 			}
@@ -366,7 +361,7 @@ pre_rs<-c("GPL32","GPL33","GPL34","GPL71","GPL72","GPL74","GPL75","GPL76","GPL77
 					
 					}
 				display()	
-				galert("Done",title="Miscellaneous",delay=5,parent=c(600,400))
+#				galert("Done",title="Miscellaneous",delay=5,parent=c(600,400))
 				svalue(sb)<-"Done"
 				}
 			}
@@ -435,7 +430,7 @@ pre_rs<-c("GPL32","GPL33","GPL34","GPL71","GPL72","GPL74","GPL75","GPL76","GPL77
 					
 					}
 				display()	
-				galert("Done",title="Miscellaneous",delay=5,parent=c(600,400))
+#				galert("Done",title="Miscellaneous",delay=5,parent=c(600,400))
 				svalue(sb)<-"Done"
 				}
 			}
@@ -504,7 +499,7 @@ pre_rs<-c("GPL32","GPL33","GPL34","GPL71","GPL72","GPL74","GPL75","GPL76","GPL77
 					
 					}
 				display()	
-				galert("Done",title="Miscellaneous",delay=5,parent=c(600,400))
+#				galert("Done",title="Miscellaneous",delay=5,parent=c(600,400))
 				svalue(sb)<-"Done"
   				}
   			}
@@ -573,7 +568,7 @@ pre_rs<-c("GPL32","GPL33","GPL34","GPL71","GPL72","GPL74","GPL75","GPL76","GPL77
 					
 					}
 				display()	
-				galert("Done",title="Miscellaneous",delay=5,parent=c(600,400))
+#				galert("Done",title="Miscellaneous",delay=5,parent=c(600,400))
 				svalue(sb)<-"Done"
 				}
 			}
@@ -642,10 +637,11 @@ pre_rs<-c("GPL32","GPL33","GPL34","GPL71","GPL72","GPL74","GPL75","GPL76","GPL77
 					
 					}
 				display()	
-				galert("Done",title="Miscellaneous",delay=5,parent=c(600,400))
+#				galert("Done",title="Miscellaneous",delay=5,parent=c(600,400))
 				svalue(sb)<-"Done"
 				}
 			}
+		svalue(sb)<-"Done"
 		dispose(w_dge)
 		}else{
 			gmessage("Plz select the data for annotation","Select Data")

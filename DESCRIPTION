@@ -2,8 +2,8 @@ Package: maGUI
 Type: Package
 Title: A Graphical User Interface for Microarray Data Analysis and
         Annotation
-Version: 2.0
-Date: 2016-12-28
+Version: 2.1
+Date: 2017-02-14
 Author: Dhammapal Bharne, Vaibhav Vindal
 Maintainer: Dhammapal Bharne <dhammapalb@uohyd.ac.in>
 Imports: Biobase, Biostrings, BiocInstaller, RSQLite, pdInfoBuilder,
@@ -16,6 +16,6 @@ Description: Provides a Graphical User Interface for Analysing DNA Microarray Da
 License: GPL-2
 LazyLoad: yes
 NeedsCompilation: no
-Packaged: 2017-01-11 06:44:48 UTC; vvlab
+Packaged: 2017-02-14 17:11:48 UTC; dhamma
 Repository: CRAN
-Date/Publication: 2017-01-11 09:00:15
+Date/Publication: 2017-02-16 10:59:22

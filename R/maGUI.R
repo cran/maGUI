@@ -6705,16 +6705,16 @@ mbl$Export$Online_Data$All$handler=function(h,...)
 }
 
 mbl$Help$maGUI_Help$handler=function(h,...){
-	openPDF("http://bif.uohyd.ac.in/maGUI_Help.pdf")
+	openPDF("http://bif.uohyd.ac.in/maGUI/maGUI_Help.pdf")
 }
 mbl$Help$maGUI_Manual$handler=function(h,...){
-	openPDF("http://bif.uohyd.ac.in/maGUI_Manual.pdf")
+	openPDF("http://bif.uohyd.ac.in/maGUI/maGUI_Manual.pdf")
 }
 mbl$Help$maGUI_Tutorial$handler=function(h,...){
-	openPDF("http://bif.uohyd.ac.in/maGUI_Tutorial.pdf")
+	openPDF("http://bif.uohyd.ac.in/maGUI/maGUI_Tutorial.pdf")
 }
 mbl$Help$About_maGUI$handler=function(h,...){
-abt_gui<-gmessage("This is maGUI Version 2.0 using gWidgets Version 0.0.54. The gWidgets package was developed by John Verzani and the Graphical User Interface (GUI) by James Wettenhall. This GUI is produced by Dhammapal Bharne & Vaibhav Vindal.",title="About maGUI",icon="info")
+abt_gui<-gmessage("This is maGUI Version 2.1 using gWidgets Version 0.0.54. The gWidgets package was developed by John Verzani and the Graphical User Interface (GUI) by James Wettenhall. This GUI is produced by Dhammapal Bharne & Vaibhav Vindal.",title="About maGUI",icon="info")
 }
 
 mbl<-gmenu(mbl,container=w)

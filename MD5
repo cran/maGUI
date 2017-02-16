@@ -1,4 +1,4 @@
-623e49f1974057ca8e4577acc5f9c644 *DESCRIPTION
+974a2a9c30d1e767d2982d785b860bfb *DESCRIPTION
 7504052123d41878fe472ae6bb137e33 *NAMESPACE
 1b97c5c191443339812719b07e408345 *R/affym.R
 74975402ea4894abef70e185dedcb282 *R/agone.R
@@ -32,7 +32,7 @@ e885c6933bedbf7c4c07240def943592 *R/gsta_goBP.R
 09151a768cf5aeae0907d7fe5db8166e *R/gsta_kegg.R
 71d33c7d144ee98d1c00c9f64cbc1b03 *R/illbead.R
 4d768ed643bf158829b7a6d5a9348960 *R/illlumi.R
-fc71684ccb5e521261c1e70ee83c6818 *R/maGUI.R
+db8776a2d8099f7699bf538300aafcd2 *R/maGUI.R
 e36eefd27fc37f3c904e0aff9af66017 *R/nimblg.R
 2099528cba32b5f3ca39471d543a0bec *R/ntwk.R
 2a0b8433349adc8ebad25a617e06d1b0 *R/pca.R
@@ -68,7 +68,7 @@ a5518872fd750453b0b4bc734d62deb5 *man/gsea_kegg.Rd
 13fd74c5f11655c06d2c869e91736b63 *man/gsta_kegg.Rd
 55eed22e92fc829cb2267f63f912bcd9 *man/illbead.Rd
 2359cef0514ffb2b66b60a88f8aa52ee *man/illlumi.Rd
-12fda6b4a98bdb2e163526d4fb1f38f0 *man/maGUI-package.Rd
+2a86bf08270d4be8826ada8911857c14 *man/maGUI-package.Rd
 afd899294a383084a3910275ade494b1 *man/maGUI.Rd
 d14115a411376886c9dc14a5962a78cb *man/nimblg.Rd
 e6bfc89ca07d91a26a4636768fcca53c *man/ntwk.Rd

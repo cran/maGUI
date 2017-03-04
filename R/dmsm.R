@@ -94,11 +94,12 @@ dmsm<-function(h,...){
 	svalue(sb)<-"				Please wait while DGE.."
 #	Sys.sleep(1)
 	rm(DE_S)
-	err<-try(DE_S<<-toptable(data.matrixNorm.f),silent=TRUE)	
+	err<-try(DE_S<<-toptable(data.matrixNorm.f),silent=TRUE)
+	rm(DE_S2)	
 	err<-try(DE_S2<<-toptable(data.matrixNorm.f,number=nrow(data.matrixNorm.f)),silent=TRUE)
 	rownames(DE_S)<<-DE_S[,1]
 	DE_S<<-DE_S[,-1]
-	rownames(DE_S2)<<-DE_S2[,1]
+	try(rownames(DE_S2)<<-DE_S2[,1],silent=TRUE)
 	DE_S2<<-DE_S2[,-1]
 #	galert("Done",title="Analysis",delay=3,parent=c(600,400))
 	svalue(sb)<-"Done"

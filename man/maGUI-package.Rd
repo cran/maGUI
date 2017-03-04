@@ -11,8 +11,8 @@ Provides a comprehensive graphical user interface for analysis of Affymetrix, Ag
 \tabular{ll}{
 Package: \tab maGUI\cr
 Type: \tab Package\cr
-Version: \tab 2.1\cr
-Date: \tab 2017-02-14\cr
+Version: \tab 2.2\cr
+Date: \tab 2017-03-04\cr
 License: \tab GPL-2\cr
 }
 }

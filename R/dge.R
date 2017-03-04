@@ -56,6 +56,7 @@ dge<-function(h,...){
 	numb_l<-gbutton("Number",container=gp_dge_p1,anchor=c(-1,1))
 	size(numb_l)=c(80,25)
 	numb_numb<-gedit("",initial.msg="10",width=10,height=20,container=gp_dge_p1,anchor=c(-1,1))
+	
 		
 	gp_dge_p2<-ggroup(container=gp_dge,horizontal=TRUE)
 	logfc_l<-gbutton("logFC",container=gp_dge_p2,anchor=c(-1,1))
@@ -342,7 +343,7 @@ dge<-function(h,...){
 					colnames(new_dge)<-names(DE_S)
 					for(i in 1:length(unlist(xf)))
 					{
-						new_dge<-rbind(new_dge,DE_S2[as.character(xf[[1]][i]),])
+						new_dge<-rbind(new_dge,DE_S2[which(DE_S2[,1]==as.character(xf[[1]][i])),])
 						print(new_dge)
 					}
 					new_dge<-new_dge[-1,]
@@ -372,11 +373,11 @@ dge<-function(h,...){
 				if(glist!="")
 				{
 					xf<-strsplit(glist[1],",")
-					new_dge<-matrix(,ncol=5)
+					new_dge<-matrix(,ncol=6)
 					colnames(new_dge)<-names(DE_O)
 					for(i in 1:length(unlist(xf)))
 					{
-						new_dge<-rbind(new_dge,DE_O2[as.character(xf[[1]][i]),])
+						new_dge<-rbind(new_dge,DE_O2[which(DE_O2[,1]==as.character(xf[[1]][i])),])
 						print(new_dge)
 					}
 					new_dge<-new_dge[-1,]

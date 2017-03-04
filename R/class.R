@@ -205,7 +205,7 @@ clas<-function(h,...){
 					rownames(DE_S)<<-as.character(DE_S)
 					use_DE_S<<-DE_S
 				}
-				err_x<-try(Clas_S<<-use.data.matrixNorm.m[rownames(use_DE_S),samp_S],silent=TRUE)
+				err_x<-try(Clas_S<<-use.data.matrixNorm.m[use_DE_S$ID,samp_S],silent=TRUE)
 				if(length(grep("Error",err_x))!=0)
 				{
 					Clas_S<<-use.data.matrixNorm.m[rownames(use_DE_S),]
@@ -230,7 +230,7 @@ clas<-function(h,...){
 				err_x<-try(Clas_O<<-use.data.matrix_onlineNorm.m[rownames(use_DE_O),samp_O],silent=TRUE)
 				if(length(grep("Error",err_x))!=0)
 				{
-					Clas_O<<-use.data.matrix_onlineNorm.m[rownames(use_DE_O),]
+					Clas_O<<-use.data.matrix_onlineNorm.m[use_DE_O$ID,]
 				}
 				heatmap(Clas_O,margins=c(7,7),Rowv=NA,Colv=NA,cexCol=0.8,cexRow=0.8,col=heatcol)
 				if(length(Clas_O)!=0){

@@ -27,7 +27,7 @@ graph_gsea_goCC<-function(h,...){
 	graph_gsea_goCC_Affy=NULL;graph_gsea_goCC_Ag1=NULL;graph_gsea_goCC_Ag2=NULL;graph_gsea_goCC_Il_B=NULL;graph_gsea_goCC_Il_L=NULL;
 	graph_gsea_goCC_N=NULL;graph_gsea_goCC_S=NULL;graph_gsea_goCC_O=NULL;
 	legend_gsea_goCC_Affy=NULL;legend_gsea_goCC_Ag1=NULL;legend_gsea_goCC_Ag2=NULL;legend_gsea_goCC_Il_B=NULL;legend_gsea_goCC_Il_L=NULL;
-	legend_gsea_goCC_N=NULL;legend_gsea_goCC_S=NULL;legend_gsea_goCC_O=NULL;p_v=NULL;view_ww=NULL;
+	legend_gsea_goCC_N=NULL;legend_gsea_goCC_S=NULL;legend_gsea_goCC_O=NULL;p_v_1=NULL;p_v_2=NULL;view_ww=NULL;
 	nodefill_gsea_goCC_Affy=NULL;g_gsea_goCC_Affy=NULL;nodefill_gsea_goCC_Ag1=NULL;g_gsea_goCC_Ag1=NULL;
 	nodefill_gsea_goCC_Ag2=NULL;g_gsea_goCC_Ag2=NULL;nodefill_gsea_goCC_Il_B=NULL;g_gsea_goCC_Il_B=NULL;
 	nodefill_gsea_goCC_Il_L=NULL;g_gsea_goCC_Il_L=NULL;nodefill_gsea_goCC_N=NULL;g_gsea_goCC_N=NULL;
@@ -40,32 +40,36 @@ graph_gsea_goCC<-function(h,...){
 	nodefill_gsea_goCC_Il_L,g_gsea_goCC_Il_L,nodefill_gsea_goCC_N,g_gsea_goCC_N,
 	nodefill_gsea_goCC_S,g_gsea_goCC_S,nodefill_gsea_goCC_O,g_gsea_goCC_O,
 	legend_gsea_goCC_Affy,legend_gsea_goCC_Ag1,legend_gsea_goCC_Ag2,legend_gsea_goCC_Il_B,legend_gsea_goCC_Il_L,
-	legend_gsea_goCC_N,legend_gsea_goCC_S,legend_gsea_goCC_O,p_v,view_ww)
+	legend_gsea_goCC_N,legend_gsea_goCC_S,legend_gsea_goCC_O,p_v_1,p_v_2,view_ww)
 
 	x=NULL
 	f<-function(h,...){
 		x<<-svalue(h$obj)
 		}
 	z=NULL
-	p_value=c(0.0000001,0.000001,0.00001,0.0001,0.001,0.01,0.05,0.1,0.5,1)
 	w_gsea<-gwindow("Select p-value",horizontal=FALSE,height=100,width=100)
-	gp_gsea<-ggroup(container=w_gsea,horizontal=FALSE)
-	glabel("p-value",container=gp_gsea)
-	cb_gsea<-gcombobox(p_value,editable=TRUE,selected=7,container=gp_gsea,handler=function(h,...){
-		z<-svalue(h$obj)
-		p_v<<-as.numeric(z)
-	}
-	)
+	gp_gsea<-ggroup(container=w_gsea)
+	gp_gsea_1<-ggroup(container=gp_gsea,horizontal=FALSE)
+	glabel("Lower limit",container=gp_gsea_1)
+	ge_gsea_1<-gedit("",initial.msg="0",width=10,height=20,container=gp_gsea_1,anchor=c(-1,1))
+
+	gp_gsea_2<-ggroup(container=gp_gsea,horizontal=FALSE)
+	glabel("Upper limit",container=gp_gsea_2)
+	ge_gsea_2<-gedit("",initial.msg="0.05",width=10,height=20,container=gp_gsea_2,anchor=c(-1,1))
 
 	gp_gsea2<-ggroup(container=w_gsea)
 	gbutton("CANCEL",border=TRUE,handler=function(h,...){
-		p_v<<-0.05
+		p_v_1<<-svalue(ge_gsea_1)
+		p_v_2<<-svalue(ge_gsea_2)
 		svalue(sb)<-"Done"
 		dispose(w_gsea)
 	},container=gp_gsea2,anchor=c(1,-1))
 	gbutton("OK",border=TRUE,handler=function(h,...){
-		z<-svalue(cb_gsea)
-		p_v<<-as.numeric(z)
+		p_v_1<<-svalue(ge_gsea_1)
+		if(p_v_1=="")p_v_1<<-0;
+		p_v_2<<-svalue(ge_gsea_2)
+		if(p_v_2=="")p_v_2<<-0.05;
+		p_v_1<<-as.numeric(p_v_1);p_v_2<<-as.numeric(p_v_2);
 		dispose(w_gsea)
 		svalue(sb)<-"				Please wait while Graphs.."
 		w_dge<-gwindow("Select your data",width=260,height=280,visible=FALSE,horizontal=FALSE)
@@ -83,7 +87,10 @@ graph_gsea_goCC<-function(h,...){
 				if(length(which(x=="Affymetrix"))!=0)
 				{
 					try(dispose(view_ww),silent=TRUE)
-					GO.vec<-rownames(GOresultCC_Affy)[GOresultCC_Affy$Pvalue<=p_v]
+					p1<-rownames(GOresultCC_Affy)[GOresultCC_Affy$Pvalue>=p_v_1]
+					p2<-rownames(GOresultCC_Affy)[GOresultCC_Affy$Pvalue<=p_v_2]
+					p<-p2[match(p1,p2)]
+					GO.vec<-p[!is.na(p)==TRUE]
 					g<-GOGraph(GO.vec,GOCCPARENTS)
 					g<-removeNode("all",g)
 					nodes<-buildNodeList(g)
@@ -114,7 +121,10 @@ graph_gsea_goCC<-function(h,...){
 				if(length(which(x=="Agilent_OneColor"))!=0)
 				{
 					try(dispose(view_ww),silent=TRUE)
-					GO.vec<-rownames(GOresultCC_Ag1)[GOresultCC_Ag1$Pvalue<=p_v]
+					p1<-rownames(GOresultCC_Ag1)[GOresultCC_Ag1$Pvalue>=p_v_1]
+					p2<-rownames(GOresultCC_Ag1)[GOresultCC_Ag1$Pvalue<=p_v_2]
+					p<-p2[match(p1,p2)]
+					GO.vec<-p[!is.na(p)==TRUE]
 					g<-GOGraph(GO.vec,GOCCPARENTS)
 					g<-removeNode("all",g)
 					nodes<-buildNodeList(g)
@@ -145,7 +155,10 @@ graph_gsea_goCC<-function(h,...){
 				if(length(which(x=="Agilent_TwoColor"))!=0)
 				{
 					try(dispose(view_ww),silent=TRUE)
-					GO.vec<-rownames(GOresultCC_Ag2)[GOresultCC_Ag2$Pvalue<=p_v]
+					p1<-rownames(GOresultCC_Ag2)[GOresultCC_Ag2$Pvalue>=p_v_1]
+					p2<-rownames(GOresultCC_Ag2)[GOresultCC_Ag2$Pvalue<=p_v_2]
+					p<-p2[match(p1,p2)]
+					GO.vec<-p[!is.na(p)==TRUE]
 					g<-GOGraph(GO.vec,GOCCPARENTS)
 					g<-removeNode("all",g)
 					nodes<-buildNodeList(g)
@@ -176,7 +189,10 @@ graph_gsea_goCC<-function(h,...){
 				if(length(which(x=="Illumina_Beadarray"))!=0)
 				{
 					try(dispose(view_ww),silent=TRUE)
-					GO.vec<-rownames(GOresultCC_Il_B)[GOresultCC_Il_B$Pvalue<=p_v]
+					p1<-rownames(GOresultCC_Il_B)[GOresultCC_Il_B$Pvalue>=p_v_1]
+					p2<-rownames(GOresultCC_Il_B)[GOresultCC_Il_B$Pvalue<=p_v_2]
+					p<-p2[match(p1,p2)]
+					GO.vec<-p[!is.na(p)==TRUE]
 					g<-GOGraph(GO.vec,GOCCPARENTS)
 					g<-removeNode("all",g)
 					nodes<-buildNodeList(g)
@@ -207,7 +223,10 @@ graph_gsea_goCC<-function(h,...){
 				if(length(which(x=="Illumina_Lumi"))!=0)
 				{
 					try(dispose(view_ww),silent=TRUE)
-					GO.vec<-rownames(GOresultCC_Il_L)[GOresultCC_Il_L$Pvalue<=p_v]
+					p1<-rownames(GOresultCC_Il_L)[GOresultCC_Il_L$Pvalue>=p_v_1]
+					p2<-rownames(GOresultCC_Il_L)[GOresultCC_Il_L$Pvalue<=p_v_2]
+					p<-p2[match(p1,p2)]
+					GO.vec<-p[!is.na(p)==TRUE]
 					g<-GOGraph(GO.vec,GOCCPARENTS)
 					g<-removeNode("all",g)
 					nodes<-buildNodeList(g)
@@ -238,7 +257,10 @@ graph_gsea_goCC<-function(h,...){
 				if(length(which(x=="Nimblegen"))!=0)
 				{
 					try(dispose(view_ww),silent=TRUE)
-					GO.vec<-rownames(GOresultCC_N)[GOresultCC_N$Pvalue<=p_v]
+					p1<-rownames(GOresultCC_N)[GOresultCC_N$Pvalue>=p_v_1]
+					p2<-rownames(GOresultCC_N)[GOresultCC_N$Pvalue<=p_v_2]
+					p<-p2[match(p1,p2)]
+					GO.vec<-p[!is.na(p)==TRUE]
 					g<-GOGraph(GO.vec,GOCCPARENTS)
 					g<-removeNode("all",g)
 					nodes<-buildNodeList(g)
@@ -269,7 +291,10 @@ graph_gsea_goCC<-function(h,...){
 				if(length(which(x=="Series_Matrix"))!=0)
 				{
 					try(dispose(view_ww),silent=TRUE)
-					GO.vec<-rownames(GOresultCC_S)[GOresultCC_S$Pvalue<=p_v]
+					p1<-rownames(GOresultCC_S)[GOresultCC_S$Pvalue>=p_v_1]
+					p2<-rownames(GOresultCC_S)[GOresultCC_S$Pvalue<=p_v_2]
+					p<-p2[match(p1,p2)]
+					GO.vec<-p[!is.na(p)==TRUE]
 					g<-GOGraph(GO.vec,GOCCPARENTS)
 					g<-removeNode("all",g)
 					nodes<-buildNodeList(g)
@@ -300,7 +325,10 @@ graph_gsea_goCC<-function(h,...){
 				if(length(which(x=="Online_Data"))!=0)
 				{
 					try(dispose(view_ww),silent=TRUE)
-					GO.vec<-rownames(GOresultCC_O)[GOresultCC_O$Pvalue<=p_v]
+					p1<-rownames(GOresultCC_O)[GOresultCC_O$Pvalue>=p_v_1]
+					p2<-rownames(GOresultCC_O)[GOresultCC_O$Pvalue<=p_v_2]
+					p<-p2[match(p1,p2)]
+					GO.vec<-p[!is.na(p)==TRUE]
 					g<-GOGraph(GO.vec,GOCCPARENTS)
 					g<-removeNode("all",g)
 					nodes<-buildNodeList(g)

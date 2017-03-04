@@ -93,10 +93,11 @@ dmo<-function(h,...){
 #	Sys.sleep(1)
 	rm(DE_O)
 	err<-try(DE_O<<-toptable(data.matrix_onlineNorm.f),silent=TRUE)	
+	rm(DE_O2)
 	err<-try(DE_O2<<-toptable(data.matrix_onlineNorm.f,number=nrow(data.matrix_onlineNorm.f)),silent=TRUE)
 	rownames(DE_O)<<-DE_O[,1]
 	DE_O<<-DE_O[,-1]
-	rownames(DE_O2)<<-DE_O2[,1]
+	try(rownames(DE_O2)<<-DE_O2[,1],silent=TRUE)
 	DE_O2<<-DE_O2[,-1]
 #	galert("Done",title="Analysis",delay=3,parent=c(600,400))
 	svalue(sb)<-"Done"

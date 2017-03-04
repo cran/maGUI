@@ -33,7 +33,7 @@ sample.dist_N=NULL;sample.dist_S=NULL;sample.dist_O=NULL;
 sample.clust_Affy=NULL;sample.clust_Ag1=NULL;sample.clust_Ag2=NULL;sample.clust_Il_B=NULL;sample.clust_Il_L=NULL;
 sample.clust_N=NULL;sample.clust_S=NULL;sample.clust_O=NULL;
 Clas_Affy=NULL;Clas_Ag1=NULL;Clas_Ag2=NULL;Clas_Il_B=NULL;Clas_Il_L=NULL;Clas_N=NULL;Clas_S=NULL;Clas_O=NULL;
-heatcol=NULL; ##############
+heatcol=NULL;
 GOresultBP_Affy=NULL;GOresultMF_Affy=NULL;GOresultCC_Affy=NULL;
 GOresultBP_Ag1=NULL;GOresultMF_Ag1=NULL;GOresultCC_Ag1=NULL;
 GOresultBP_Ag2=NULL;GOresultMF_Ag2=NULL;GOresultCC_Ag2=NULL;
@@ -145,7 +145,7 @@ plotarea=NULL;
 l=NULL;tree=NULL;
 rm(tree)
 rm(l)
-local({r<-getOption("repos");r["CRAN"]<-"http://ftp.ussg.iu.edu/CRAN/";options(repos = r)})
+#local({r<-getOption("repos");r["CRAN"]<-"http://ftp.ussg.iu.edu/CRAN/";options(repos = r)})
 l<<-list()
 tree<<-function(path,...){
 	ll<-l
@@ -496,7 +496,7 @@ sample.dist_N=NULL;sample.dist_S=NULL;sample.dist_O=NULL;
 sample.clust_Affy=NULL;sample.clust_Ag1=NULL;sample.clust_Ag2=NULL;sample.clust_Il_B=NULL;sample.clust_Il_L=NULL;
 sample.clust_N=NULL;sample.clust_S=NULL;sample.clust_O=NULL;
 Clas_Affy=NULL;Clas_Ag1=NULL;Clas_Ag2=NULL;Clas_Il_B=NULL;Clas_Il_L=NULL;Clas_N=NULL;Clas_S=NULL;Clas_O=NULL;
-heatcol=NULL; ##############
+heatcol=NULL;
 GOresultBP_Affy=NULL;GOresultMF_Affy=NULL;GOresultCC_Affy=NULL;
 GOresultBP_Ag1=NULL;GOresultMF_Ag1=NULL;GOresultCC_Ag1=NULL;
 GOresultBP_Ag2=NULL;GOresultMF_Ag2=NULL;GOresultCC_Ag2=NULL;
@@ -656,7 +656,6 @@ mbl$File$Load$Affymetrix$handler=function(h,...)
 			if(gconfirm("Do you want to pre-process and analyze automatically",icon="question")==TRUE)affym()
 			}
 		} 
-#	galert("Done",title="Loading",delay=5,parent=c(600,400))
 	svalue(sb)<-"Done"
 	setwd(cur_dir)
 }
@@ -689,7 +688,6 @@ mbl$File$Load$Agilent$One_Color$handler=function(h,...)
 			if(gconfirm("Do you want to pre-process and analyze automatically",icon="question")==TRUE)agone()
 			}
 		}
-#	galert("Done",title="Loading",delay=5,parent=c(600,400))
 	svalue(sb)<-"Done"
 	setwd(cur_dir)
 }
@@ -722,7 +720,6 @@ mbl$File$Load$Agilent$Two_Color$handler=function(h,...)
 			if(gconfirm("Do you want to pre-process and analyze automatically",icon="question")==TRUE)agtwo()
 			}
 		}
-#	galert("Done",title="Loading",delay=5,parent=c(600,400))
 	svalue(sb)<-"Done"
 	setwd(cur_dir)
 }
@@ -761,7 +758,6 @@ mbl$File$Load$Illumina$BeadArray$handler=function(h,...)
 			if(gconfirm("Do you want to pre-process and analyze automatically",icon="question")==TRUE)illbead()
 			}
 		}
-#	galert("Done",title="Loading",delay=5,parent=c(600,400))
 	svalue(sb)<-"Done"
 	setwd(cur_dir)
 }
@@ -795,7 +791,6 @@ mbl$File$Load$Illumina$Lumi$handler=function(h,...)
 			if(gconfirm("Do you want to pre-process and analyze automatically",icon="question")==TRUE)illlumi()
 			}
 		}
-#	galert("Done",title="Loading",delay=5,parent=c(600,400))
 	svalue(sb)<-"Done"
 	setwd(cur_dir)
 }
@@ -851,7 +846,6 @@ mbl$File$Load$Nimblegen$handler=function(h,...)
 			if(gconfirm("Do you want to pre-process and analyze automatically",icon="question")==TRUE)nimblg()
 			}
 		}
-#	galert("Done",title="Loading",delay=5,parent=c(600,400))
 	svalue(sb)<-"Done"
 	setwd(cur_dir)
 }
@@ -943,20 +937,17 @@ mbl$File$Load$Series_Matrix$handler=function(h,...)
 				data.matrixLog<<-data.matrix_series
 				}
 			rm(Med)
-		#	galert("Done",title="Pre-processing",delay=3,parent=c(600,400))
 			svalue(sb)<-"Done"
 	
 			svalue(sb)<-"				Please wait while imputing.."
 			na.length<<-length(which(is.na(data.matrixLog)==TRUE))
 			if(na.length > 0)data.matrixImp<<-impute.knn(data.matrixLog,k=10,rowmax=0.5,colmax=0.3)$data
 			if(na.length <= 0)data.matrixImp<<-data.matrixLog
-		#	galert("Done",title="Pre-processing",delay=10,parent=c(600,400))
 			svalue(sb)<-"Done"
 			dmsm()
 		}
 		}
 	}
-#	galert("Done",title="Loading",delay=5,parent=c(600,400))
 	svalue(sb)<-"Done"
 	setwd(cur_dir)
 }
@@ -965,13 +956,10 @@ mbl$File$Load$Get_Data_Online$handler=function(h,...)
 	ginput("Enter GSE Name",icon="question",handler=function(h,...)gse_no<<-h$input)
 	if(length(grep("GSE",gse_no))!=0)
 	{
-		
-		p_k<-"GEOquery"
-		try(library(p_k,character.only=TRUE),silent=TRUE)
 		svalue(sb)<-"				Please wait while loading.."
 		new_data.matrix_online<<-NULL
 		try(({
-		err<-try(new_gse<-getGEO(gse_no,GSEMatrix=TRUE)[[1]],silent=TRUE)
+		err<-try(new_gse<-getGEO(gse_no,GSEMatrix=TRUE,destdir=cur_dir)[[1]],silent=TRUE)
 		if(length(new_gse)!=0){
 		gse<-new_gse
 		ann_O<<-annotation(gse)
@@ -985,7 +973,6 @@ mbl$File$Load$Get_Data_Online$handler=function(h,...)
 		rm(ORF,use_probe)
 	 	}),silent=TRUE)
 		if(length(new_data.matrix_online)==0)gmessage("Could not load this type of data..!",title="Loading error",icon="error")
-	#	galert("Done",title="Loading",delay=5,parent=c(600,400))
 		svalue(sb)<-"Done"
 	 }
 	if(length(data.matrix_online)!=0){
@@ -1007,20 +994,17 @@ mbl$File$Load$Get_Data_Online$handler=function(h,...)
 					data.matrix_onlineLog<<-data.matrix_online
 					}
 			rm(Med)
-		#	galert("Done",title="Pre-processing",delay=3,parent=c(600,400))
 			svalue(sb)<-"Done"
 			
 			svalue(sb)<-"				Please wait while imputing.."
 			na.length<-length(which(is.na(data.matrix_onlineLog)==TRUE))
 			if(na.length > 0)data.matrix_onlineImp<<-impute.knn(data.matrix_onlineLog,k=10,rowmax=0.5,colmax=0.3)$data
 			if(na.length < 0)data.matrix_onlineImp<<-data.matrix_onlineLog
-		#	galert("Done",title="Pre-processing",delay=3,parent=c(600,400))
 			svalue(sb)<-"Done"
 			dmo()
 			}
 			}
 		}
-#	galert("Done",title="Loading",delay=5,parent=c(600,400))
 	svalue(sb)<-"Done"
 	setwd(cur_dir)	
 }
@@ -1063,7 +1047,6 @@ mbl$Preprocessing$Log_Transformation$Series_Matrix$handler=function(h,...)
 			data.matrixLog<<-data.matrix_series
 			}
 		
-#	galert("Done",title="Pre-processing",delay=5,parent=c(600,400))
 	svalue(sb)<-"Done"
 	setwd(cur_dir)	
 }
@@ -1078,7 +1061,6 @@ mbl$Preprocessing$Log_Transformation$Online_Data$handler=function(h,...)
 			data.matrix_onlineLog<<-data.matrix_online
 			}
 			
-#	galert("Done",title="Pre-processing",delay=5,parent=c(600,400))
 	svalue(sb)<-"Done"
 	setwd(cur_dir)	
 }
@@ -1120,7 +1102,6 @@ mbl$Preprocessing$KNN_Imputation$Series_Matrix$handler=function(h,...)
 			dispose(w_imp)
 			svalue(sb)<-"				Please wait while imputing.."
 			data.matrixImp<<-impute.knn(data.matrixLog,k=x1_imp,rowmax=x2_imp,colmax=x3_imp)$data
-		#	galert("Done",title="Pre-processing",delay=5,parent=c(600,400))
 			svalue(sb)<-"Done"
 			setwd(cur_dir)	
 			},container=gp3_imp)
@@ -1164,7 +1145,6 @@ mbl$Preprocessing$KNN_Imputation$Online_Data$handler=function(h,...)
 			dispose(w_imp)
 			svalue(sb)<-"				Please wait while imputing.."
 			data.matrix_onlineImp<<-impute.knn(data.matrix_onlineLog,k=x1_imp,rowmax=x2_imp,colmax=x3_imp)$data
-		#	galert("Done",title="Pre-processing",delay=5,parent=c(600,400))
 			svalue(sb)<-"Done"
 			setwd(cur_dir)	
 			},container=gp3_imp)
@@ -1194,7 +1174,6 @@ mbl$Preprocessing$Normalization$Affymetrix$handler=function(h,...)
 		visible(g1_1)<-TRUE
 		}
 		display()
-#	galert("Done",title="Pre-processing",delay=5,parent=c(600,400))
 	svalue(sb)<-"Done"
 	setwd(cur_dir)	
 }
@@ -1239,7 +1218,6 @@ mbl$Preprocessing$Normalization$Agilent$OneColor$handler=function(h,...)
 			size(tr)<-c(300,400)
 			}
 		display()
-	#	galert("Done",title="Pre-processing",delay=5,parent=c(600,400))
 		svalue(sb)<-"Done"
 		},container=norm_gp2,anchor=c(1,-1)
 	)
@@ -1268,7 +1246,6 @@ mbl$Preprocessing$Normalization$Agilent$TwoColor$handler=function(h,...)
 	norm_y2<-gbutton("OK",border=TRUE,handler=function(h,...){
 		dispose(norm_w)
 		svalue(sb)<-"				Please wait while Normalizing.."
-#		galert("Please wait while normalizing",title="Pre-processing",delay=5)
 		datAgTwo2<<-normalizeWithinArrays(datAgTwo,method=norm_xx,"normexp")
 		datAgTwo2.m<<-datAgTwo2$M
 		rownames(datAgTwo2.m)<<-datAgTwo2$genes$ProbeName
@@ -1284,7 +1261,6 @@ mbl$Preprocessing$Normalization$Agilent$TwoColor$handler=function(h,...)
 			size(tr)<-c(300,400)
 			}
 		display()
-	#	galert("Done",title="Pre-processing",delay=5,parent=c(600,400))
 		svalue(sb)<-"Done"
 		},container=norm_gp2,anchor=c(1,-1)
 	)
@@ -1328,7 +1304,6 @@ mbl$Preprocessing$Normalization$Illumina$BeadArray$handler=function(h,...)
 			size(tr)<-c(300,400)
 			}
 		display()
-	#	galert("Done",title="Pre-processing",delay=5,parent=c(600,400))
 		svalue(sb)<-"Done"
 		},container=norm_gp2,anchor=c(1,-1)
 	)
@@ -1353,7 +1328,6 @@ mbl$Preprocessing$Normalization$Illumina$Lumi$handler=function(h,...)
 		size(tr)<-c(300,400)
 		}
 	display()
-#	galert("Done",title="Pre-processing",delay=5,parent=c(600,400))
 	svalue(sb)<-"Done"
 	setwd(cur_dir)	
 }
@@ -1394,7 +1368,6 @@ mbl$Preprocessing$Normalization$Nimblegen$handler=function(h,...)
 			size(tr)<-c(300,400)
 			}
 		display()
-	#	galert("Done",title="Pre-processing",delay=5,parent=c(600,400))
 		svalue(sb)<-"Done"
 		},container=norm_gp2,anchor=c(1,-1)
 	)
@@ -1439,7 +1412,6 @@ mbl$Preprocessing$Normalization$Series_Matrix$handler=function(h,...)
 			size(tr)<-c(300,400)
 			}
 		display()
-	#	galert("Done",title="Pre-processing",delay=5,parent=c(600,400))
 		svalue(sb)<-"Done"
 		},container=norm_gp2,anchor=c(1,-1)
 	)
@@ -1484,7 +1456,6 @@ mbl$Preprocessing$Normalization$Online_Data$handler=function(h,...)
 			size(tr)<-c(300,400)
 			}
 		display()
-	#	galert("Done",title="Pre-processing",delay=5,parent=c(600,400))
 		svalue(sb)<-"Done"
 			},container=norm_gp2,anchor=c(1,-1)
 	)
@@ -1508,7 +1479,6 @@ mbl$Preprocessing$Quality_Control$Affymetrix$handler=function(h,...)
 		size(tr)<-c(300,400)
 		}
 		display()
-#	galert("Done",title="Pre-processing",delay=5,parent=c(600,400))
 	svalue(sb)<-"Done"
 	setwd(cur_dir)	
 }
@@ -1525,7 +1495,6 @@ mbl$Preprocessing$Quality_Control$Agilent$OneColor$handler=function(h,...)
 		size(tr)<-c(300,400)
 		}
 		display()	
-#	galert("Done",title="Pre-processing",delay=5,parent=c(600,400))
 	svalue(sb)<-"Done"
 	setwd(cur_dir)	
 }
@@ -1542,7 +1511,6 @@ mbl$Preprocessing$Quality_Control$Agilent$TwoColor$handler=function(h,...)
 		size(tr)<-c(300,400)
 		}
 		display()	
-#	galert("Done",title="Pre-processing",delay=5,parent=c(600,400))
 	svalue(sb)<-"Done"
 	setwd(cur_dir)	
 }
@@ -1559,7 +1527,6 @@ mbl$Preprocessing$Quality_Control$Illumina$BeadArray$handler=function(h,...)
 		size(tr)<-c(300,400)
 		}
 		display()	
-#	galert("Done",title="Pre-processing",delay=5,parent=c(600,400))
 	svalue(sb)<-"Done"
 	setwd(cur_dir)	
 }
@@ -1576,7 +1543,6 @@ mbl$Preprocessing$Quality_Control$Illumina$Lumi$handler=function(h,...)
 		size(tr)<-c(300,400)
 		}
 		display()	
-#	galert("Done",title="Pre-processing",delay=5,parent=c(600,400))
 	svalue(sb)<-"Done"
 	setwd(cur_dir)	
 }
@@ -1593,7 +1559,6 @@ mbl$Preprocessing$Quality_Control$Nimblegen$handler=function(h,...)
 		size(tr)<-c(300,400)
 		}
 		display()	
-#	galert("Done",title="Pre-processing",delay=5,parent=c(600,400))
 	svalue(sb)<-"Done"
 	setwd(cur_dir)	
 }
@@ -1610,7 +1575,6 @@ mbl$Preprocessing$Quality_Control$Series_Matrix$handler=function(h,...)
 		size(tr)<-c(300,400)
 		}
 		display()	
-#	galert("Done",title="Pre-processing",delay=5,parent=c(600,400))
 	svalue(sb)<-"Done"
 	setwd(cur_dir)	
 }
@@ -1626,7 +1590,6 @@ mbl$Preprocessing$Quality_Control$Online_Data$handler=function(h,...)
 		size(tr)<-c(300,400)
 		}
 		display()	
-#	galert("Done",title="Pre-processing",delay=5,parent=c(600,400))
 	svalue(sb)<-"Done"
 	setwd(cur_dir)	
 }

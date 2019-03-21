@@ -158,8 +158,16 @@ pre_rs<-c("GPL32","GPL33","GPL34","GPL71","GPL72","GPL74","GPL75","GPL76","GPL77
 						err<-try(library(db,character.only=TRUE),silent=TRUE)
 						if(length(grep("Error",err))!=0)
 						{
-							source("http://bioconductor.org/biocLite.R")
-							biocLite(db,dependencies=TRUE,suppressUpdates=TRUE)
+							biocLite<-function()
+							{
+							    .Deprecated("BiocManager")
+							}
+							BiocInstaller<-function()
+							{
+							    .Deprecated("BiocManager")
+							}
+#							source("http://bioconductor.org/biocLite.R")
+#							biocLite(db,dependencies=TRUE,suppressUpdates=TRUE)
 							library(db,character.only=TRUE)
 						}
 						test.goMF<-gtGO(groups,t(use.dat2Affy.m[,samp_gsta]),annotation=db,ontology="MF",sort=TRUE)
@@ -262,8 +270,16 @@ pre_rs<-c("GPL32","GPL33","GPL34","GPL71","GPL72","GPL74","GPL75","GPL76","GPL77
 						err<-try(library(db,character.only=TRUE),silent=TRUE)
 						if(length(grep("Error",err))!=0)
 						{
-							source("http://bioconductor.org/biocLite.R")
-							biocLite(db,dependencies=TRUE,suppressUpdates=TRUE)
+							biocLite<-function()
+							{
+							    .Deprecated("BiocManager")
+							}
+							BiocInstaller<-function()
+							{
+							    .Deprecated("BiocManager")
+							}
+#							source("http://bioconductor.org/biocLite.R")
+#							biocLite(db,dependencies=TRUE,suppressUpdates=TRUE)
 							library(db,character.only=TRUE)
 						}
 						test.goMF<-gtGO(groups,t(use.datAgOne2.m[,samp_gsta]),annotation=db,ontology="MF",sort=TRUE)
@@ -366,8 +382,16 @@ pre_rs<-c("GPL32","GPL33","GPL34","GPL71","GPL72","GPL74","GPL75","GPL76","GPL77
 						err<-try(library(db,character.only=TRUE),silent=TRUE)
 						if(length(grep("Error",err))!=0)
 						{
-							source("http://bioconductor.org/biocLite.R")
-							biocLite(db,dependencies=TRUE,suppressUpdates=TRUE)
+							biocLite<-function()
+							{
+							    .Deprecated("BiocManager")
+							}
+							BiocInstaller<-function()
+							{
+							    .Deprecated("BiocManager")
+							}
+#							source("http://bioconductor.org/biocLite.R")
+#							biocLite(db,dependencies=TRUE,suppressUpdates=TRUE)
 							library(db,character.only=TRUE)
 						}
 						test.goMF<-gtGO(groups,t(use.datAgTwo2.m[,samp_gsta]),annotation=db,ontology="MF",sort=TRUE)
@@ -470,8 +494,16 @@ pre_rs<-c("GPL32","GPL33","GPL34","GPL71","GPL72","GPL74","GPL75","GPL76","GPL77
 						err<-try(library(db,character.only=TRUE),silent=TRUE)
 						if(length(grep("Error",err))!=0)
 						{
-							source("http://bioconductor.org/biocLite.R")
-							biocLite(db,dependencies=TRUE,suppressUpdates=TRUE)
+							biocLite<-function()
+							{
+							    .Deprecated("BiocManager")
+							}
+							BiocInstaller<-function()
+							{
+							    .Deprecated("BiocManager")
+							}
+#							source("http://bioconductor.org/biocLite.R")
+#							biocLite(db,dependencies=TRUE,suppressUpdates=TRUE)
 							library(db,character.only=TRUE)
 						}
 						test.goMF<-gtGO(groups,t(use.datIllBA2.m2[,samp_gsta]),annotation=db,ontology="MF",sort=TRUE)
@@ -574,8 +606,16 @@ pre_rs<-c("GPL32","GPL33","GPL34","GPL71","GPL72","GPL74","GPL75","GPL76","GPL77
 						err<-try(library(db,character.only=TRUE),silent=TRUE)
 						if(length(grep("Error",err))!=0)
 						{
-							source("http://bioconductor.org/biocLite.R")
-							biocLite(db,dependencies=TRUE,suppressUpdates=TRUE)
+							biocLite<-function()
+							{
+							    .Deprecated("BiocManager")
+							}
+							BiocInstaller<-function()
+							{
+							    .Deprecated("BiocManager")
+							}
+#							source("http://bioconductor.org/biocLite.R")
+#							biocLite(db,dependencies=TRUE,suppressUpdates=TRUE)
 							library(db,character.only=TRUE)
 						}
 						test.goMF<-gtGO(groups,t(use.lumi_NQ.m[,samp_gsta]),annotation=db,ontology="MF",sort=TRUE)
@@ -678,8 +718,16 @@ pre_rs<-c("GPL32","GPL33","GPL34","GPL71","GPL72","GPL74","GPL75","GPL76","GPL77
 						err<-try(library(db,character.only=TRUE),silent=TRUE)
 						if(length(grep("Error",err))!=0)
 						{
-							source("http://bioconductor.org/biocLite.R")
-							biocLite(db,dependencies=TRUE,suppressUpdates=TRUE)
+							biocLite<-function()
+							{
+							    .Deprecated("BiocManager")
+							}
+							BiocInstaller<-function()
+							{
+							    .Deprecated("BiocManager")
+							}
+#							source("http://bioconductor.org/biocLite.R")
+#							biocLite(db,dependencies=TRUE,suppressUpdates=TRUE)
 							library(db,character.only=TRUE)
 						}
 						test.goMF<-gtGO(groups,t(use.data.matrix_Nimblegen2.m[,samp_gsta]),annotation=db,ontology="MF",sort=TRUE)
@@ -782,8 +830,16 @@ pre_rs<-c("GPL32","GPL33","GPL34","GPL71","GPL72","GPL74","GPL75","GPL76","GPL77
 						err<-try(library(db,character.only=TRUE),silent=TRUE)
 						if(length(grep("Error",err))!=0)
 						{
-							source("http://bioconductor.org/biocLite.R")
-							biocLite(db,dependencies=TRUE,suppressUpdates=TRUE)
+							biocLite<-function()
+							{
+							    .Deprecated("BiocManager")
+							}
+							BiocInstaller<-function()
+							{
+							    .Deprecated("BiocManager")
+							}
+#							source("http://bioconductor.org/biocLite.R")
+#							biocLite(db,dependencies=TRUE,suppressUpdates=TRUE)
 							library(db,character.only=TRUE)
 						}
 						test.goMF<-gtGO(groups,t(use.data.matrixNorm.m[,samp_gsta]),annotation=db,ontology="MF",sort=TRUE)
@@ -886,8 +942,16 @@ pre_rs<-c("GPL32","GPL33","GPL34","GPL71","GPL72","GPL74","GPL75","GPL76","GPL77
 						err<-try(library(db,character.only=TRUE),silent=TRUE)
 						if(length(grep("Error",err))!=0)
 						{
-							source("http://bioconductor.org/biocLite.R")
-							biocLite(db,dependencies=TRUE,suppressUpdates=TRUE)
+							biocLite<-function()
+							{
+							    .Deprecated("BiocManager")
+							}
+							BiocInstaller<-function()
+							{
+							    .Deprecated("BiocManager")
+							}
+#							source("http://bioconductor.org/biocLite.R")
+#							biocLite(db,dependencies=TRUE,suppressUpdates=TRUE)
 							library(db,character.only=TRUE)
 						}
 						test.goMF<-gtGO(groups,t(use.data.matrix_onlineNorm.m[,samp_gsta]),annotation=db,ontology="MF",sort=TRUE)

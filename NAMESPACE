@@ -1,6 +1,6 @@
 import(Biobase)
 import(Biostrings)
-import(BiocInstaller)
+import(BiocManager)
 import(RSQLite)
 import(pdInfoBuilder)
 import(convert)

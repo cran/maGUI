@@ -1,4 +1,14 @@
 maGUI<-function(h,...){
+
+biocLite<-function()
+{
+    .Deprecated("BiocManager")
+}
+BiocInstaller<-function()
+{
+    .Deprecated("BiocManager")
+}
+
 data.matrix_series=NULL;new_data.matrix=NULL;data.matrixLog=NULL;na.length=NULL;data.matrixImp=NULL;
 gse_no=NULL;
 new_data.matrix_online=NULL;data.matrix_onlineLog=NULL;data.matrix_onlineImp=NULL;

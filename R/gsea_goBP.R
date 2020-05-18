@@ -68,8 +68,8 @@ pre_rs<-c("GPL32","GPL33","GPL34","GPL71","GPL72","GPL74","GPL75","GPL76","GPL77
 		x<<-svalue(h$obj)
 		}
 	p_value=c(0.0000001,0.000001,0.00001,0.0001,0.001,0.01,0.05,0.1,0.5,1)
-	w_gsea<-gwindow("Select p-value",horizontal=FALSE,height=100,width=100)
-	gp_gsea<-ggroup(container=w_gsea,horizontal=FALSE)
+	w_gsea<-gwindow("Select p-value",fill="y",height=100,width=100)
+	gp_gsea<-ggroup(container=w_gsea,fill="y")
 	glabel("p-value",container=gp_gsea)
 	cb_gsea<-gcombobox(p_value,editable=TRUE,selected=7,container=gp_gsea,handler=function(h,...){
 		z<-svalue(h$obj)
@@ -88,11 +88,11 @@ pre_rs<-c("GPL32","GPL33","GPL34","GPL71","GPL72","GPL74","GPL75","GPL76","GPL77
 		p_v<<-as.numeric(z)
 		dispose(w_gsea)
 		svalue(sb)<-"				Please wait while GO terms.."
-		w_dge<-gwindow("Select your data",width=260,height=280,visible=FALSE,horizontal=FALSE)
-		gp_dge<-ggroup(container=w_dge,horizontal=FALSE)
+		w_dge<-gwindow("Select your data",width=260,height=280,visible=FALSE,fill="y")
+		gp_dge<-ggroup(container=w_dge,fill="y")
 		cbg_dge<-gcheckboxgroup(platforms,container=gp_dge,handler=f)
 		svalue(cbg_dge,index=FALSE)<-1:8
-		gp2_dge<-ggroup(container=gp_dge,width=30,height=15,horizontal=TRUE)
+		gp2_dge<-ggroup(container=gp_dge,width=30,height=15,fill="x")
 		addSpring(gp2_dge)
 		y<-gbutton("CANCEL",border=TRUE,handler=function(h,...){
 			svalue(sb)<-"Done"

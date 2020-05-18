@@ -47,13 +47,13 @@ graph_gsea_goBP<-function(h,...){
 		x<<-svalue(h$obj)
 		}
 	z=NULL
-	w_gsea<-gwindow("Select p-value",horizontal=FALSE,height=100,width=100)
+	w_gsea<-gwindow("Select p-value",fill="y",height=100,width=100)
 	gp_gsea<-ggroup(container=w_gsea)
-	gp_gsea_1<-ggroup(container=gp_gsea,horizontal=FALSE)
+	gp_gsea_1<-ggroup(container=gp_gsea,fill="y")
 	glabel("Lower limit",container=gp_gsea_1)
 	ge_gsea_1<-gedit("",initial.msg="0",width=10,height=20,container=gp_gsea_1,anchor=c(-1,1))
 
-	gp_gsea_2<-ggroup(container=gp_gsea,horizontal=FALSE)
+	gp_gsea_2<-ggroup(container=gp_gsea,fill="y")
 	glabel("Upper limit",container=gp_gsea_2)
 	ge_gsea_2<-gedit("",initial.msg="0.05",width=10,height=20,container=gp_gsea_2,anchor=c(-1,1))
 
@@ -72,11 +72,11 @@ graph_gsea_goBP<-function(h,...){
 		p_v_1<<-as.numeric(p_v_1);p_v_2<<-as.numeric(p_v_2);
 		dispose(w_gsea)
 		svalue(sb)<-"				Please wait while Graphs.."
-		w_dge<-gwindow("Select your data",width=260,height=280,visible=FALSE,horizontal=FALSE)
-		gp_dge<-ggroup(container=w_dge,horizontal=FALSE)
+		w_dge<-gwindow("Select your data",width=260,height=280,visible=FALSE,fill="y")
+		gp_dge<-ggroup(container=w_dge,fill="y")
 		cbg_dge<-gcheckboxgroup(platforms,container=gp_dge,handler=f)
 		svalue(cbg_dge,index=FALSE)<-1:8
-		gp2_dge<-ggroup(container=gp_dge,width=30,height=15,horizontal=TRUE)
+		gp2_dge<-ggroup(container=gp_dge,width=30,height=15,fill="x")
 		addSpring(gp2_dge)
 		y<-gbutton("CANCEL",border=TRUE,handler=function(h,...){
 			dispose(w_dge)

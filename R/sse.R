@@ -34,12 +34,12 @@ sse<-function(h,...){
 		x<<-svalue(h$obj)
 		}
 	z=NULL
-	w_dge<-gwindow("Select your data",width=260,height=280,visible=FALSE,horizontal=FALSE)
-	gp_dge<-ggroup(container=w_dge,horizontal=FALSE)
+	w_dge<-gwindow("Select your data",width=260,height=280,visible=FALSE,fill="y")
+	gp_dge<-ggroup(container=w_dge,fill="y")
 	cbg_dge<-gcheckboxgroup(platforms,container=gp_dge,handler=f)
 	svalue(cbg_dge,index=FALSE)<-1:8
 	
-	gp2_dge<-ggroup(container=gp_dge,width=30,height=15,horizontal=TRUE)
+	gp2_dge<-ggroup(container=gp_dge,width=30,height=15,fill="x")
 	addSpring(gp2_dge)
 	y<-gbutton("CANCEL",border=TRUE,handler=function(h,...){
 		dispose(w_dge)

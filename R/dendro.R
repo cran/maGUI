@@ -30,7 +30,7 @@ display<-function(h,...){
 				{
 					svalue(sb)<-"				Please wait while loading.."
 					delete(g2,g2_1)
-					g2_1<<-ggroup(container=g2,horizontal=FALSE)
+					g2_1<<-ggroup(container=g2,fill="y")
 					visible(g2)<-FALSE
 					Identifier<-rownames(dat2Affy.m)
 					disp1<-cbind(Identifier,dat2Affy.m)
@@ -43,10 +43,10 @@ display<-function(h,...){
 				{
 					svalue(sb)<-"				Please wait while loading.."
 					delete(g2,g2_1)
-					g2_1<<-ggroup(container=g2,horizontal=FALSE)
+					g2_1<<-ggroup(container=g2,fill="y")
 					size(g2_1)<-c(650,400)
 					plotarea=NULL;
-					plotarea<<-ggraphics(ps=5,use.scrollwindow=TRUE,horizontal=FALSE,container=g2_1)
+					plotarea<<-ggraphics(ps=5,use.scrollwindow=TRUE,fill="y",container=g2_1)
 					visible(g2)<-FALSE
 					err<-try(plot(aqc),silent=TRUE)
 					if(length(grep("Error",err))!=0){
@@ -59,7 +59,7 @@ display<-function(h,...){
 				{
 					svalue(sb)<-"				Please wait while loading.."
 					delete(g2,g2_1)
-					g2_1<<-ggroup(container=g2,horizontal=FALSE)
+					g2_1<<-ggroup(container=g2,fill="y")
 					visible(g2)<-FALSE
 					ps1<-as.data.frame(dat2Affy.f)	
 					Identifier<-rownames(ps1)
@@ -73,7 +73,7 @@ display<-function(h,...){
 				{
 					svalue(sb)<-"				Please wait while loading.."
 					delete(g2,g2_1)
-					g2_1<<-ggroup(container=g2,horizontal=FALSE)
+					g2_1<<-ggroup(container=g2,fill="y")
 					visible(g2)<-FALSE
 					Identifier<-rownames(dat2Affy.s)
 					disp1<-cbind(Identifier,dat2Affy.s)
@@ -86,7 +86,7 @@ display<-function(h,...){
 				{
 					svalue(sb)<-"				Please wait while loading.."
 					delete(g2,g2_1)
-					g2_1<<-ggroup(container=g2,horizontal=FALSE)
+					g2_1<<-ggroup(container=g2,fill="y")
 					visible(g2)<-FALSE
 					Identifier<-rownames(DE_Affy)
 					disp1<-cbind(Identifier,DE_Affy)
@@ -99,10 +99,10 @@ display<-function(h,...){
 				{
 					svalue(sb)<-"				Please wait while loading.."
 					delete(g2,g2_1)
-					g2_1<<-ggroup(container=g2,horizontal=FALSE)
+					g2_1<<-ggroup(container=g2,fill="y")
 					size(g2_1)<-c(650,400)
 					plotarea=NULL;
-					plotarea<<-ggraphics(ps=5,use.scrollwindow=TRUE,horizontal=FALSE,container=g2_1)
+					plotarea<<-ggraphics(ps=5,use.scrollwindow=TRUE,fill="y",container=g2_1)
 					visible(g2)<-FALSE
 					try(plot(pca_Affy,main="Affymetrix PCA"),silent=TRUE)
 					visible(g2)<-TRUE
@@ -112,10 +112,10 @@ display<-function(h,...){
 				{
 					svalue(sb)<-"				Please wait while loading.."
 					delete(g2,g2_1)
-					g2_1<<-ggroup(container=g2,horizontal=FALSE)
+					g2_1<<-ggroup(container=g2,fill="y")
 					size(g2_1)<-c(650,400)
 					plotarea=NULL;
-					plotarea<<-ggraphics(ps=5,use.scrollwindow=TRUE,horizontal=FALSE,container=g2_1)
+					plotarea<<-ggraphics(ps=5,use.scrollwindow=TRUE,fill="y",container=g2_1)
 					visible(g2)<-FALSE
 					plot(hclust(sample.dist_Affy,method="complete"))
 					visible(g2)<-TRUE
@@ -125,10 +125,10 @@ display<-function(h,...){
 				{
 					svalue(sb)<-"				Please wait while loading.."
 					delete(g2,g2_1)
-					g2_1<<-ggroup(container=g2,horizontal=FALSE)
+					g2_1<<-ggroup(container=g2,fill="y")
 					size(g2_1)<-c(650,400)
 					plotarea=NULL;
-					plotarea<<-ggraphics(ps=5,use.scrollwindow=TRUE,horizontal=FALSE,container=g2_1)
+					plotarea<<-ggraphics(ps=5,use.scrollwindow=TRUE,fill="y",container=g2_1)
 					visible(g2)<-FALSE	
 					heatmap(Clas_Affy,margins=c(7,7),Rowv=NA,Colv=NA,cexCol=0.8,cexRow=0.8,col=heatcol)
 					visible(g2)<-TRUE
@@ -140,7 +140,7 @@ display<-function(h,...){
 					{
 						svalue(sb)<-"				Please wait while loading.."
 						delete(g2,g2_1)
-						g2_1<<-ggroup(container=g2,horizontal=FALSE)
+						g2_1<<-ggroup(container=g2,fill="y")
 						visible(g2)<-FALSE
 						Identifier<-rownames(GOresultBP_Affy)
 						disp1<-cbind(Identifier,GOresultBP_Affy)
@@ -153,7 +153,7 @@ display<-function(h,...){
 					{
 						svalue(sb)<-"				Please wait while loading.."
 						delete(g2,g2_1)
-						g2_1<<-ggroup(container=g2,horizontal=FALSE)
+						g2_1<<-ggroup(container=g2,fill="y")
 						visible(g2)<-FALSE
 						Identifier<-rownames(GOresultMF_Affy)
 						disp1<-cbind(Identifier,GOresultMF_Affy)
@@ -166,7 +166,7 @@ display<-function(h,...){
 					{
 						svalue(sb)<-"				Please wait while loading.."
 						delete(g2,g2_1)
-						g2_1<<-ggroup(container=g2,horizontal=FALSE)
+						g2_1<<-ggroup(container=g2,fill="y")
 						visible(g2)<-FALSE
 						Identifier<-rownames(GOresultCC_Affy)
 						disp1<-cbind(Identifier,GOresultCC_Affy)
@@ -180,7 +180,7 @@ display<-function(h,...){
 				{
 					svalue(sb)<-"				Please wait while loading.."
 					delete(g2,g2_1)
-					g2_1<<-ggroup(container=g2,horizontal=FALSE)
+					g2_1<<-ggroup(container=g2,fill="y")
 					Identifier<-rownames(KEGGresult_Affy)
 					disp1<-cbind(Identifier,KEGGresult_Affy)
 					disp<-gtable(disp1,container=g2_1)
@@ -195,7 +195,7 @@ display<-function(h,...){
 					{
 						svalue(sb)<-"				Please wait while loading.."
 						delete(g2,g2_1)
-						g2_1<<-ggroup(container=g2,horizontal=FALSE)
+						g2_1<<-ggroup(container=g2,fill="y")
 						Identifier<-rownames(GOtable.outBP_Affy)
 						disp1<-cbind(Identifier,GOtable.outBP_Affy)
 						disp<-gtable(disp1,container=g2_1)
@@ -207,7 +207,7 @@ display<-function(h,...){
 					{
 						svalue(sb)<-"				Please wait while loading.."
 						delete(g2,g2_1)
-						g2_1<<-ggroup(container=g2,horizontal=FALSE)
+						g2_1<<-ggroup(container=g2,fill="y")
 						visible(g2)<-FALSE	
 						Identifier<-rownames(GOtable.outMF_Affy)
 						disp1<-cbind(Identifier,GOtable.outMF_Affy)
@@ -220,7 +220,7 @@ display<-function(h,...){
 					{
 						svalue(sb)<-"				Please wait while loading.."
 						delete(g2,g2_1)
-						g2_1<<-ggroup(container=g2,horizontal=FALSE)
+						g2_1<<-ggroup(container=g2,fill="y")
 						visible(g2)<-FALSE	
 						Identifier<-rownames(GOtable.outCC_Affy)
 						disp1<-cbind(Identifier,GOtable.outCC_Affy)
@@ -234,7 +234,7 @@ display<-function(h,...){
 				{
 					svalue(sb)<-"				Please wait while loading.."
 					delete(g2,g2_1)
-					g2_1<<-ggroup(container=g2,horizontal=FALSE)
+					g2_1<<-ggroup(container=g2,fill="y")
 					visible(g2)<-FALSE
 					Identifier<-rownames(KEGGtable.out_Affy)
 					disp1<-cbind(Identifier,KEGGtable.out_Affy)
@@ -247,7 +247,7 @@ display<-function(h,...){
 				{
 					svalue(sb)<-"				Please wait while loading.."
 					delete(g2,g2_1)
-					g2_1<<-ggroup(container=g2,horizontal=FALSE)
+					g2_1<<-ggroup(container=g2,fill="y")
 					visible(g2)<-FALSE
 					disp<-gtable(genes_Affy,container=g2_1)
 					size(disp)<-c(650,450)
@@ -260,10 +260,10 @@ display<-function(h,...){
 					{
 						svalue(sb)<-"				Please wait while loading.."
 						delete(g2,g2_1)
-						g2_1<<-ggroup(container=g2,horizontal=FALSE)
+						g2_1<<-ggroup(container=g2,fill="y")
 						size(g2_1)<-c(650,400)
 						plotarea=NULL;
-						plotarea<<-ggraphics(ps=5,use.scrollwindow=TRUE,horizontal=FALSE,container=g2_1)
+						plotarea<<-ggraphics(ps=5,use.scrollwindow=TRUE,fill="y",container=g2_1)
 						visible(g2)<-FALSE
 						plot(graph_gsea_goBP_Affy)
 						visible(g2)<-TRUE
@@ -277,10 +277,10 @@ display<-function(h,...){
 					{
 						svalue(sb)<-"				Please wait while loading.."
 						delete(g2,g2_1)
-						g2_1<<-ggroup(container=g2,horizontal=FALSE)
+						g2_1<<-ggroup(container=g2,fill="y")
 						size(g2_1)<-c(650,400)
 						plotarea=NULL;
-						plotarea<<-ggraphics(ps=5,use.scrollwindow=TRUE,horizontal=FALSE,container=g2_1)
+						plotarea<<-ggraphics(ps=5,use.scrollwindow=TRUE,fill="y",container=g2_1)
 						visible(g2)<-FALSE
 						plot(graph_gsea_goMF_Affy)
 						visible(g2)<-TRUE
@@ -294,10 +294,10 @@ display<-function(h,...){
 					{
 						svalue(sb)<-"				Please wait while loading.."
 						delete(g2,g2_1)
-						g2_1<<-ggroup(container=g2,horizontal=FALSE)
+						g2_1<<-ggroup(container=g2,fill="y")
 						size(g2_1)<-c(650,400)
 						plotarea=NULL;
-						plotarea<<-ggraphics(ps=5,use.scrollwindow=TRUE,horizontal=FALSE,container=g2_1)
+						plotarea<<-ggraphics(ps=5,use.scrollwindow=TRUE,fill="y",container=g2_1)
 						visible(g2)<-FALSE
 						plot(graph_gsea_goCC_Affy)
 						visible(g2)<-TRUE
@@ -312,10 +312,10 @@ display<-function(h,...){
 				{
 					svalue(sb)<-"				Please wait while loading.."
 					delete(g2,g2_1)
-					g2_1<<-ggroup(container=g2,horizontal=FALSE)
+					g2_1<<-ggroup(container=g2,fill="y")
 					size(g2_1)<-c(650,400)
 					plotarea=NULL;
-					plotarea<<-ggraphics(ps=5,use.scrollwindow=TRUE,horizontal=FALSE,container=g2_1)
+					plotarea<<-ggraphics(ps=5,use.scrollwindow=TRUE,fill="y",container=g2_1)
 					visible(g2)<-FALSE
 					plot(graph_gsea_kegg_Affy)
 					visible(g2)<-TRUE
@@ -332,10 +332,10 @@ display<-function(h,...){
 					{
 						svalue(sb)<-"				Please wait while loading.."
 						delete(g2,g2_1)
-						g2_1<<-ggroup(container=g2,horizontal=FALSE)
+						g2_1<<-ggroup(container=g2,fill="y")
 						size(g2_1)<-c(650,400)
 						plotarea=NULL;
-						plotarea<<-ggraphics(ps=5,use.scrollwindow=TRUE,horizontal=FALSE,container=g2_1)
+						plotarea<<-ggraphics(ps=5,use.scrollwindow=TRUE,fill="y",container=g2_1)
 						visible(g2)<-FALSE
 						plot(graph_gsta_goBP_Affy)
 						visible(g2)<-TRUE
@@ -349,10 +349,10 @@ display<-function(h,...){
 					{
 						svalue(sb)<-"				Please wait while loading.."
 						delete(g2,g2_1)
-						g2_1<<-ggroup(container=g2,horizontal=FALSE)
+						g2_1<<-ggroup(container=g2,fill="y")
 						size(g2_1)<-c(650,400)
 						plotarea=NULL;
-						plotarea<<-ggraphics(ps=5,use.scrollwindow=TRUE,horizontal=FALSE,container=g2_1)
+						plotarea<<-ggraphics(ps=5,use.scrollwindow=TRUE,fill="y",container=g2_1)
 						visible(g2)<-FALSE
 						plot(graph_gsta_goMF_Affy)
 						visible(g2)<-TRUE
@@ -366,10 +366,10 @@ display<-function(h,...){
 					{
 						svalue(sb)<-"				Please wait while loading.."
 						delete(g2,g2_1)
-						g2_1<<-ggroup(container=g2,horizontal=FALSE)
+						g2_1<<-ggroup(container=g2,fill="y")
 						size(g2_1)<-c(650,400)
 						plotarea=NULL;
-						plotarea<<-ggraphics(ps=5,use.scrollwindow=TRUE,horizontal=FALSE,container=g2_1)
+						plotarea<<-ggraphics(ps=5,use.scrollwindow=TRUE,fill="y",container=g2_1)
 						visible(g2)<-FALSE
 						plot(graph_gsta_goCC_Affy)
 						visible(g2)<-TRUE
@@ -384,10 +384,10 @@ display<-function(h,...){
 				{
 					svalue(sb)<-"				Please wait while loading.."
 					delete(g2,g2_1)
-					g2_1<<-ggroup(container=g2,horizontal=FALSE)
+					g2_1<<-ggroup(container=g2,fill="y")
 					size(g2_1)<-c(650,400)
 					plotarea=NULL;
-					plotarea<<-ggraphics(ps=5,use.scrollwindow=TRUE,horizontal=FALSE,container=g2_1)
+					plotarea<<-ggraphics(ps=5,use.scrollwindow=TRUE,fill="y",container=g2_1)
 					visible(g2)<-FALSE
 					plot(graph_gsta_kegg_Affy)
 					visible(g2)<-TRUE
@@ -402,10 +402,10 @@ display<-function(h,...){
 				{
 					svalue(sb)<-"				Please wait while loading.."
 					delete(g2,g2_1)
-					g2_1<<-ggroup(container=g2,horizontal=FALSE)
+					g2_1<<-ggroup(container=g2,fill="y")
 					size(g2_1)<-c(650,400)
 					plotarea=NULL;
-					plotarea<<-ggraphics(ps=5,use.scrollwindow=TRUE,horizontal=FALSE,container=g2_1)
+					plotarea<<-ggraphics(ps=5,use.scrollwindow=TRUE,fill="y",container=g2_1)
 					visible(g2)<-FALSE
 					disp<-plot(myGraph_Affy,nodeAttrs=makeNodeAttrs(myGraph_Affy,fontsize=18,fillcolor="grey"))
 					visible(g2)<-TRUE
@@ -415,10 +415,10 @@ display<-function(h,...){
 				{
 					svalue(sb)<-"				Please wait while loading.."
 					delete(g2,g2_1)
-					g2_1<<-ggroup(container=g2,horizontal=FALSE)
+					g2_1<<-ggroup(container=g2,fill="y")
 					size(g2_1)<-c(650,400)
 					plotarea=NULL;
-					plotarea<<-ggraphics(ps=5,use.scrollwindow=TRUE,horizontal=FALSE,container=g2_1)
+					plotarea<<-ggraphics(ps=5,use.scrollwindow=TRUE,fill="y",container=g2_1)
 					visible(g2)<-FALSE
 					ssize.plot(size_Affy,xlim=c(0,20),main=paste("Sample size to detect 2-fold change",sep=""))
 					visible(g2)<-TRUE
@@ -448,7 +448,7 @@ display<-function(h,...){
 				{
 					svalue(sb)<-"				Please wait while loading.."
 					delete(g2,g2_1)
-					g2_1<<-ggroup(container=g2,horizontal=FALSE)
+					g2_1<<-ggroup(container=g2,fill="y")
 					visible(g2)<-FALSE	
 					Identifier<-rownames(datAgOne2.m)
 					disp1<-cbind(Identifier,datAgOne2.m)
@@ -461,10 +461,10 @@ display<-function(h,...){
 				{
 					svalue(sb)<-"				Please wait while loading.."
 					delete(g2,g2_1)
-					g2_1<<-ggroup(container=g2,horizontal=FALSE)
+					g2_1<<-ggroup(container=g2,fill="y")
 					size(g2_1)<-c(650,400)
 					plotarea=NULL;
-					plotarea<<-ggraphics(ps=5,use.scrollwindow=TRUE,horizontal=FALSE,container=g2_1)
+					plotarea<<-ggraphics(ps=5,use.scrollwindow=TRUE,fill="y",container=g2_1)
 					visible(g2)<-FALSE
 					boxplot(datAgOne2.m)
 					visible(g2)<-TRUE
@@ -474,7 +474,7 @@ display<-function(h,...){
 				{
 					svalue(sb)<-"				Please wait while loading.."
 					delete(g2,g2_1)
-					g2_1<<-ggroup(container=g2,horizontal=FALSE)
+					g2_1<<-ggroup(container=g2,fill="y")
 					visible(g2)<-FALSE
 					ps1<-as.data.frame(datAgOne2.f)	
 					Identifier<-rownames(ps1)
@@ -488,7 +488,7 @@ display<-function(h,...){
 				{
 					svalue(sb)<-"				Please wait while loading.."
 					delete(g2,g2_1)
-					g2_1<<-ggroup(container=g2,horizontal=FALSE)
+					g2_1<<-ggroup(container=g2,fill="y")
 					visible(g2)<-FALSE
 					Identifier<-rownames(datAgOne2.s)
 					disp1<-cbind(Identifier,datAgOne2.s)
@@ -501,7 +501,7 @@ display<-function(h,...){
 				{
 					svalue(sb)<-"				Please wait while loading.."
 					delete(g2,g2_1)
-					g2_1<<-ggroup(container=g2,horizontal=FALSE)
+					g2_1<<-ggroup(container=g2,fill="y")
 					visible(g2)<-FALSE	
 					Identifier<-rownames(DE_Ag1)
 					disp1<-cbind(Identifier,DE_Ag1)
@@ -514,10 +514,10 @@ display<-function(h,...){
 				{
 					svalue(sb)<-"				Please wait while loading.."
 					delete(g2,g2_1)
-					g2_1<<-ggroup(container=g2,horizontal=FALSE)
+					g2_1<<-ggroup(container=g2,fill="y")
 					size(g2_1)<-c(650,400)
 					plotarea=NULL;
-					plotarea<<-ggraphics(ps=5,use.scrollwindow=TRUE,horizontal=FALSE,container=g2_1)
+					plotarea<<-ggraphics(ps=5,use.scrollwindow=TRUE,fill="y",container=g2_1)
 					visible(g2)<-FALSE
 					try(plot(pca_Ag1,main="Agilent_OneColor PCA"),silent=TRUE)
 					visible(g2)<-TRUE
@@ -527,10 +527,10 @@ display<-function(h,...){
 				{
 					svalue(sb)<-"				Please wait while loading.."
 					delete(g2,g2_1)
-					g2_1<<-ggroup(container=g2,horizontal=FALSE)
+					g2_1<<-ggroup(container=g2,fill="y")
 					size(g2_1)<-c(650,400)
 					plotarea=NULL;
-					plotarea<<-ggraphics(ps=5,use.scrollwindow=TRUE,horizontal=FALSE,container=g2_1)
+					plotarea<<-ggraphics(ps=5,use.scrollwindow=TRUE,fill="y",container=g2_1)
 					visible(g2)<-FALSE
 					plot(hclust(sample.dist_Ag1,method="complete"))
 					visible(g2)<-TRUE
@@ -540,10 +540,10 @@ display<-function(h,...){
 				{
 					svalue(sb)<-"				Please wait while loading.."
 					delete(g2,g2_1)
-					g2_1<<-ggroup(container=g2,horizontal=FALSE)
+					g2_1<<-ggroup(container=g2,fill="y")
 					size(g2_1)<-c(650,400)
 					plotarea=NULL;
-					plotarea<<-ggraphics(ps=5,use.scrollwindow=TRUE,horizontal=FALSE,container=g2_1)
+					plotarea<<-ggraphics(ps=5,use.scrollwindow=TRUE,fill="y",container=g2_1)
 					visible(g2)<-FALSE	
 					heatmap(Clas_Ag1,margins=c(7,7),Rowv=NA,Colv=NA,cexCol=0.8,cexRow=0.8,col=heatcol)
 					visible(g2)<-TRUE
@@ -555,7 +555,7 @@ display<-function(h,...){
 					{
 						svalue(sb)<-"				Please wait while loading.."
 						delete(g2,g2_1)
-						g2_1<<-ggroup(container=g2,horizontal=FALSE)
+						g2_1<<-ggroup(container=g2,fill="y")
 						visible(g2)<-FALSE
 						Identifier<-rownames(GOresultBP_Ag1)
 						disp1<-cbind(Identifier,GOresultBP_Ag1)
@@ -568,7 +568,7 @@ display<-function(h,...){
 					{
 						svalue(sb)<-"				Please wait while loading.."
 						delete(g2,g2_1)
-						g2_1<<-ggroup(container=g2,horizontal=FALSE)
+						g2_1<<-ggroup(container=g2,fill="y")
 						visible(g2)<-FALSE
 						Identifier<-rownames(GOresultMF_Ag1)
 						disp1<-cbind(Identifier,GOresultMF_Ag1)
@@ -581,7 +581,7 @@ display<-function(h,...){
 					{
 						svalue(sb)<-"				Please wait while loading.."
 						delete(g2,g2_1)
-						g2_1<<-ggroup(container=g2,horizontal=FALSE)
+						g2_1<<-ggroup(container=g2,fill="y")
 						visible(g2)<-FALSE
 						Identifier<-rownames(GOresultCC_Ag1)
 						disp1<-cbind(Identifier,GOresultCC_Ag1)
@@ -595,7 +595,7 @@ display<-function(h,...){
 				{
 					svalue(sb)<-"				Please wait while loading.."
 					delete(g2,g2_1)
-					g2_1<<-ggroup(container=g2,horizontal=FALSE)
+					g2_1<<-ggroup(container=g2,fill="y")
 					Identifier<-rownames(KEGGresult_Ag1)
 					disp1<-cbind(Identifier,KEGGresult_Ag1)
 					disp<-gtable(disp1,container=g2_1)
@@ -610,7 +610,7 @@ display<-function(h,...){
 					{
 						svalue(sb)<-"				Please wait while loading.."
 						delete(g2,g2_1)
-						g2_1<<-ggroup(container=g2,horizontal=FALSE)
+						g2_1<<-ggroup(container=g2,fill="y")
 						visible(g2)<-FALSE	
 						Identifier<-rownames(GOtable.outBP_Ag1)
 						disp1<-cbind(Identifier,GOtable.outBP_Ag1)
@@ -623,7 +623,7 @@ display<-function(h,...){
 					{
 						svalue(sb)<-"				Please wait while loading.."
 						delete(g2,g2_1)
-						g2_1<<-ggroup(container=g2,horizontal=FALSE)
+						g2_1<<-ggroup(container=g2,fill="y")
 						visible(g2)<-FALSE	
 						Identifier<-rownames(GOtable.outMF_Ag1)
 						disp1<-cbind(Identifier,GOtable.outMF_Ag1)
@@ -636,7 +636,7 @@ display<-function(h,...){
 					{
 						svalue(sb)<-"				Please wait while loading.."
 						delete(g2,g2_1)
-						g2_1<<-ggroup(container=g2,horizontal=FALSE)
+						g2_1<<-ggroup(container=g2,fill="y")
 						visible(g2)<-FALSE	
 						Identifier<-rownames(GOtable.outCC_Ag1)
 						disp1<-cbind(Identifier,GOtable.outCC_Ag1)
@@ -650,7 +650,7 @@ display<-function(h,...){
 				{
 					svalue(sb)<-"				Please wait while loading.."
 					delete(g2,g2_1)
-					g2_1<<-ggroup(container=g2,horizontal=FALSE)
+					g2_1<<-ggroup(container=g2,fill="y")
 					visible(g2)<-FALSE	
 					Identifier<-rownames(KEGGtable.out_Ag1)
 					disp1<-cbind(Identifier,KEGGtable.out_Ag1)
@@ -663,7 +663,7 @@ display<-function(h,...){
 				{
 					svalue(sb)<-"				Please wait while loading.."
 					delete(g2,g2_1)
-					g2_1<<-ggroup(container=g2,horizontal=FALSE)
+					g2_1<<-ggroup(container=g2,fill="y")
 					visible(g2)<-FALSE
 					disp<-gtable(genes_Ag1,container=g2_1)
 					size(disp)<-c(650,450)
@@ -676,10 +676,10 @@ display<-function(h,...){
 					{
 						svalue(sb)<-"				Please wait while loading.."
 						delete(g2,g2_1)
-						g2_1<<-ggroup(container=g2,horizontal=FALSE)
+						g2_1<<-ggroup(container=g2,fill="y")
 						size(g2_1)<-c(650,400)
 						plotarea=NULL;
-						plotarea<<-ggraphics(ps=5,use.scrollwindow=TRUE,horizontal=FALSE,container=g2_1)
+						plotarea<<-ggraphics(ps=5,use.scrollwindow=TRUE,fill="y",container=g2_1)
 						visible(g2)<-FALSE
 						plot(graph_gsea_goBP_Ag1)
 						visible(g2)<-TRUE
@@ -693,10 +693,10 @@ display<-function(h,...){
 					{
 						svalue(sb)<-"				Please wait while loading.."
 						delete(g2,g2_1)
-						g2_1<<-ggroup(container=g2,horizontal=FALSE)
+						g2_1<<-ggroup(container=g2,fill="y")
 						size(g2_1)<-c(650,400)
 						plotarea=NULL;
-						plotarea<<-ggraphics(ps=5,use.scrollwindow=TRUE,horizontal=FALSE,container=g2_1)
+						plotarea<<-ggraphics(ps=5,use.scrollwindow=TRUE,fill="y",container=g2_1)
 						visible(g2)<-FALSE
 						plot(graph_gsea_goMF_Ag1)
 						visible(g2)<-TRUE
@@ -710,10 +710,10 @@ display<-function(h,...){
 					{
 						svalue(sb)<-"				Please wait while loading.."
 						delete(g2,g2_1)
-						g2_1<<-ggroup(container=g2,horizontal=FALSE)
+						g2_1<<-ggroup(container=g2,fill="y")
 						size(g2_1)<-c(650,400)
 						plotarea=NULL;
-						plotarea<<-ggraphics(ps=5,use.scrollwindow=TRUE,horizontal=FALSE,container=g2_1)
+						plotarea<<-ggraphics(ps=5,use.scrollwindow=TRUE,fill="y",container=g2_1)
 						visible(g2)<-FALSE
 						plot(graph_gsea_goCC_Ag1)
 						visible(g2)<-TRUE
@@ -728,10 +728,10 @@ display<-function(h,...){
 				{
 					svalue(sb)<-"				Please wait while loading.."
 					delete(g2,g2_1)
-					g2_1<<-ggroup(container=g2,horizontal=FALSE)
+					g2_1<<-ggroup(container=g2,fill="y")
 					size(g2_1)<-c(650,400)
 					plotarea=NULL;
-					plotarea<<-ggraphics(ps=5,use.scrollwindow=TRUE,horizontal=FALSE,container=g2_1)
+					plotarea<<-ggraphics(ps=5,use.scrollwindow=TRUE,fill="y",container=g2_1)
 					visible(g2)<-FALSE
 					plot(graph_gsea_kegg_Ag1)
 					visible(g2)<-TRUE
@@ -748,10 +748,10 @@ display<-function(h,...){
 					{
 						svalue(sb)<-"				Please wait while loading.."
 						delete(g2,g2_1)
-						g2_1<<-ggroup(container=g2,horizontal=FALSE)
+						g2_1<<-ggroup(container=g2,fill="y")
 						size(g2_1)<-c(650,400)
 						plotarea=NULL;
-						plotarea<<-ggraphics(ps=5,use.scrollwindow=TRUE,horizontal=FALSE,container=g2_1)
+						plotarea<<-ggraphics(ps=5,use.scrollwindow=TRUE,fill="y",container=g2_1)
 						visible(g2)<-FALSE
 						plot(graph_gsta_goBP_Ag1)
 						visible(g2)<-TRUE
@@ -765,10 +765,10 @@ display<-function(h,...){
 					{
 						svalue(sb)<-"				Please wait while loading.."
 						delete(g2,g2_1)
-						g2_1<<-ggroup(container=g2,horizontal=FALSE)
+						g2_1<<-ggroup(container=g2,fill="y")
 						size(g2_1)<-c(650,400)
 						plotarea=NULL;
-						plotarea<<-ggraphics(ps=5,use.scrollwindow=TRUE,horizontal=FALSE,container=g2_1)
+						plotarea<<-ggraphics(ps=5,use.scrollwindow=TRUE,fill="y",container=g2_1)
 						visible(g2)<-FALSE
 						plot(graph_gsta_goMF_Ag1)
 						visible(g2)<-TRUE
@@ -782,10 +782,10 @@ display<-function(h,...){
 					{
 						svalue(sb)<-"				Please wait while loading.."
 						delete(g2,g2_1)
-						g2_1<<-ggroup(container=g2,horizontal=FALSE)
+						g2_1<<-ggroup(container=g2,fill="y")
 						size(g2_1)<-c(650,400)
 						plotarea=NULL;
-						plotarea<<-ggraphics(ps=5,use.scrollwindow=TRUE,horizontal=FALSE,container=g2_1)
+						plotarea<<-ggraphics(ps=5,use.scrollwindow=TRUE,fill="y",container=g2_1)
 						visible(g2)<-FALSE
 						plot(graph_gsta_goCC_Ag1)
 						visible(g2)<-TRUE
@@ -800,10 +800,10 @@ display<-function(h,...){
 				{
 					svalue(sb)<-"				Please wait while loading.."
 					delete(g2,g2_1)
-					g2_1<<-ggroup(container=g2,horizontal=FALSE)
+					g2_1<<-ggroup(container=g2,fill="y")
 					size(g2_1)<-c(650,400)
 					plotarea=NULL;
-					plotarea<<-ggraphics(ps=5,use.scrollwindow=TRUE,horizontal=FALSE,container=g2_1)
+					plotarea<<-ggraphics(ps=5,use.scrollwindow=TRUE,fill="y",container=g2_1)
 					visible(g2)<-FALSE
 					plot(graph_gsta_kegg_Ag1)
 					visible(g2)<-TRUE
@@ -818,10 +818,10 @@ display<-function(h,...){
 				{
 					svalue(sb)<-"				Please wait while loading.."
 					delete(g2,g2_1)
-					g2_1<<-ggroup(container=g2,horizontal=FALSE)
+					g2_1<<-ggroup(container=g2,fill="y")
 					size(g2_1)<-c(650,400)
 					plotarea=NULL;
-					plotarea<<-ggraphics(ps=5,use.scrollwindow=TRUE,horizontal=FALSE,container=g2_1)
+					plotarea<<-ggraphics(ps=5,use.scrollwindow=TRUE,fill="y",container=g2_1)
 					visible(g2)<-FALSE
 					disp<-plot(myGraph_Ag1,nodeAttrs=makeNodeAttrs(myGraph_Ag1,fontsize=18,fillcolor="grey"))
 					visible(g2)<-TRUE
@@ -831,10 +831,10 @@ display<-function(h,...){
 				{
 					svalue(sb)<-"				Please wait while loading.."
 					delete(g2,g2_1)
-					g2_1<<-ggroup(container=g2,horizontal=FALSE)
+					g2_1<<-ggroup(container=g2,fill="y")
 					size(g2_1)<-c(650,400)
 					plotarea=NULL;
-					plotarea<<-ggraphics(ps=5,use.scrollwindow=TRUE,horizontal=FALSE,container=g2_1)
+					plotarea<<-ggraphics(ps=5,use.scrollwindow=TRUE,fill="y",container=g2_1)
 					visible(g2)<-FALSE
 					ssize.plot(size_Ag1,xlim=c(0,20),main=paste("Sample size to detect 2-fold change",sep=""))
 					visible(g2)<-TRUE
@@ -864,7 +864,7 @@ display<-function(h,...){
 				{
 					svalue(sb)<-"				Please wait while loading.."
 					delete(g2,g2_1)
-					g2_1<<-ggroup(container=g2,horizontal=FALSE)
+					g2_1<<-ggroup(container=g2,fill="y")
 					visible(g2)<-FALSE	
 					Identifier<-rownames(datAgTwo2.m)
 					disp1<-cbind(Identifier,datAgTwo2.m)
@@ -877,10 +877,10 @@ display<-function(h,...){
 				{
 					svalue(sb)<-"				Please wait while loading.."
 					delete(g2,g2_1)
-					g2_1<<-ggroup(container=g2,horizontal=FALSE)
+					g2_1<<-ggroup(container=g2,fill="y")
 					size(g2_1)<-c(650,400)
 					plotarea=NULL;
-					plotarea<<-ggraphics(ps=5,use.scrollwindow=TRUE,horizontal=FALSE,container=g2_1)
+					plotarea<<-ggraphics(ps=5,use.scrollwindow=TRUE,fill="y",container=g2_1)
 					visible(g2)<-FALSE
 					boxplot(datAgTwo2.m)
 					visible(g2)<-TRUE
@@ -890,7 +890,7 @@ display<-function(h,...){
 				{
 					svalue(sb)<-"				Please wait while loading.."
 					delete(g2,g2_1)
-					g2_1<<-ggroup(container=g2,horizontal=FALSE)
+					g2_1<<-ggroup(container=g2,fill="y")
 					visible(g2)<-FALSE
 					ps1<-as.data.frame(datAgTwo2.f)	
 					Identifier<-rownames(ps1)
@@ -904,7 +904,7 @@ display<-function(h,...){
 				{
 					svalue(sb)<-"				Please wait while loading.."
 					delete(g2,g2_1)
-					g2_1<<-ggroup(container=g2,horizontal=FALSE)
+					g2_1<<-ggroup(container=g2,fill="y")
 					visible(g2)<-FALSE
 					Identifier<-rownames(datAgTwo2.s)
 					disp1<-cbind(Identifier,datAgTwo2.s)
@@ -917,7 +917,7 @@ display<-function(h,...){
 				{
 					svalue(sb)<-"				Please wait while loading.."
 					delete(g2,g2_1)
-					g2_1<<-ggroup(container=g2,horizontal=FALSE)
+					g2_1<<-ggroup(container=g2,fill="y")
 					visible(g2)<-FALSE	
 					Identifier<-rownames(DE_Ag2)
 					disp1<-cbind(Identifier,DE_Ag2)
@@ -930,10 +930,10 @@ display<-function(h,...){
 				{
 					svalue(sb)<-"				Please wait while loading.."
 					delete(g2,g2_1)
-					g2_1<<-ggroup(container=g2,horizontal=FALSE)
+					g2_1<<-ggroup(container=g2,fill="y")
 					size(g2_1)<-c(650,400)
 					plotarea=NULL;
-					plotarea<<-ggraphics(ps=5,use.scrollwindow=TRUE,horizontal=FALSE,container=g2_1)
+					plotarea<<-ggraphics(ps=5,use.scrollwindow=TRUE,fill="y",container=g2_1)
 					visible(g2)<-FALSE
 					try(plot(pca_Ag2,main="Agilent_TwoColor PCA"),silent=TRUE)
 					visible(g2)<-TRUE
@@ -943,10 +943,10 @@ display<-function(h,...){
 				{
 					svalue(sb)<-"				Please wait while loading.."
 					delete(g2,g2_1)
-					g2_1<<-ggroup(container=g2,horizontal=FALSE)
+					g2_1<<-ggroup(container=g2,fill="y")
 					size(g2_1)<-c(650,400)
 					plotarea=NULL;
-					plotarea<<-ggraphics(ps=5,use.scrollwindow=TRUE,horizontal=FALSE,container=g2_1)
+					plotarea<<-ggraphics(ps=5,use.scrollwindow=TRUE,fill="y",container=g2_1)
 					visible(g2)<-FALSE
 					plot(hclust(sample.dist_Ag2,method="complete"))
 					visible(g2)<-TRUE
@@ -956,10 +956,10 @@ display<-function(h,...){
 				{
 					svalue(sb)<-"				Please wait while loading.."
 					delete(g2,g2_1)
-					g2_1<<-ggroup(container=g2,horizontal=FALSE)
+					g2_1<<-ggroup(container=g2,fill="y")
 					size(g2_1)<-c(650,400)
 					plotarea=NULL;
-					plotarea<<-ggraphics(ps=5,use.scrollwindow=TRUE,horizontal=FALSE,container=g2_1)
+					plotarea<<-ggraphics(ps=5,use.scrollwindow=TRUE,fill="y",container=g2_1)
 					visible(g2)<-FALSE	
 					heatmap(Clas_Ag2,margins=c(7,7),Rowv=NA,Colv=NA,cexCol=0.8,cexRow=0.8,col=heatcol)
 					visible(g2)<-TRUE
@@ -971,7 +971,7 @@ display<-function(h,...){
 					{
 						svalue(sb)<-"				Please wait while loading.."
 						delete(g2,g2_1)
-						g2_1<<-ggroup(container=g2,horizontal=FALSE)
+						g2_1<<-ggroup(container=g2,fill="y")
 						visible(g2)<-FALSE
 						Identifier<-rownames(GOresultBP_Ag2)
 						disp1<-cbind(Identifier,GOresultBP_Ag2)
@@ -984,7 +984,7 @@ display<-function(h,...){
 					{
 						svalue(sb)<-"				Please wait while loading.."
 						delete(g2,g2_1)
-						g2_1<<-ggroup(container=g2,horizontal=FALSE)
+						g2_1<<-ggroup(container=g2,fill="y")
 						visible(g2)<-FALSE
 						Identifier<-rownames(GOresultMF_Ag2)
 						disp1<-cbind(Identifier,GOresultMF_Ag2)
@@ -997,7 +997,7 @@ display<-function(h,...){
 					{
 						svalue(sb)<-"				Please wait while loading.."
 						delete(g2,g2_1)
-						g2_1<<-ggroup(container=g2,horizontal=FALSE)
+						g2_1<<-ggroup(container=g2,fill="y")
 						visible(g2)<-FALSE
 						Identifier<-rownames(GOresultCC_Ag2)
 						disp1<-cbind(Identifier,GOresultCC_Ag2)
@@ -1011,7 +1011,7 @@ display<-function(h,...){
 				{
 					svalue(sb)<-"				Please wait while loading.."
 					delete(g2,g2_1)
-					g2_1<<-ggroup(container=g2,horizontal=FALSE)
+					g2_1<<-ggroup(container=g2,fill="y")
 					Identifier<-rownames(KEGGresult_Ag2)
 					disp1<-cbind(Identifier,KEGGresult_Ag2)
 					disp<-gtable(disp1,container=g2_1)
@@ -1026,7 +1026,7 @@ display<-function(h,...){
 					{
 						svalue(sb)<-"				Please wait while loading.."
 						delete(g2,g2_1)
-						g2_1<<-ggroup(container=g2,horizontal=FALSE)
+						g2_1<<-ggroup(container=g2,fill="y")
 						visible(g2)<-FALSE	
 						Identifier<-rownames(GOtable.outBP_Ag2)
 						disp1<-cbind(Identifier,GOtable.outBP_Ag2)
@@ -1039,7 +1039,7 @@ display<-function(h,...){
 					{
 						svalue(sb)<-"				Please wait while loading.."
 						delete(g2,g2_1)
-						g2_1<<-ggroup(container=g2,horizontal=FALSE)
+						g2_1<<-ggroup(container=g2,fill="y")
 						visible(g2)<-FALSE	
 						Identifier<-rownames(GOtable.outMF_Ag2)
 						disp1<-cbind(Identifier,GOtable.outMF_Ag2)
@@ -1052,7 +1052,7 @@ display<-function(h,...){
 					{
 						svalue(sb)<-"				Please wait while loading.."
 						delete(g2,g2_1)
-						g2_1<<-ggroup(container=g2,horizontal=FALSE)
+						g2_1<<-ggroup(container=g2,fill="y")
 						visible(g2)<-FALSE	
 						Identifier<-rownames(GOtable.outCC_Ag2)
 						disp1<-cbind(Identifier,GOtable.outCC_Ag2)
@@ -1066,7 +1066,7 @@ display<-function(h,...){
 				{
 					svalue(sb)<-"				Please wait while loading.."
 					delete(g2,g2_1)
-					g2_1<<-ggroup(container=g2,horizontal=FALSE)
+					g2_1<<-ggroup(container=g2,fill="y")
 					visible(g2)<-FALSE	
 					Identifier<-rownames(KEGGtable.out_Ag2)
 					disp1<-cbind(Identifier,KEGGtable.out_Ag2)
@@ -1079,7 +1079,7 @@ display<-function(h,...){
 				{
 					svalue(sb)<-"				Please wait while loading.."
 					delete(g2,g2_1)
-					g2_1<<-ggroup(container=g2,horizontal=FALSE)
+					g2_1<<-ggroup(container=g2,fill="y")
 					visible(g2)<-FALSE
 					disp<-gtable(genes_Ag2,container=g2_1)
 					size(disp)<-c(650,450)
@@ -1092,10 +1092,10 @@ display<-function(h,...){
 					{
 						svalue(sb)<-"				Please wait while loading.."
 						delete(g2,g2_1)
-						g2_1<<-ggroup(container=g2,horizontal=FALSE)
+						g2_1<<-ggroup(container=g2,fill="y")
 						size(g2_1)<-c(650,400)
 						plotarea=NULL;
-						plotarea<<-ggraphics(ps=5,use.scrollwindow=TRUE,horizontal=FALSE,container=g2_1)
+						plotarea<<-ggraphics(ps=5,use.scrollwindow=TRUE,fill="y",container=g2_1)
 						visible(g2)<-FALSE
 						plot(graph_gsea_goBP_Ag2)
 						visible(g2)<-TRUE
@@ -1109,10 +1109,10 @@ display<-function(h,...){
 					{
 						svalue(sb)<-"				Please wait while loading.."
 						delete(g2,g2_1)
-						g2_1<<-ggroup(container=g2,horizontal=FALSE)
+						g2_1<<-ggroup(container=g2,fill="y")
 						size(g2_1)<-c(650,400)
 						plotarea=NULL;
-						plotarea<<-ggraphics(ps=5,use.scrollwindow=TRUE,horizontal=FALSE,container=g2_1)
+						plotarea<<-ggraphics(ps=5,use.scrollwindow=TRUE,fill="y",container=g2_1)
 						visible(g2)<-FALSE
 						plot(graph_gsea_goMF_Ag2)
 						visible(g2)<-TRUE
@@ -1126,10 +1126,10 @@ display<-function(h,...){
 					{
 						svalue(sb)<-"				Please wait while loading.."
 						delete(g2,g2_1)
-						g2_1<<-ggroup(container=g2,horizontal=FALSE)
+						g2_1<<-ggroup(container=g2,fill="y")
 						size(g2_1)<-c(650,400)
 						plotarea=NULL;
-						plotarea<<-ggraphics(ps=5,use.scrollwindow=TRUE,horizontal=FALSE,container=g2_1)
+						plotarea<<-ggraphics(ps=5,use.scrollwindow=TRUE,fill="y",container=g2_1)
 						visible(g2)<-FALSE
 						plot(graph_gsea_goCC_Ag2)
 						visible(g2)<-TRUE
@@ -1144,10 +1144,10 @@ display<-function(h,...){
 				{
 					svalue(sb)<-"				Please wait while loading.."
 					delete(g2,g2_1)
-					g2_1<<-ggroup(container=g2,horizontal=FALSE)
+					g2_1<<-ggroup(container=g2,fill="y")
 					size(g2_1)<-c(650,400)
 					plotarea=NULL;
-					plotarea<<-ggraphics(ps=5,use.scrollwindow=TRUE,horizontal=FALSE,container=g2_1)
+					plotarea<<-ggraphics(ps=5,use.scrollwindow=TRUE,fill="y",container=g2_1)
 					visible(g2)<-FALSE
 					plot(graph_gsea_kegg_Ag2)
 					visible(g2)<-TRUE
@@ -1164,10 +1164,10 @@ display<-function(h,...){
 					{
 						svalue(sb)<-"				Please wait while loading.."
 						delete(g2,g2_1)
-						g2_1<<-ggroup(container=g2,horizontal=FALSE)
+						g2_1<<-ggroup(container=g2,fill="y")
 						size(g2_1)<-c(650,400)
 						plotarea=NULL;
-						plotarea<<-ggraphics(ps=5,use.scrollwindow=TRUE,horizontal=FALSE,container=g2_1)
+						plotarea<<-ggraphics(ps=5,use.scrollwindow=TRUE,fill="y",container=g2_1)
 						visible(g2)<-FALSE
 						plot(graph_gsta_goBP_Ag2)
 						visible(g2)<-TRUE
@@ -1181,10 +1181,10 @@ display<-function(h,...){
 					{
 						svalue(sb)<-"				Please wait while loading.."
 						delete(g2,g2_1)
-						g2_1<<-ggroup(container=g2,horizontal=FALSE)
+						g2_1<<-ggroup(container=g2,fill="y")
 						size(g2_1)<-c(650,400)
 						plotarea=NULL;
-						plotarea<<-ggraphics(ps=5,use.scrollwindow=TRUE,horizontal=FALSE,container=g2_1)
+						plotarea<<-ggraphics(ps=5,use.scrollwindow=TRUE,fill="y",container=g2_1)
 						visible(g2)<-FALSE
 						plot(graph_gsta_goMF_Ag2)
 						visible(g2)<-TRUE
@@ -1198,10 +1198,10 @@ display<-function(h,...){
 					{
 						svalue(sb)<-"				Please wait while loading.."
 						delete(g2,g2_1)
-						g2_1<<-ggroup(container=g2,horizontal=FALSE)
+						g2_1<<-ggroup(container=g2,fill="y")
 						size(g2_1)<-c(650,400)
 						plotarea=NULL;
-						plotarea<<-ggraphics(ps=5,use.scrollwindow=TRUE,horizontal=FALSE,container=g2_1)
+						plotarea<<-ggraphics(ps=5,use.scrollwindow=TRUE,fill="y",container=g2_1)
 						visible(g2)<-FALSE
 						plot(graph_gsta_goCC_Ag2)
 						visible(g2)<-TRUE
@@ -1216,10 +1216,10 @@ display<-function(h,...){
 				{
 					svalue(sb)<-"				Please wait while loading.."
 					delete(g2,g2_1)
-					g2_1<<-ggroup(container=g2,horizontal=FALSE)
+					g2_1<<-ggroup(container=g2,fill="y")
 					size(g2_1)<-c(650,400)
 					plotarea=NULL;
-					plotarea<<-ggraphics(ps=5,use.scrollwindow=TRUE,horizontal=FALSE,container=g2_1)
+					plotarea<<-ggraphics(ps=5,use.scrollwindow=TRUE,fill="y",container=g2_1)
 					visible(g2)<-FALSE
 					plot(graph_gsta_kegg_Ag2)
 					visible(g2)<-TRUE
@@ -1234,10 +1234,10 @@ display<-function(h,...){
 				{
 					svalue(sb)<-"				Please wait while loading.."
 					delete(g2,g2_1)
-					g2_1<<-ggroup(container=g2,horizontal=FALSE)
+					g2_1<<-ggroup(container=g2,fill="y")
 					size(g2_1)<-c(650,400)
 					plotarea=NULL;
-					plotarea<<-ggraphics(ps=5,use.scrollwindow=TRUE,horizontal=FALSE,container=g2_1)
+					plotarea<<-ggraphics(ps=5,use.scrollwindow=TRUE,fill="y",container=g2_1)
 					visible(g2)<-FALSE
 					disp<-plot(myGraph_Ag2,nodeAttrs=makeNodeAttrs(myGraph_O,fontsize=18,fillcolor="grey"))
 					visible(g2)<-TRUE
@@ -1247,10 +1247,10 @@ display<-function(h,...){
 				{
 					svalue(sb)<-"				Please wait while loading.."
 					delete(g2,g2_1)
-					g2_1<<-ggroup(container=g2,horizontal=FALSE)
+					g2_1<<-ggroup(container=g2,fill="y")
 					size(g2_1)<-c(650,400)
 					plotarea=NULL;
-					plotarea<<-ggraphics(ps=5,use.scrollwindow=TRUE,horizontal=FALSE,container=g2_1)
+					plotarea<<-ggraphics(ps=5,use.scrollwindow=TRUE,fill="y",container=g2_1)
 					visible(g2)<-FALSE
 					ssize.plot(size_Ag2,xlim=c(0,20),main=paste("Sample size to detect 2-fold change",sep=""))
 					visible(g2)<-TRUE
@@ -1280,7 +1280,7 @@ display<-function(h,...){
 				{
 					svalue(sb)<-"				Please wait while loading.."
 					delete(g2,g2_1)
-					g2_1<<-ggroup(container=g2,horizontal=FALSE)
+					g2_1<<-ggroup(container=g2,fill="y")
 					visible(g2)<-FALSE	
 					Identifier<-rownames(datIllBA2.m2)
 					disp1<-cbind(Identifier,datIllBA2.m2)
@@ -1293,10 +1293,10 @@ display<-function(h,...){
 				{
 					svalue(sb)<-"				Please wait while loading.."
 					delete(g2,g2_1)
-					g2_1<<-ggroup(container=g2,horizontal=FALSE)
+					g2_1<<-ggroup(container=g2,fill="y")
 					size(g2_1)<-c(650,400)
 					plotarea=NULL;
-					plotarea<<-ggraphics(ps=5,use.scrollwindow=TRUE,horizontal=FALSE,container=g2_1)
+					plotarea<<-ggraphics(ps=5,use.scrollwindow=TRUE,fill="y",container=g2_1)
 					visible(g2)<-FALSE
 					boxplot(datIllBA2.m2)
 					visible(g2)<-TRUE
@@ -1306,7 +1306,7 @@ display<-function(h,...){
 				{
 					svalue(sb)<-"				Please wait while loading.."
 					delete(g2,g2_1)
-					g2_1<<-ggroup(container=g2,horizontal=FALSE)
+					g2_1<<-ggroup(container=g2,fill="y")
 					visible(g2)<-FALSE
 					ps1<-as.data.frame(datIllBA2.f)	
 					Identifier<-rownames(ps1)
@@ -1320,7 +1320,7 @@ display<-function(h,...){
 				{
 					svalue(sb)<-"				Please wait while loading.."
 					delete(g2,g2_1)
-					g2_1<<-ggroup(container=g2,horizontal=FALSE)
+					g2_1<<-ggroup(container=g2,fill="y")
 					visible(g2)<-FALSE
 					Identifier<-rownames(datIllBA2.s)
 					disp1<-cbind(Identifier,datIllBA2.s)
@@ -1333,7 +1333,7 @@ display<-function(h,...){
 				{
 					svalue(sb)<-"				Please wait while loading.."
 					delete(g2,g2_1)
-					g2_1<<-ggroup(container=g2,horizontal=FALSE)
+					g2_1<<-ggroup(container=g2,fill="y")
 					visible(g2)<-FALSE	
 					Identifier<-rownames(DE_Il_B)
 					disp1<-cbind(Identifier,DE_Il_B)
@@ -1346,10 +1346,10 @@ display<-function(h,...){
 				{
 					svalue(sb)<-"				Please wait while loading.."
 					delete(g2,g2_1)
-					g2_1<<-ggroup(container=g2,horizontal=FALSE)
+					g2_1<<-ggroup(container=g2,fill="y")
 					size(g2_1)<-c(650,400)
 					plotarea=NULL;
-					plotarea<<-ggraphics(ps=5,use.scrollwindow=TRUE,horizontal=FALSE,container=g2_1)
+					plotarea<<-ggraphics(ps=5,use.scrollwindow=TRUE,fill="y",container=g2_1)
 					visible(g2)<-FALSE
 					try(plot(pca_Il_B,main="Illumina_Beadarray PCA"),silent=TRUE)
 					visible(g2)<-TRUE
@@ -1359,10 +1359,10 @@ display<-function(h,...){
 				{
 					svalue(sb)<-"				Please wait while loading.."
 					delete(g2,g2_1)
-					g2_1<<-ggroup(container=g2,horizontal=FALSE)
+					g2_1<<-ggroup(container=g2,fill="y")
 					size(g2_1)<-c(650,400)
 					plotarea=NULL;
-					plotarea<<-ggraphics(ps=5,use.scrollwindow=TRUE,horizontal=FALSE,container=g2_1)
+					plotarea<<-ggraphics(ps=5,use.scrollwindow=TRUE,fill="y",container=g2_1)
 					visible(g2)<-FALSE
 					plot(hclust(sample.dist_Il_B,method="complete"))
 					visible(g2)<-TRUE
@@ -1372,10 +1372,10 @@ display<-function(h,...){
 				{
 					svalue(sb)<-"				Please wait while loading.."
 					delete(g2,g2_1)
-					g2_1<<-ggroup(container=g2,horizontal=FALSE)
+					g2_1<<-ggroup(container=g2,fill="y")
 					size(g2_1)<-c(650,400)
 					plotarea=NULL;
-					plotarea<<-ggraphics(ps=5,use.scrollwindow=TRUE,horizontal=FALSE,container=g2_1)
+					plotarea<<-ggraphics(ps=5,use.scrollwindow=TRUE,fill="y",container=g2_1)
 					visible(g2)<-FALSE	
 					heatmap(Clas_Il_B,margins=c(7,7),Rowv=NA,Colv=NA,cexCol=0.8,cexRow=0.8,col=heatcol)
 					visible(g2)<-TRUE
@@ -1387,7 +1387,7 @@ display<-function(h,...){
 					{
 						svalue(sb)<-"				Please wait while loading.."
 						delete(g2,g2_1)
-						g2_1<<-ggroup(container=g2,horizontal=FALSE)
+						g2_1<<-ggroup(container=g2,fill="y")
 						visible(g2)<-FALSE
 						Identifier<-rownames(GOresultBP_Il_B)
 						disp1<-cbind(Identifier,GOresultBP_Il_B)
@@ -1400,7 +1400,7 @@ display<-function(h,...){
 					{
 						svalue(sb)<-"				Please wait while loading.."
 						delete(g2,g2_1)
-						g2_1<<-ggroup(container=g2,horizontal=FALSE)
+						g2_1<<-ggroup(container=g2,fill="y")
 						visible(g2)<-FALSE
 						Identifier<-rownames(GOresultMF_Il_B)
 						disp1<-cbind(Identifier,GOresultMF_Il_B)
@@ -1413,7 +1413,7 @@ display<-function(h,...){
 					{
 						svalue(sb)<-"				Please wait while loading.."
 						delete(g2,g2_1)
-						g2_1<<-ggroup(container=g2,horizontal=FALSE)
+						g2_1<<-ggroup(container=g2,fill="y")
 						visible(g2)<-FALSE
 						Identifier<-rownames(GOresultCC_Il_B)
 						disp1<-cbind(Identifier,GOresultCC_Il_B)
@@ -1427,7 +1427,7 @@ display<-function(h,...){
 				{
 					svalue(sb)<-"				Please wait while loading.."
 					delete(g2,g2_1)
-					g2_1<<-ggroup(container=g2,horizontal=FALSE)
+					g2_1<<-ggroup(container=g2,fill="y")
 					Identifier<-rownames(KEGGresult_Il_B)
 					disp1<-cbind(Identifier,KEGGresult_Il_B)
 					disp<-gtable(disp1,container=g2_1)
@@ -1442,7 +1442,7 @@ display<-function(h,...){
 					{
 						svalue(sb)<-"				Please wait while loading.."
 						delete(g2,g2_1)
-						g2_1<<-ggroup(container=g2,horizontal=FALSE)
+						g2_1<<-ggroup(container=g2,fill="y")
 						visible(g2)<-FALSE	
 						Identifier<-rownames(GOtable.outBP_Il_B)
 						disp1<-cbind(Identifier,GOtable.outBP_Il_B)
@@ -1455,7 +1455,7 @@ display<-function(h,...){
 					{
 						svalue(sb)<-"				Please wait while loading.."
 						delete(g2,g2_1)
-						g2_1<<-ggroup(container=g2,horizontal=FALSE)
+						g2_1<<-ggroup(container=g2,fill="y")
 						visible(g2)<-FALSE	
 						Identifier<-rownames(GOtable.outMF_Il_B)
 						disp1<-cbind(Identifier,GOtable.outMF_Il_B)
@@ -1468,7 +1468,7 @@ display<-function(h,...){
 					{
 						svalue(sb)<-"				Please wait while loading.."
 						delete(g2,g2_1)
-						g2_1<<-ggroup(container=g2,horizontal=FALSE)
+						g2_1<<-ggroup(container=g2,fill="y")
 						visible(g2)<-FALSE	
 						Identifier<-rownames(GOtable.outCC_Il_B)
 						disp1<-cbind(Identifier,GOtable.outCC_Il_B)
@@ -1482,7 +1482,7 @@ display<-function(h,...){
 				{
 					svalue(sb)<-"				Please wait while loading.."
 					delete(g2,g2_1)
-					g2_1<<-ggroup(container=g2,horizontal=FALSE)
+					g2_1<<-ggroup(container=g2,fill="y")
 					visible(g2)<-FALSE	
 					Identifier<-rownames(KEGGtable.out_Il_B)
 					disp1<-cbind(Identifier,KEGGtable.out_Il_B)
@@ -1495,7 +1495,7 @@ display<-function(h,...){
 				{
 					svalue(sb)<-"				Please wait while loading.."
 					delete(g2,g2_1)
-					g2_1<<-ggroup(container=g2,horizontal=FALSE)
+					g2_1<<-ggroup(container=g2,fill="y")
 					visible(g2)<-FALSE
 					disp<-gtable(genes_Il_B,container=g2_1)
 					size(disp)<-c(650,450)
@@ -1508,10 +1508,10 @@ display<-function(h,...){
 					{
 						svalue(sb)<-"				Please wait while loading.."
 						delete(g2,g2_1)
-						g2_1<<-ggroup(container=g2,horizontal=FALSE)
+						g2_1<<-ggroup(container=g2,fill="y")
 						size(g2_1)<-c(650,400)
 						plotarea=NULL;
-						plotarea<<-ggraphics(ps=5,use.scrollwindow=TRUE,horizontal=FALSE,container=g2_1)
+						plotarea<<-ggraphics(ps=5,use.scrollwindow=TRUE,fill="y",container=g2_1)
 						visible(g2)<-FALSE
 						plot(graph_gsea_goBP_Il_B)
 						visible(g2)<-TRUE
@@ -1525,10 +1525,10 @@ display<-function(h,...){
 					{
 						svalue(sb)<-"				Please wait while loading.."
 						delete(g2,g2_1)
-						g2_1<<-ggroup(container=g2,horizontal=FALSE)
+						g2_1<<-ggroup(container=g2,fill="y")
 						size(g2_1)<-c(650,400)
 						plotarea=NULL;
-						plotarea<<-ggraphics(ps=5,use.scrollwindow=TRUE,horizontal=FALSE,container=g2_1)
+						plotarea<<-ggraphics(ps=5,use.scrollwindow=TRUE,fill="y",container=g2_1)
 						visible(g2)<-FALSE
 						plot(graph_gsea_goMF_Il_B)
 						visible(g2)<-TRUE
@@ -1542,10 +1542,10 @@ display<-function(h,...){
 					{
 						svalue(sb)<-"				Please wait while loading.."
 						delete(g2,g2_1)
-						g2_1<<-ggroup(container=g2,horizontal=FALSE)
+						g2_1<<-ggroup(container=g2,fill="y")
 						size(g2_1)<-c(650,400)
 						plotarea=NULL;
-						plotarea<<-ggraphics(ps=5,use.scrollwindow=TRUE,horizontal=FALSE,container=g2_1)
+						plotarea<<-ggraphics(ps=5,use.scrollwindow=TRUE,fill="y",container=g2_1)
 						visible(g2)<-FALSE
 						plot(graph_gsea_goCC_Il_B)
 						visible(g2)<-TRUE
@@ -1560,10 +1560,10 @@ display<-function(h,...){
 				{
 					svalue(sb)<-"				Please wait while loading.."
 					delete(g2,g2_1)
-					g2_1<<-ggroup(container=g2,horizontal=FALSE)
+					g2_1<<-ggroup(container=g2,fill="y")
 					size(g2_1)<-c(650,400)
 					plotarea=NULL;
-					plotarea<<-ggraphics(ps=5,use.scrollwindow=TRUE,horizontal=FALSE,container=g2_1)
+					plotarea<<-ggraphics(ps=5,use.scrollwindow=TRUE,fill="y",container=g2_1)
 					visible(g2)<-FALSE
 					plot(graph_gsea_kegg_Il_B)
 					visible(g2)<-TRUE
@@ -1580,10 +1580,10 @@ display<-function(h,...){
 					{
 						svalue(sb)<-"				Please wait while loading.."
 						delete(g2,g2_1)
-						g2_1<<-ggroup(container=g2,horizontal=FALSE)
+						g2_1<<-ggroup(container=g2,fill="y")
 						size(g2_1)<-c(650,400)
 						plotarea=NULL;
-						plotarea<<-ggraphics(ps=5,use.scrollwindow=TRUE,horizontal=FALSE,container=g2_1)
+						plotarea<<-ggraphics(ps=5,use.scrollwindow=TRUE,fill="y",container=g2_1)
 						visible(g2)<-FALSE
 						plot(graph_gsta_goBP_Il_B)
 						visible(g2)<-TRUE
@@ -1597,10 +1597,10 @@ display<-function(h,...){
 					{
 						svalue(sb)<-"				Please wait while loading.."
 						delete(g2,g2_1)
-						g2_1<<-ggroup(container=g2,horizontal=FALSE)
+						g2_1<<-ggroup(container=g2,fill="y")
 						size(g2_1)<-c(650,400)
 						plotarea=NULL;
-						plotarea<<-ggraphics(ps=5,use.scrollwindow=TRUE,horizontal=FALSE,container=g2_1)
+						plotarea<<-ggraphics(ps=5,use.scrollwindow=TRUE,fill="y",container=g2_1)
 						visible(g2)<-FALSE
 						plot(graph_gsta_goMF_Il_B)
 						visible(g2)<-TRUE
@@ -1614,10 +1614,10 @@ display<-function(h,...){
 					{
 						svalue(sb)<-"				Please wait while loading.."
 						delete(g2,g2_1)
-						g2_1<<-ggroup(container=g2,horizontal=FALSE)
+						g2_1<<-ggroup(container=g2,fill="y")
 						size(g2_1)<-c(650,400)
 						plotarea=NULL;
-						plotarea<<-ggraphics(ps=5,use.scrollwindow=TRUE,horizontal=FALSE,container=g2_1)
+						plotarea<<-ggraphics(ps=5,use.scrollwindow=TRUE,fill="y",container=g2_1)
 						visible(g2)<-FALSE
 						plot(graph_gsta_goCC_Il_B)
 						visible(g2)<-TRUE
@@ -1632,10 +1632,10 @@ display<-function(h,...){
 				{
 					svalue(sb)<-"				Please wait while loading.."
 					delete(g2,g2_1)
-					g2_1<<-ggroup(container=g2,horizontal=FALSE)
+					g2_1<<-ggroup(container=g2,fill="y")
 					size(g2_1)<-c(650,400)
 					plotarea=NULL;
-					plotarea<<-ggraphics(ps=5,use.scrollwindow=TRUE,horizontal=FALSE,container=g2_1)
+					plotarea<<-ggraphics(ps=5,use.scrollwindow=TRUE,fill="y",container=g2_1)
 					visible(g2)<-FALSE
 					plot(graph_gsta_kegg_Il_B)
 					visible(g2)<-TRUE
@@ -1650,10 +1650,10 @@ display<-function(h,...){
 				{
 					svalue(sb)<-"				Please wait while loading.."
 					delete(g2,g2_1)
-					g2_1<<-ggroup(container=g2,horizontal=FALSE)
+					g2_1<<-ggroup(container=g2,fill="y")
 					size(g2_1)<-c(650,400)
 					plotarea=NULL;
-					plotarea<<-ggraphics(ps=5,use.scrollwindow=TRUE,horizontal=FALSE,container=g2_1)
+					plotarea<<-ggraphics(ps=5,use.scrollwindow=TRUE,fill="y",container=g2_1)
 					visible(g2)<-FALSE
 					disp<-plot(myGraph_Il_B,nodeAttrs=makeNodeAttrs(myGraph_Il_B,fontsize=18,fillcolor="grey"))
 					visible(g2)<-TRUE
@@ -1663,10 +1663,10 @@ display<-function(h,...){
 				{
 					svalue(sb)<-"				Please wait while loading.."
 					delete(g2,g2_1)
-					g2_1<<-ggroup(container=g2,horizontal=FALSE)
+					g2_1<<-ggroup(container=g2,fill="y")
 					size(g2_1)<-c(650,400)
 					plotarea=NULL;
-					plotarea<<-ggraphics(ps=5,use.scrollwindow=TRUE,horizontal=FALSE,container=g2_1)
+					plotarea<<-ggraphics(ps=5,use.scrollwindow=TRUE,fill="y",container=g2_1)
 					visible(g2)<-FALSE
 					ssize.plot(size_Il_B,xlim=c(0,20),main=paste("Sample size to detect 2-fold change",sep=""))
 					visible(g2)<-TRUE
@@ -1696,7 +1696,7 @@ display<-function(h,...){
 				{
 					svalue(sb)<-"				Please wait while loading.."
 					delete(g2,g2_1)
-					g2_1<<-ggroup(container=g2,horizontal=FALSE)
+					g2_1<<-ggroup(container=g2,fill="y")
 					visible(g2)<-FALSE	
 					Identifier<-rownames(lumi_NQ.m)
 					disp1<-cbind(Identifier,lumi_NQ.m)
@@ -1709,10 +1709,10 @@ display<-function(h,...){
 				{
 					svalue(sb)<-"				Please wait while loading.."
 					delete(g2,g2_1)
-					g2_1<<-ggroup(container=g2,horizontal=FALSE)
+					g2_1<<-ggroup(container=g2,fill="y")
 					size(g2_1)<-c(650,400)
 					plotarea=NULL;
-					plotarea<<-ggraphics(ps=5,use.scrollwindow=TRUE,horizontal=FALSE,container=g2_1)
+					plotarea<<-ggraphics(ps=5,use.scrollwindow=TRUE,fill="y",container=g2_1)
 					visible(g2)<-FALSE
 					plot(lumi_NQ.m,what="boxplot")
 					visible(g2)<-TRUE
@@ -1722,7 +1722,7 @@ display<-function(h,...){
 				{
 					svalue(sb)<-"				Please wait while loading.."
 					delete(g2,g2_1)
-					g2_1<<-ggroup(container=g2,horizontal=FALSE)
+					g2_1<<-ggroup(container=g2,fill="y")
 					visible(g2)<-FALSE
 					ps1<-as.data.frame(lumi_NQ.f)	
 					Identifier<-rownames(ps1)
@@ -1736,7 +1736,7 @@ display<-function(h,...){
 				{
 					svalue(sb)<-"				Please wait while loading.."
 					delete(g2,g2_1)
-					g2_1<<-ggroup(container=g2,horizontal=FALSE)
+					g2_1<<-ggroup(container=g2,fill="y")
 					visible(g2)<-FALSE
 					Identifier<-rownames(lumi_NQ.s)
 					disp1<-cbind(Identifier,lumi_NQ.s)
@@ -1749,7 +1749,7 @@ display<-function(h,...){
 				{
 					svalue(sb)<-"				Please wait while loading.."
 					delete(g2,g2_1)
-					g2_1<<-ggroup(container=g2,horizontal=FALSE)
+					g2_1<<-ggroup(container=g2,fill="y")
 					visible(g2)<-FALSE	
 					Identifier<-rownames(DE_Il_L)
 					disp1<-cbind(Identifier,DE_Il_L)
@@ -1762,10 +1762,10 @@ display<-function(h,...){
 				{
 					svalue(sb)<-"				Please wait while loading.."
 					delete(g2,g2_1)
-					g2_1<<-ggroup(container=g2,horizontal=FALSE)
+					g2_1<<-ggroup(container=g2,fill="y")
 					size(g2_1)<-c(650,400)
 					plotarea=NULL;
-					plotarea<<-ggraphics(ps=5,use.scrollwindow=TRUE,horizontal=FALSE,container=g2_1)
+					plotarea<<-ggraphics(ps=5,use.scrollwindow=TRUE,fill="y",container=g2_1)
 					visible(g2)<-FALSE
 					try(plot(pca_Il_L,main="Illumina_Lumi PCA"),silent=TRUE)
 					visible(g2)<-TRUE
@@ -1775,10 +1775,10 @@ display<-function(h,...){
 				{
 					svalue(sb)<-"				Please wait while loading.."
 					delete(g2,g2_1)
-					g2_1<<-ggroup(container=g2,horizontal=FALSE)
+					g2_1<<-ggroup(container=g2,fill="y")
 					size(g2_1)<-c(650,400)
 					plotarea=NULL;
-					plotarea<<-ggraphics(ps=5,use.scrollwindow=TRUE,horizontal=FALSE,container=g2_1)
+					plotarea<<-ggraphics(ps=5,use.scrollwindow=TRUE,fill="y",container=g2_1)
 					visible(g2)<-FALSE
 					plot(hclust(sample.dist_Il_L,method="complete"))
 					visible(g2)<-TRUE
@@ -1788,10 +1788,10 @@ display<-function(h,...){
 				{
 					svalue(sb)<-"				Please wait while loading.."
 					delete(g2,g2_1)
-					g2_1<<-ggroup(container=g2,horizontal=FALSE)
+					g2_1<<-ggroup(container=g2,fill="y")
 					size(g2_1)<-c(650,400)
 					plotarea=NULL;
-					plotarea<<-ggraphics(ps=5,use.scrollwindow=TRUE,horizontal=FALSE,container=g2_1)
+					plotarea<<-ggraphics(ps=5,use.scrollwindow=TRUE,fill="y",container=g2_1)
 					visible(g2)<-FALSE	
 					heatmap(Clas_Il_L,margins=c(7,7),Rowv=NA,Colv=NA,cexCol=0.8,cexRow=0.8,col=heatcol)
 					visible(g2)<-TRUE
@@ -1803,7 +1803,7 @@ display<-function(h,...){
 					{
 						svalue(sb)<-"				Please wait while loading.."
 						delete(g2,g2_1)
-						g2_1<<-ggroup(container=g2,horizontal=FALSE)
+						g2_1<<-ggroup(container=g2,fill="y")
 						visible(g2)<-FALSE
 						Identifier<-rownames(GOresultBP_Il_L)
 						disp1<-cbind(Identifier,GOresultBP_Il_L)
@@ -1816,7 +1816,7 @@ display<-function(h,...){
 					{
 						svalue(sb)<-"				Please wait while loading.."
 						delete(g2,g2_1)
-						g2_1<<-ggroup(container=g2,horizontal=FALSE)
+						g2_1<<-ggroup(container=g2,fill="y")
 						visible(g2)<-FALSE
 						Identifier<-rownames(GOresultMF_Il_L)
 						disp1<-cbind(Identifier,GOresultMF_Il_L)
@@ -1829,7 +1829,7 @@ display<-function(h,...){
 					{
 						svalue(sb)<-"				Please wait while loading.."
 						delete(g2,g2_1)
-						g2_1<<-ggroup(container=g2,horizontal=FALSE)
+						g2_1<<-ggroup(container=g2,fill="y")
 						visible(g2)<-FALSE
 						Identifier<-rownames(GOresultCC_Il_L)
 						disp1<-cbind(Identifier,GOresultCC_Il_L)
@@ -1843,7 +1843,7 @@ display<-function(h,...){
 				{
 					svalue(sb)<-"				Please wait while loading.."
 					delete(g2,g2_1)
-					g2_1<<-ggroup(container=g2,horizontal=FALSE)
+					g2_1<<-ggroup(container=g2,fill="y")
 					Identifier<-rownames(KEGGresult_Il_L)
 					disp1<-cbind(Identifier,KEGGresult_Il_L)
 					disp<-gtable(disp1,container=g2_1)
@@ -1857,7 +1857,7 @@ display<-function(h,...){
 					{
 						svalue(sb)<-"				Please wait while loading.."
 						delete(g2,g2_1)
-						g2_1<<-ggroup(container=g2,horizontal=FALSE)
+						g2_1<<-ggroup(container=g2,fill="y")
 						visible(g2)<-FALSE	
 						Identifier<-rownames(GOtable.outBP_Il_L)
 						disp1<-cbind(Identifier,GOtable.outBP_Il_L)
@@ -1870,7 +1870,7 @@ display<-function(h,...){
 					{
 						svalue(sb)<-"				Please wait while loading.."
 						delete(g2,g2_1)
-						g2_1<<-ggroup(container=g2,horizontal=FALSE)
+						g2_1<<-ggroup(container=g2,fill="y")
 						visible(g2)<-FALSE	
 						Identifier<-rownames(GOtable.outMF_Il_L)
 						disp1<-cbind(Identifier,GOtable.outMF_Il_L)
@@ -1883,7 +1883,7 @@ display<-function(h,...){
 					{
 						svalue(sb)<-"				Please wait while loading.."
 						delete(g2,g2_1)
-						g2_1<<-ggroup(container=g2,horizontal=FALSE)
+						g2_1<<-ggroup(container=g2,fill="y")
 						visible(g2)<-FALSE	
 						Identifier<-rownames(GOtable.outCC_Il_L)
 						disp1<-cbind(Identifier,GOtable.outCC_Il_L)
@@ -1897,7 +1897,7 @@ display<-function(h,...){
 				{
 					svalue(sb)<-"				Please wait while loading.."
 					delete(g2,g2_1)
-					g2_1<<-ggroup(container=g2,horizontal=FALSE)
+					g2_1<<-ggroup(container=g2,fill="y")
 					visible(g2)<-FALSE	
 					Identifier<-rownames(KEGGtable.out_Il_L)
 					disp1<-cbind(Identifier,KEGGtable.out_Il_L)
@@ -1910,7 +1910,7 @@ display<-function(h,...){
 				{
 					svalue(sb)<-"				Please wait while loading.."
 					delete(g2,g2_1)
-					g2_1<<-ggroup(container=g2,horizontal=FALSE)
+					g2_1<<-ggroup(container=g2,fill="y")
 					visible(g2)<-FALSE
 					disp<-gtable(genes_Il_L,container=g2_1)
 					size(disp)<-c(650,450)
@@ -1923,10 +1923,10 @@ display<-function(h,...){
 					{
 						svalue(sb)<-"				Please wait while loading.."
 						delete(g2,g2_1)
-						g2_1<<-ggroup(container=g2,horizontal=FALSE)
+						g2_1<<-ggroup(container=g2,fill="y")
 						size(g2_1)<-c(650,400)
 						plotarea=NULL;
-						plotarea<<-ggraphics(ps=5,use.scrollwindow=TRUE,horizontal=FALSE,container=g2_1)
+						plotarea<<-ggraphics(ps=5,use.scrollwindow=TRUE,fill="y",container=g2_1)
 						visible(g2)<-FALSE
 						plot(graph_gsea_goBP_Il_L)
 						visible(g2)<-TRUE
@@ -1940,10 +1940,10 @@ display<-function(h,...){
 					{
 						svalue(sb)<-"				Please wait while loading.."
 						delete(g2,g2_1)
-						g2_1<<-ggroup(container=g2,horizontal=FALSE)
+						g2_1<<-ggroup(container=g2,fill="y")
 						size(g2_1)<-c(650,400)
 						plotarea=NULL;
-						plotarea<<-ggraphics(ps=5,use.scrollwindow=TRUE,horizontal=FALSE,container=g2_1)
+						plotarea<<-ggraphics(ps=5,use.scrollwindow=TRUE,fill="y",container=g2_1)
 						visible(g2)<-FALSE
 						plot(graph_gsea_goMF_Il_L)
 						visible(g2)<-TRUE
@@ -1957,10 +1957,10 @@ display<-function(h,...){
 					{
 						svalue(sb)<-"				Please wait while loading.."
 						delete(g2,g2_1)
-						g2_1<<-ggroup(container=g2,horizontal=FALSE)
+						g2_1<<-ggroup(container=g2,fill="y")
 						size(g2_1)<-c(650,400)
 						plotarea=NULL;
-						plotarea<<-ggraphics(ps=5,use.scrollwindow=TRUE,horizontal=FALSE,container=g2_1)
+						plotarea<<-ggraphics(ps=5,use.scrollwindow=TRUE,fill="y",container=g2_1)
 						visible(g2)<-FALSE
 						plot(graph_gsea_goCC_Il_L)
 						visible(g2)<-TRUE
@@ -1975,10 +1975,10 @@ display<-function(h,...){
 				{
 					svalue(sb)<-"				Please wait while loading.."
 					delete(g2,g2_1)
-					g2_1<<-ggroup(container=g2,horizontal=FALSE)
+					g2_1<<-ggroup(container=g2,fill="y")
 					size(g2_1)<-c(650,400)
 					plotarea=NULL;
-					plotarea<<-ggraphics(ps=5,use.scrollwindow=TRUE,horizontal=FALSE,container=g2_1)
+					plotarea<<-ggraphics(ps=5,use.scrollwindow=TRUE,fill="y",container=g2_1)
 					visible(g2)<-FALSE
 					plot(graph_gsea_kegg_N)
 					visible(g2)<-TRUE
@@ -1995,10 +1995,10 @@ display<-function(h,...){
 					{
 						svalue(sb)<-"				Please wait while loading.."
 						delete(g2,g2_1)
-						g2_1<<-ggroup(container=g2,horizontal=FALSE)
+						g2_1<<-ggroup(container=g2,fill="y")
 						size(g2_1)<-c(650,400)
 						plotarea=NULL;
-						plotarea<<-ggraphics(ps=5,use.scrollwindow=TRUE,horizontal=FALSE,container=g2_1)
+						plotarea<<-ggraphics(ps=5,use.scrollwindow=TRUE,fill="y",container=g2_1)
 						visible(g2)<-FALSE
 						plot(graph_gsta_goBP_Il_L)
 						visible(g2)<-TRUE
@@ -2012,10 +2012,10 @@ display<-function(h,...){
 					{
 						svalue(sb)<-"				Please wait while loading.."
 						delete(g2,g2_1)
-						g2_1<<-ggroup(container=g2,horizontal=FALSE)
+						g2_1<<-ggroup(container=g2,fill="y")
 						size(g2_1)<-c(650,400)
 						plotarea=NULL;
-						plotarea<<-ggraphics(ps=5,use.scrollwindow=TRUE,horizontal=FALSE,container=g2_1)
+						plotarea<<-ggraphics(ps=5,use.scrollwindow=TRUE,fill="y",container=g2_1)
 						visible(g2)<-FALSE
 						plot(graph_gsta_goMF_Il_L)
 						visible(g2)<-TRUE
@@ -2029,10 +2029,10 @@ display<-function(h,...){
 					{
 						svalue(sb)<-"				Please wait while loading.."
 						delete(g2,g2_1)
-						g2_1<<-ggroup(container=g2,horizontal=FALSE)
+						g2_1<<-ggroup(container=g2,fill="y")
 						size(g2_1)<-c(650,400)
 						plotarea=NULL;
-						plotarea<<-ggraphics(ps=5,use.scrollwindow=TRUE,horizontal=FALSE,container=g2_1)
+						plotarea<<-ggraphics(ps=5,use.scrollwindow=TRUE,fill="y",container=g2_1)
 						visible(g2)<-FALSE
 						plot(graph_gsta_goCC_Il_L)
 						visible(g2)<-TRUE
@@ -2047,10 +2047,10 @@ display<-function(h,...){
 				{
 					svalue(sb)<-"				Please wait while loading.."
 					delete(g2,g2_1)
-					g2_1<<-ggroup(container=g2,horizontal=FALSE)
+					g2_1<<-ggroup(container=g2,fill="y")
 					size(g2_1)<-c(650,400)
 					plotarea=NULL;
-					plotarea<<-ggraphics(ps=5,use.scrollwindow=TRUE,horizontal=FALSE,container=g2_1)
+					plotarea<<-ggraphics(ps=5,use.scrollwindow=TRUE,fill="y",container=g2_1)
 					visible(g2)<-FALSE
 					plot(graph_gsta_kegg_N)
 					visible(g2)<-TRUE
@@ -2065,10 +2065,10 @@ display<-function(h,...){
 				{
 					svalue(sb)<-"				Please wait while loading.."
 					delete(g2,g2_1)
-					g2_1<<-ggroup(container=g2,horizontal=FALSE)
+					g2_1<<-ggroup(container=g2,fill="y")
 					size(g2_1)<-c(650,400)
 					plotarea=NULL;
-					plotarea<<-ggraphics(ps=5,use.scrollwindow=TRUE,horizontal=FALSE,container=g2_1)
+					plotarea<<-ggraphics(ps=5,use.scrollwindow=TRUE,fill="y",container=g2_1)
 					visible(g2)<-FALSE
 					disp<-plot(myGraph_Il_L,nodeAttrs=makeNodeAttrs(myGraph_Il_L,fontsize=18,fillcolor="grey"))
 					visible(g2)<-TRUE
@@ -2078,10 +2078,10 @@ display<-function(h,...){
 				{
 					svalue(sb)<-"				Please wait while loading.."
 					delete(g2,g2_1)
-					g2_1<<-ggroup(container=g2,horizontal=FALSE)
+					g2_1<<-ggroup(container=g2,fill="y")
 					size(g2_1)<-c(650,400)
 					plotarea=NULL;
-					plotarea<<-ggraphics(ps=5,use.scrollwindow=TRUE,horizontal=FALSE,container=g2_1)
+					plotarea<<-ggraphics(ps=5,use.scrollwindow=TRUE,fill="y",container=g2_1)
 					visible(g2)<-FALSE
 					ssize.plot(size_Il_L,xlim=c(0,20),main=paste("Sample size to detect 2-fold change",sep=""))
 					visible(g2)<-TRUE
@@ -2111,7 +2111,7 @@ display<-function(h,...){
 				{
 					svalue(sb)<-"				Please wait while loading.."
 					delete(g2,g2_1)
-					g2_1<<-ggroup(container=g2,horizontal=FALSE)
+					g2_1<<-ggroup(container=g2,fill="y")
 					visible(g2)<-FALSE	
 					Identifier<-rownames(data.matrix_Nimblegen2.m)
 					disp1<-cbind(Identifier,data.matrix_Nimblegen2.m)
@@ -2124,10 +2124,10 @@ display<-function(h,...){
 				{
 					svalue(sb)<-"				Please wait while loading.."
 					delete(g2,g2_1)
-					g2_1<<-ggroup(container=g2,horizontal=FALSE)
+					g2_1<<-ggroup(container=g2,fill="y")
 					size(g2_1)<-c(650,400)
 					plotarea=NULL;
-					plotarea<<-ggraphics(ps=5,use.scrollwindow=TRUE,horizontal=FALSE,container=g2_1)
+					plotarea<<-ggraphics(ps=5,use.scrollwindow=TRUE,fill="y",container=g2_1)
 					visible(g2)<-FALSE
 					boxplot(data.matrix_Nimblegen2.m)
 					visible(g2)<-TRUE
@@ -2137,7 +2137,7 @@ display<-function(h,...){
 				{
 					svalue(sb)<-"				Please wait while loading.."
 					delete(g2,g2_1)
-					g2_1<<-ggroup(container=g2,horizontal=FALSE)
+					g2_1<<-ggroup(container=g2,fill="y")
 					visible(g2)<-FALSE
 					ps1<-as.data.frame(data.matrix_Nimblegen2.f)	
 					Identifier<-rownames(ps1)
@@ -2151,7 +2151,7 @@ display<-function(h,...){
 				{
 					svalue(sb)<-"				Please wait while loading.."
 					delete(g2,g2_1)
-					g2_1<<-ggroup(container=g2,horizontal=FALSE)
+					g2_1<<-ggroup(container=g2,fill="y")
 					visible(g2)<-FALSE
 					Identifier<-rownames(data.matrix_Nimblegen2.s)
 					disp1<-cbind(Identifier,data.matrix_Nimblegen2.s)
@@ -2164,7 +2164,7 @@ display<-function(h,...){
 				{
 					svalue(sb)<-"				Please wait while loading.."
 					delete(g2,g2_1)
-					g2_1<<-ggroup(container=g2,horizontal=FALSE)
+					g2_1<<-ggroup(container=g2,fill="y")
 					visible(g2)<-FALSE	
 					Identifier<-rownames(DE_N)
 					disp1<-cbind(Identifier,DE_N)
@@ -2177,10 +2177,10 @@ display<-function(h,...){
 				{
 					svalue(sb)<-"				Please wait while loading.."
 					delete(g2,g2_1)
-					g2_1<<-ggroup(container=g2,horizontal=FALSE)
+					g2_1<<-ggroup(container=g2,fill="y")
 					size(g2_1)<-c(650,400)
 					plotarea=NULL;
-					plotarea<<-ggraphics(ps=5,use.scrollwindow=TRUE,horizontal=FALSE,container=g2_1)
+					plotarea<<-ggraphics(ps=5,use.scrollwindow=TRUE,fill="y",container=g2_1)
 					visible(g2)<-FALSE
 					try(plot(pca_N,main="Nimblegen PCA"),silent=TRUE)
 					visible(g2)<-TRUE
@@ -2190,10 +2190,10 @@ display<-function(h,...){
 				{
 					svalue(sb)<-"				Please wait while loading.."
 					delete(g2,g2_1)
-					g2_1<<-ggroup(container=g2,horizontal=FALSE)
+					g2_1<<-ggroup(container=g2,fill="y")
 					size(g2_1)<-c(650,400)
 					plotarea=NULL;
-					plotarea<<-ggraphics(ps=5,use.scrollwindow=TRUE,horizontal=FALSE,container=g2_1)
+					plotarea<<-ggraphics(ps=5,use.scrollwindow=TRUE,fill="y",container=g2_1)
 					visible(g2)<-FALSE
 					plot(hclust(sample.dist_N,method="complete"))
 					visible(g2)<-TRUE
@@ -2203,10 +2203,10 @@ display<-function(h,...){
 				{
 					svalue(sb)<-"				Please wait while loading.."
 					delete(g2,g2_1)
-					g2_1<<-ggroup(container=g2,horizontal=FALSE)
+					g2_1<<-ggroup(container=g2,fill="y")
 					size(g2_1)<-c(650,400)
 					plotarea=NULL;
-					plotarea<<-ggraphics(ps=5,use.scrollwindow=TRUE,horizontal=FALSE,container=g2_1)
+					plotarea<<-ggraphics(ps=5,use.scrollwindow=TRUE,fill="y",container=g2_1)
 					visible(g2)<-FALSE	
 					heatmap(Clas_N,margins=c(7,7),Rowv=NA,Colv=NA,cexCol=0.8,cexRow=0.8,col=heatcol)
 					visible(g2)<-TRUE
@@ -2218,7 +2218,7 @@ display<-function(h,...){
 					{
 						svalue(sb)<-"				Please wait while loading.."
 						delete(g2,g2_1)
-						g2_1<<-ggroup(container=g2,horizontal=FALSE)
+						g2_1<<-ggroup(container=g2,fill="y")
 						visible(g2)<-FALSE
 						Identifier<-rownames(GOresultBP_N)
 						disp1<-cbind(Identifier,GOresultBP_N)
@@ -2231,7 +2231,7 @@ display<-function(h,...){
 					{
 						svalue(sb)<-"				Please wait while loading.."
 						delete(g2,g2_1)
-						g2_1<<-ggroup(container=g2,horizontal=FALSE)
+						g2_1<<-ggroup(container=g2,fill="y")
 						visible(g2)<-FALSE
 						Identifier<-rownames(GOresultMF_N)
 						disp1<-cbind(Identifier,GOresultMF_N)
@@ -2244,7 +2244,7 @@ display<-function(h,...){
 					{
 						svalue(sb)<-"				Please wait while loading.."
 						delete(g2,g2_1)
-						g2_1<<-ggroup(container=g2,horizontal=FALSE)
+						g2_1<<-ggroup(container=g2,fill="y")
 						visible(g2)<-FALSE
 						Identifier<-rownames(GOresultCC_N)
 						disp1<-cbind(Identifier,GOresultCC_N)
@@ -2258,7 +2258,7 @@ display<-function(h,...){
 				{
 					svalue(sb)<-"				Please wait while loading.."
 					delete(g2,g2_1)
-					g2_1<<-ggroup(container=g2,horizontal=FALSE)
+					g2_1<<-ggroup(container=g2,fill="y")
 					Identifier<-rownames(KEGGresult_N)
 					disp1<-cbind(Identifier,KEGGresult_N)
 					disp<-gtable(disp1,container=g2_1)
@@ -2273,7 +2273,7 @@ display<-function(h,...){
 					{
 						svalue(sb)<-"				Please wait while loading.."
 						delete(g2,g2_1)
-						g2_1<<-ggroup(container=g2,horizontal=FALSE)
+						g2_1<<-ggroup(container=g2,fill="y")
 						visible(g2)<-FALSE	
 						Identifier<-rownames(GOtable.outBP_N)
 						disp1<-cbind(Identifier,GOtable.outBP_N)
@@ -2286,7 +2286,7 @@ display<-function(h,...){
 					{
 						svalue(sb)<-"				Please wait while loading.."
 						delete(g2,g2_1)
-						g2_1<<-ggroup(container=g2,horizontal=FALSE)
+						g2_1<<-ggroup(container=g2,fill="y")
 						visible(g2)<-FALSE	
 						Identifier<-rownames(GOtable.outMF_N)
 						disp1<-cbind(Identifier,GOtable.outMF_N)
@@ -2299,7 +2299,7 @@ display<-function(h,...){
 					{
 						svalue(sb)<-"				Please wait while loading.."
 						delete(g2,g2_1)
-						g2_1<<-ggroup(container=g2,horizontal=FALSE)
+						g2_1<<-ggroup(container=g2,fill="y")
 						visible(g2)<-FALSE	
 						Identifier<-rownames(GOtable.outCC_N)
 						disp1<-cbind(Identifier,GOtable.outCC_N)
@@ -2313,7 +2313,7 @@ display<-function(h,...){
 				{
 					svalue(sb)<-"				Please wait while loading.."
 					delete(g2,g2_1)
-					g2_1<<-ggroup(container=g2,horizontal=FALSE)
+					g2_1<<-ggroup(container=g2,fill="y")
 					visible(g2)<-FALSE	
 					Identifier<-rownames(KEGGtable.out_N)
 					disp1<-cbind(Identifier,KEGGtable.out_N)
@@ -2326,7 +2326,7 @@ display<-function(h,...){
 				{
 					svalue(sb)<-"				Please wait while loading.."
 					delete(g2,g2_1)
-					g2_1<<-ggroup(container=g2,horizontal=FALSE)
+					g2_1<<-ggroup(container=g2,fill="y")
 					visible(g2)<-FALSE
 					disp<-gtable(genes_N,container=g2_1)
 					size(disp)<-c(650,450)
@@ -2339,10 +2339,10 @@ display<-function(h,...){
 					{
 						svalue(sb)<-"				Please wait while loading.."
 						delete(g2,g2_1)
-						g2_1<<-ggroup(container=g2,horizontal=FALSE)
+						g2_1<<-ggroup(container=g2,fill="y")
 						size(g2_1)<-c(650,400)
 						plotarea=NULL;
-						plotarea<<-ggraphics(ps=5,use.scrollwindow=TRUE,horizontal=FALSE,container=g2_1)
+						plotarea<<-ggraphics(ps=5,use.scrollwindow=TRUE,fill="y",container=g2_1)
 						visible(g2)<-FALSE
 						plot(graph_gsea_goBP_N)
 						visible(g2)<-TRUE
@@ -2356,10 +2356,10 @@ display<-function(h,...){
 					{
 						svalue(sb)<-"				Please wait while loading.."
 						delete(g2,g2_1)
-						g2_1<<-ggroup(container=g2,horizontal=FALSE)
+						g2_1<<-ggroup(container=g2,fill="y")
 						size(g2_1)<-c(650,400)
 						plotarea=NULL;
-						plotarea<<-ggraphics(ps=5,use.scrollwindow=TRUE,horizontal=FALSE,container=g2_1)
+						plotarea<<-ggraphics(ps=5,use.scrollwindow=TRUE,fill="y",container=g2_1)
 						visible(g2)<-FALSE
 						plot(graph_gsea_goMF_N)
 						visible(g2)<-TRUE
@@ -2373,10 +2373,10 @@ display<-function(h,...){
 					{
 						svalue(sb)<-"				Please wait while loading.."
 						delete(g2,g2_1)
-						g2_1<<-ggroup(container=g2,horizontal=FALSE)
+						g2_1<<-ggroup(container=g2,fill="y")
 						size(g2_1)<-c(650,400)
 						plotarea=NULL;
-						plotarea<<-ggraphics(ps=5,use.scrollwindow=TRUE,horizontal=FALSE,container=g2_1)
+						plotarea<<-ggraphics(ps=5,use.scrollwindow=TRUE,fill="y",container=g2_1)
 						visible(g2)<-FALSE
 						plot(graph_gsea_goCC_N)
 						visible(g2)<-TRUE
@@ -2391,10 +2391,10 @@ display<-function(h,...){
 				{
 					svalue(sb)<-"				Please wait while loading.."
 					delete(g2,g2_1)
-					g2_1<<-ggroup(container=g2,horizontal=FALSE)
+					g2_1<<-ggroup(container=g2,fill="y")
 					size(g2_1)<-c(650,400)
 					plotarea=NULL;
-					plotarea<<-ggraphics(ps=5,use.scrollwindow=TRUE,horizontal=FALSE,container=g2_1)
+					plotarea<<-ggraphics(ps=5,use.scrollwindow=TRUE,fill="y",container=g2_1)
 					visible(g2)<-FALSE
 					plot(graph_gsea_kegg_S)
 					visible(g2)<-TRUE
@@ -2411,10 +2411,10 @@ display<-function(h,...){
 					{
 						svalue(sb)<-"				Please wait while loading.."
 						delete(g2,g2_1)
-						g2_1<<-ggroup(container=g2,horizontal=FALSE)
+						g2_1<<-ggroup(container=g2,fill="y")
 						size(g2_1)<-c(650,400)
 						plotarea=NULL;
-						plotarea<<-ggraphics(ps=5,use.scrollwindow=TRUE,horizontal=FALSE,container=g2_1)
+						plotarea<<-ggraphics(ps=5,use.scrollwindow=TRUE,fill="y",container=g2_1)
 						visible(g2)<-FALSE
 						plot(graph_gsta_goBP_N)
 						visible(g2)<-TRUE
@@ -2428,10 +2428,10 @@ display<-function(h,...){
 					{
 						svalue(sb)<-"				Please wait while loading.."
 						delete(g2,g2_1)
-						g2_1<<-ggroup(container=g2,horizontal=FALSE)
+						g2_1<<-ggroup(container=g2,fill="y")
 						size(g2_1)<-c(650,400)
 						plotarea=NULL;
-						plotarea<<-ggraphics(ps=5,use.scrollwindow=TRUE,horizontal=FALSE,container=g2_1)
+						plotarea<<-ggraphics(ps=5,use.scrollwindow=TRUE,fill="y",container=g2_1)
 						visible(g2)<-FALSE
 						plot(graph_gsta_goMF_N)
 						visible(g2)<-TRUE
@@ -2445,10 +2445,10 @@ display<-function(h,...){
 					{
 						svalue(sb)<-"				Please wait while loading.."
 						delete(g2,g2_1)
-						g2_1<<-ggroup(container=g2,horizontal=FALSE)
+						g2_1<<-ggroup(container=g2,fill="y")
 						size(g2_1)<-c(650,400)
 						plotarea=NULL;
-						plotarea<<-ggraphics(ps=5,use.scrollwindow=TRUE,horizontal=FALSE,container=g2_1)
+						plotarea<<-ggraphics(ps=5,use.scrollwindow=TRUE,fill="y",container=g2_1)
 						visible(g2)<-FALSE
 						plot(graph_gsta_goCC_N)
 						visible(g2)<-TRUE
@@ -2463,10 +2463,10 @@ display<-function(h,...){
 				{
 					svalue(sb)<-"				Please wait while loading.."
 					delete(g2,g2_1)
-					g2_1<<-ggroup(container=g2,horizontal=FALSE)
+					g2_1<<-ggroup(container=g2,fill="y")
 					size(g2_1)<-c(650,400)
 					plotarea=NULL;
-					plotarea<<-ggraphics(ps=5,use.scrollwindow=TRUE,horizontal=FALSE,container=g2_1)
+					plotarea<<-ggraphics(ps=5,use.scrollwindow=TRUE,fill="y",container=g2_1)
 					visible(g2)<-FALSE
 					plot(graph_gsta_kegg_N)
 					visible(g2)<-TRUE
@@ -2481,10 +2481,10 @@ display<-function(h,...){
 				{
 					svalue(sb)<-"				Please wait while loading.."
 					delete(g2,g2_1)
-					g2_1<<-ggroup(container=g2,horizontal=FALSE)
+					g2_1<<-ggroup(container=g2,fill="y")
 					size(g2_1)<-c(650,400)
 					plotarea=NULL;
-					plotarea<<-ggraphics(ps=5,use.scrollwindow=TRUE,horizontal=FALSE,container=g2_1)
+					plotarea<<-ggraphics(ps=5,use.scrollwindow=TRUE,fill="y",container=g2_1)
 					visible(g2)<-FALSE
 					disp<-plot(myGraph_N,nodeAttrs=makeNodeAttrs(myGraph_N,fontsize=18,fillcolor="grey"))
 					visible(g2)<-TRUE
@@ -2494,10 +2494,10 @@ display<-function(h,...){
 				{
 					svalue(sb)<-"				Please wait while loading.."
 					delete(g2,g2_1)
-					g2_1<<-ggroup(container=g2,horizontal=FALSE)
+					g2_1<<-ggroup(container=g2,fill="y")
 					size(g2_1)<-c(650,400)
 					plotarea=NULL;
-					plotarea<<-ggraphics(ps=5,use.scrollwindow=TRUE,horizontal=FALSE,container=g2_1)
+					plotarea<<-ggraphics(ps=5,use.scrollwindow=TRUE,fill="y",container=g2_1)
 					visible(g2)<-FALSE
 					ssize.plot(size_N,xlim=c(0,20),main=paste("Sample size to detect 2-fold change",sep=""))
 					visible(g2)<-TRUE
@@ -2526,7 +2526,7 @@ display<-function(h,...){
 				{
 					svalue(sb)<-"				Please wait while loading.."
 					delete(g2,g2_1)
-					g2_1<<-ggroup(container=g2,horizontal=FALSE)
+					g2_1<<-ggroup(container=g2,fill="y")
 					visible(g2)<-FALSE	
 					Identifier<-rownames(data.matrixNorm.m)
 					disp1<-cbind(Identifier,data.matrixNorm.m)
@@ -2539,10 +2539,10 @@ display<-function(h,...){
 				{
 					svalue(sb)<-"				Please wait while loading.."
 					delete(g2,g2_1)
-					g2_1<<-ggroup(container=g2,horizontal=FALSE)
+					g2_1<<-ggroup(container=g2,fill="y")
 					size(g2_1)<-c(650,400)
 					plotarea=NULL;
-					plotarea<<-ggraphics(ps=5,use.scrollwindow=TRUE,horizontal=FALSE,container=g2_1)
+					plotarea<<-ggraphics(ps=5,use.scrollwindow=TRUE,fill="y",container=g2_1)
 					visible(g2)<-FALSE
 					boxplot(data.matrixNorm.m)
 					visible(g2)<-TRUE
@@ -2552,7 +2552,7 @@ display<-function(h,...){
 				{
 					svalue(sb)<-"				Please wait while loading.."
 					delete(g2,g2_1)
-					g2_1<<-ggroup(container=g2,horizontal=FALSE)
+					g2_1<<-ggroup(container=g2,fill="y")
 					visible(g2)<-FALSE
 					ps1<-as.data.frame(data.matrixNorm.f)	
 					Identifier<-rownames(ps1)
@@ -2566,7 +2566,7 @@ display<-function(h,...){
 				{
 					svalue(sb)<-"				Please wait while loading.."
 					delete(g2,g2_1)
-					g2_1<<-ggroup(container=g2,horizontal=FALSE)
+					g2_1<<-ggroup(container=g2,fill="y")
 					visible(g2)<-FALSE
 					Identifier<-rownames(data.matrixNorm.s)
 					disp1<-cbind(Identifier,data.matrixNorm.s)
@@ -2579,7 +2579,7 @@ display<-function(h,...){
 				{
 					svalue(sb)<-"				Please wait while loading.."
 					delete(g2,g2_1)
-					g2_1<<-ggroup(container=g2,horizontal=FALSE)
+					g2_1<<-ggroup(container=g2,fill="y")
 					visible(g2)<-FALSE	
 					Identifier<-rownames(DE_S)
 					disp1<-cbind(Identifier,DE_S)	
@@ -2592,10 +2592,10 @@ display<-function(h,...){
 				{
 					svalue(sb)<-"				Please wait while loading.."
 					delete(g2,g2_1)
-					g2_1<<-ggroup(container=g2,horizontal=FALSE)
+					g2_1<<-ggroup(container=g2,fill="y")
 					size(g2_1)<-c(650,400)
 					plotarea=NULL;
-					plotarea<<-ggraphics(ps=5,use.scrollwindow=TRUE,horizontal=FALSE,container=g2_1)
+					plotarea<<-ggraphics(ps=5,use.scrollwindow=TRUE,fill="y",container=g2_1)
 					visible(g2)<-FALSE
 					try(plot(pca_S,main="Series_Matrix PCA"),silent=TRUE)
 					visible(g2)<-TRUE
@@ -2605,10 +2605,10 @@ display<-function(h,...){
 				{
 					svalue(sb)<-"				Please wait while loading.."
 					delete(g2,g2_1)
-					g2_1<<-ggroup(container=g2,horizontal=FALSE)
+					g2_1<<-ggroup(container=g2,fill="y")
 					size(g2_1)<-c(650,400)
 					plotarea=NULL;
-					plotarea<<-ggraphics(ps=5,use.scrollwindow=TRUE,horizontal=FALSE,container=g2_1)
+					plotarea<<-ggraphics(ps=5,use.scrollwindow=TRUE,fill="y",container=g2_1)
 					visible(g2)<-FALSE
 					plot(hclust(sample.dist_S,method="complete"))
 					visible(g2)<-TRUE
@@ -2618,10 +2618,10 @@ display<-function(h,...){
 				{
 					svalue(sb)<-"				Please wait while loading.."
 					delete(g2,g2_1)
-					g2_1<<-ggroup(container=g2,horizontal=FALSE)
+					g2_1<<-ggroup(container=g2,fill="y")
 					size(g2_1)<-c(650,400)
 					plotarea=NULL;
-					plotarea<<-ggraphics(ps=5,use.scrollwindow=TRUE,horizontal=FALSE,container=g2_1)
+					plotarea<<-ggraphics(ps=5,use.scrollwindow=TRUE,fill="y",container=g2_1)
 					visible(g2)<-FALSE	
 					heatmap(Clas_S,margins=c(7,7),Rowv=NA,Colv=NA,cexCol=0.8,cexRow=0.8,col=heatcol)
 					visible(g2)<-TRUE
@@ -2633,7 +2633,7 @@ display<-function(h,...){
 					{
 						svalue(sb)<-"				Please wait while loading.."
 						delete(g2,g2_1)
-						g2_1<<-ggroup(container=g2,horizontal=FALSE)
+						g2_1<<-ggroup(container=g2,fill="y")
 						visible(g2)<-FALSE
 						Identifier<-rownames(GOresultBP_S)
 						disp1<-cbind(Identifier,GOresultBP_S)
@@ -2646,7 +2646,7 @@ display<-function(h,...){
 					{
 						svalue(sb)<-"				Please wait while loading.."
 						delete(g2,g2_1)
-						g2_1<<-ggroup(container=g2,horizontal=FALSE)
+						g2_1<<-ggroup(container=g2,fill="y")
 						visible(g2)<-FALSE
 						Identifier<-rownames(GOresultMF_S)
 						disp1<-cbind(Identifier,GOresultMF_S)
@@ -2659,7 +2659,7 @@ display<-function(h,...){
 					{
 						svalue(sb)<-"				Please wait while loading.."
 						delete(g2,g2_1)
-						g2_1<<-ggroup(container=g2,horizontal=FALSE)
+						g2_1<<-ggroup(container=g2,fill="y")
 						visible(g2)<-FALSE
 						Identifier<-rownames(GOresultCC_S)
 						disp1<-cbind(Identifier,GOresultCC_S)
@@ -2673,7 +2673,7 @@ display<-function(h,...){
 				{
 					svalue(sb)<-"				Please wait while loading.."
 					delete(g2,g2_1)
-					g2_1<<-ggroup(container=g2,horizontal=FALSE)
+					g2_1<<-ggroup(container=g2,fill="y")
 					Identifier<-rownames(KEGGresult_S)
 					disp1<-cbind(Identifier,KEGGresult_S)
 					disp<-gtable(disp1,container=g2_1)
@@ -2688,7 +2688,7 @@ display<-function(h,...){
 					{
 						svalue(sb)<-"				Please wait while loading.."
 						delete(g2,g2_1)
-						g2_1<<-ggroup(container=g2,horizontal=FALSE)
+						g2_1<<-ggroup(container=g2,fill="y")
 						visible(g2)<-FALSE	
 						Identifier<-rownames(GOtable.outBP_S)
 						disp1<-cbind(Identifier,GOtable.outBP_S)	
@@ -2701,7 +2701,7 @@ display<-function(h,...){
 					{
 						svalue(sb)<-"				Please wait while loading.."
 						delete(g2,g2_1)
-						g2_1<<-ggroup(container=g2,horizontal=FALSE)
+						g2_1<<-ggroup(container=g2,fill="y")
 						visible(g2)<-FALSE	
 						Identifier<-rownames(GOtable.outMF_S)
 						disp1<-cbind(Identifier,GOtable.outMF_S)	
@@ -2714,7 +2714,7 @@ display<-function(h,...){
 					{
 						svalue(sb)<-"				Please wait while loading.."
 						delete(g2,g2_1)
-						g2_1<<-ggroup(container=g2,horizontal=FALSE)
+						g2_1<<-ggroup(container=g2,fill="y")
 						visible(g2)<-FALSE	
 						Identifier<-rownames(GOtable.outCC_S)
 						disp1<-cbind(Identifier,GOtable.outCC_S)	
@@ -2728,7 +2728,7 @@ display<-function(h,...){
 				{
 					svalue(sb)<-"				Please wait while loading.."
 					delete(g2,g2_1)
-					g2_1<<-ggroup(container=g2,horizontal=FALSE)
+					g2_1<<-ggroup(container=g2,fill="y")
 					visible(g2)<-FALSE	
 					Identifier<-rownames(KEGGtable.out_S)
 					disp1<-cbind(Identifier,KEGGtable.out_S)	
@@ -2741,7 +2741,7 @@ display<-function(h,...){
 				{
 					svalue(sb)<-"				Please wait while loading.."
 					delete(g2,g2_1)
-					g2_1<<-ggroup(container=g2,horizontal=FALSE)
+					g2_1<<-ggroup(container=g2,fill="y")
 					visible(g2)<-FALSE
 					disp<-gtable(genes_S,container=g2_1)
 					size(disp)<-c(650,450)
@@ -2754,10 +2754,10 @@ display<-function(h,...){
 					{
 						svalue(sb)<-"				Please wait while loading.."
 						delete(g2,g2_1)
-						g2_1<<-ggroup(container=g2,horizontal=FALSE)
+						g2_1<<-ggroup(container=g2,fill="y")
 						size(g2_1)<-c(650,400)
 						plotarea=NULL;
-						plotarea<<-ggraphics(ps=5,use.scrollwindow=TRUE,horizontal=FALSE,container=g2_1)
+						plotarea<<-ggraphics(ps=5,use.scrollwindow=TRUE,fill="y",container=g2_1)
 						visible(g2)<-FALSE
 						plot(graph_gsea_goBP_S)
 						visible(g2)<-TRUE
@@ -2771,10 +2771,10 @@ display<-function(h,...){
 					{
 						svalue(sb)<-"				Please wait while loading.."
 						delete(g2,g2_1)
-						g2_1<<-ggroup(container=g2,horizontal=FALSE)
+						g2_1<<-ggroup(container=g2,fill="y")
 						size(g2_1)<-c(650,400)
 						plotarea=NULL;
-						plotarea<<-ggraphics(ps=5,use.scrollwindow=TRUE,horizontal=FALSE,container=g2_1)
+						plotarea<<-ggraphics(ps=5,use.scrollwindow=TRUE,fill="y",container=g2_1)
 						visible(g2)<-FALSE
 						plot(graph_gsea_goMF_S)
 						visible(g2)<-TRUE
@@ -2788,10 +2788,10 @@ display<-function(h,...){
 					{
 						svalue(sb)<-"				Please wait while loading.."
 						delete(g2,g2_1)
-						g2_1<<-ggroup(container=g2,horizontal=FALSE)
+						g2_1<<-ggroup(container=g2,fill="y")
 						size(g2_1)<-c(650,400)
 						plotarea=NULL;
-						plotarea<<-ggraphics(ps=5,use.scrollwindow=TRUE,horizontal=FALSE,container=g2_1)
+						plotarea<<-ggraphics(ps=5,use.scrollwindow=TRUE,fill="y",container=g2_1)
 						visible(g2)<-FALSE
 						plot(graph_gsea_goCC_S)
 						visible(g2)<-TRUE
@@ -2806,10 +2806,10 @@ display<-function(h,...){
 				{
 					svalue(sb)<-"				Please wait while loading.."
 					delete(g2,g2_1)
-					g2_1<<-ggroup(container=g2,horizontal=FALSE)
+					g2_1<<-ggroup(container=g2,fill="y")
 					size(g2_1)<-c(650,400)
 					plotarea=NULL;
-					plotarea<<-ggraphics(ps=5,use.scrollwindow=TRUE,horizontal=FALSE,container=g2_1)
+					plotarea<<-ggraphics(ps=5,use.scrollwindow=TRUE,fill="y",container=g2_1)
 					visible(g2)<-FALSE
 					plot(graph_gsea_kegg_S)
 					visible(g2)<-TRUE
@@ -2826,10 +2826,10 @@ display<-function(h,...){
 					{
 						svalue(sb)<-"				Please wait while loading.."
 						delete(g2,g2_1)
-						g2_1<<-ggroup(container=g2,horizontal=FALSE)
+						g2_1<<-ggroup(container=g2,fill="y")
 						size(g2_1)<-c(650,400)
 						plotarea=NULL;
-						plotarea<<-ggraphics(ps=5,use.scrollwindow=TRUE,horizontal=FALSE,container=g2_1)
+						plotarea<<-ggraphics(ps=5,use.scrollwindow=TRUE,fill="y",container=g2_1)
 						visible(g2)<-FALSE
 						plot(graph_gsta_goBP_S)
 						visible(g2)<-TRUE
@@ -2843,10 +2843,10 @@ display<-function(h,...){
 					{
 						svalue(sb)<-"				Please wait while loading.."
 						delete(g2,g2_1)
-						g2_1<<-ggroup(container=g2,horizontal=FALSE)
+						g2_1<<-ggroup(container=g2,fill="y")
 						size(g2_1)<-c(650,400)
 						plotarea=NULL;
-						plotarea<<-ggraphics(ps=5,use.scrollwindow=TRUE,horizontal=FALSE,container=g2_1)
+						plotarea<<-ggraphics(ps=5,use.scrollwindow=TRUE,fill="y",container=g2_1)
 						visible(g2)<-FALSE
 						plot(graph_gsta_goMF_S)
 						visible(g2)<-TRUE
@@ -2860,10 +2860,10 @@ display<-function(h,...){
 					{
 						svalue(sb)<-"				Please wait while loading.."
 						delete(g2,g2_1)
-						g2_1<<-ggroup(container=g2,horizontal=FALSE)
+						g2_1<<-ggroup(container=g2,fill="y")
 						size(g2_1)<-c(650,400)
 						plotarea=NULL;
-						plotarea<<-ggraphics(ps=5,use.scrollwindow=TRUE,horizontal=FALSE,container=g2_1)
+						plotarea<<-ggraphics(ps=5,use.scrollwindow=TRUE,fill="y",container=g2_1)
 						visible(g2)<-FALSE
 						plot(graph_gsta_goCC_S)
 						visible(g2)<-TRUE
@@ -2878,10 +2878,10 @@ display<-function(h,...){
 				{
 					svalue(sb)<-"				Please wait while loading.."
 					delete(g2,g2_1)
-					g2_1<<-ggroup(container=g2,horizontal=FALSE)
+					g2_1<<-ggroup(container=g2,fill="y")
 					size(g2_1)<-c(650,400)
 					plotarea=NULL;
-					plotarea<<-ggraphics(ps=5,use.scrollwindow=TRUE,horizontal=FALSE,container=g2_1)
+					plotarea<<-ggraphics(ps=5,use.scrollwindow=TRUE,fill="y",container=g2_1)
 					visible(g2)<-FALSE
 					plot(graph_gsta_kegg_S)
 					visible(g2)<-TRUE
@@ -2896,10 +2896,10 @@ display<-function(h,...){
 				{
 					svalue(sb)<-"				Please wait while loading.."
 					delete(g2,g2_1)
-					g2_1<<-ggroup(container=g2,horizontal=FALSE)
+					g2_1<<-ggroup(container=g2,fill="y")
 					size(g2_1)<-c(650,400)
 					plotarea=NULL;
-					plotarea<<-ggraphics(ps=5,use.scrollwindow=TRUE,horizontal=FALSE,container=g2_1)
+					plotarea<<-ggraphics(ps=5,use.scrollwindow=TRUE,fill="y",container=g2_1)
 					visible(g2)<-FALSE
 					disp<-plot(myGraph_S,nodeAttrs=makeNodeAttrs(myGraph_S,fontsize=18,fillcolor="grey"))
 					visible(g2)<-TRUE
@@ -2909,10 +2909,10 @@ display<-function(h,...){
 				{
 					svalue(sb)<-"				Please wait while loading.."
 					delete(g2,g2_1)
-					g2_1<<-ggroup(container=g2,horizontal=FALSE)
+					g2_1<<-ggroup(container=g2,fill="y")
 					size(g2_1)<-c(650,400)
 					plotarea=NULL;
-					plotarea<<-ggraphics(ps=5,use.scrollwindow=TRUE,horizontal=FALSE,container=g2_1)
+					plotarea<<-ggraphics(ps=5,use.scrollwindow=TRUE,fill="y",container=g2_1)
 					visible(g2)<-FALSE
 					ssize.plot(size_S,xlim=c(0,20),main=paste("Sample size to detect 2-fold change",sep=""))
 					visible(g2)<-TRUE
@@ -2942,7 +2942,7 @@ display<-function(h,...){
 				{
 					svalue(sb)<-"				Please wait while loading.."
 					delete(g2,g2_1)
-					g2_1<<-ggroup(container=g2,horizontal=FALSE)
+					g2_1<<-ggroup(container=g2,fill="y")
 					visible(g2)<-FALSE	
 					Identifier<-rownames(data.matrix_onlineNorm.m)
 					disp1<-cbind(Identifier,data.matrix_onlineNorm.m)
@@ -2955,10 +2955,10 @@ display<-function(h,...){
 				{
 					svalue(sb)<-"				Please wait while loading.."
 					delete(g2,g2_1)
-					g2_1<<-ggroup(container=g2,horizontal=FALSE)
+					g2_1<<-ggroup(container=g2,fill="y")
 					size(g2_1)<-c(650,400)
 					plotarea=NULL;
-					plotarea<<-ggraphics(ps=5,use.scrollwindow=TRUE,horizontal=FALSE,container=g2_1)
+					plotarea<<-ggraphics(ps=5,use.scrollwindow=TRUE,fill="y",container=g2_1)
 					visible(g2)<-FALSE
 					boxplot(data.matrix_onlineNorm.m)
 					visible(g2)<-TRUE
@@ -2968,7 +2968,7 @@ display<-function(h,...){
 				{
 					svalue(sb)<-"				Please wait while loading.."
 					delete(g2,g2_1)
-					g2_1<<-ggroup(container=g2,horizontal=FALSE)
+					g2_1<<-ggroup(container=g2,fill="y")
 					visible(g2)<-FALSE
 					ps1<-as.data.frame(data.matrix_onlineNorm.f)	
 					Identifier<-rownames(ps1)
@@ -2982,7 +2982,7 @@ display<-function(h,...){
 				{
 					svalue(sb)<-"				Please wait while loading.."
 					delete(g2,g2_1)
-					g2_1<<-ggroup(container=g2,horizontal=FALSE)
+					g2_1<<-ggroup(container=g2,fill="y")
 					visible(g2)<-FALSE
 					Identifier<-rownames(data.matrix_onlineNorm.s)
 					disp1<-cbind(Identifier,data.matrix_onlineNorm.s)
@@ -2995,7 +2995,7 @@ display<-function(h,...){
 				{
 					svalue(sb)<-"				Please wait while loading.."
 					delete(g2,g2_1)
-					g2_1<<-ggroup(container=g2,horizontal=FALSE)
+					g2_1<<-ggroup(container=g2,fill="y")
 					visible(g2)<-FALSE	
 					Identifier<-rownames(DE_O)
 					disp1<-cbind(Identifier,DE_O)
@@ -3008,10 +3008,10 @@ display<-function(h,...){
 				{
 					svalue(sb)<-"				Please wait while loading.."
 					delete(g2,g2_1)
-					g2_1<<-ggroup(container=g2,horizontal=FALSE)
+					g2_1<<-ggroup(container=g2,fill="y")
 					size(g2_1)<-c(650,400)
 					plotarea=NULL;
-					plotarea<<-ggraphics(ps=5,use.scrollwindow=TRUE,horizontal=FALSE,container=g2_1)
+					plotarea<<-ggraphics(ps=5,use.scrollwindow=TRUE,fill="y",container=g2_1)
 					visible(g2)<-FALSE
 					try(plot(pca_O,main="Online_Data PCA"),silent=TRUE)
 					visible(g2)<-TRUE
@@ -3021,10 +3021,10 @@ display<-function(h,...){
 				{
 					svalue(sb)<-"				Please wait while loading.."
 					delete(g2,g2_1)
-					g2_1<<-ggroup(container=g2,horizontal=FALSE)
+					g2_1<<-ggroup(container=g2,fill="y")
 					size(g2_1)<-c(650,400)
 					plotarea=NULL;
-					plotarea<<-ggraphics(ps=5,use.scrollwindow=TRUE,horizontal=FALSE,container=g2_1)
+					plotarea<<-ggraphics(ps=5,use.scrollwindow=TRUE,fill="y",container=g2_1)
 					visible(g2)<-FALSE
 					plot(hclust(sample.dist_O,method="complete"))
 					visible(g2)<-TRUE
@@ -3034,10 +3034,10 @@ display<-function(h,...){
 				{
 					svalue(sb)<-"				Please wait while loading.."
 					delete(g2,g2_1)
-					g2_1<<-ggroup(container=g2,horizontal=FALSE)
+					g2_1<<-ggroup(container=g2,fill="y")
 					size(g2_1)<-c(650,400)
 					plotarea=NULL;
-					plotarea<<-ggraphics(ps=5,use.scrollwindow=TRUE,horizontal=FALSE,container=g2_1)
+					plotarea<<-ggraphics(ps=5,use.scrollwindow=TRUE,fill="y",container=g2_1)
 					visible(g2)<-FALSE	
 					heatmap(Clas_O,margins=c(7,7),Rowv=NA,Colv=NA,cexCol=0.8,cexRow=0.8,col=heatcol)
 					visible(g2)<-TRUE
@@ -3049,7 +3049,7 @@ display<-function(h,...){
 					{
 						svalue(sb)<-"				Please wait while loading.."
 						delete(g2,g2_1)
-						g2_1<<-ggroup(container=g2,horizontal=FALSE)
+						g2_1<<-ggroup(container=g2,fill="y")
 						visible(g2)<-FALSE
 						Identifier<-rownames(GOresultBP_O)
 						disp1<-cbind(Identifier,GOresultBP_O)
@@ -3062,7 +3062,7 @@ display<-function(h,...){
 					{
 						svalue(sb)<-"				Please wait while loading.."
 						delete(g2,g2_1)
-						g2_1<<-ggroup(container=g2,horizontal=FALSE)
+						g2_1<<-ggroup(container=g2,fill="y")
 						visible(g2)<-FALSE
 						Identifier<-rownames(GOresultMF_O)
 						disp1<-cbind(Identifier,GOresultMF_O)
@@ -3075,7 +3075,7 @@ display<-function(h,...){
 					{
 						svalue(sb)<-"				Please wait while loading.."
 						delete(g2,g2_1)
-						g2_1<<-ggroup(container=g2,horizontal=FALSE)
+						g2_1<<-ggroup(container=g2,fill="y")
 						visible(g2)<-FALSE
 						Identifier<-rownames(GOresultCC_O)
 						disp1<-cbind(Identifier,GOresultCC_O)
@@ -3089,7 +3089,7 @@ display<-function(h,...){
 				{
 					svalue(sb)<-"				Please wait while loading.."
 					delete(g2,g2_1)
-					g2_1<<-ggroup(container=g2,horizontal=FALSE)
+					g2_1<<-ggroup(container=g2,fill="y")
 					Identifier<-rownames(KEGGresult_O)
 					disp1<-cbind(Identifier,KEGGresult_O)
 					disp<-gtable(disp1,container=g2_1)
@@ -3104,7 +3104,7 @@ display<-function(h,...){
 					{
 						svalue(sb)<-"				Please wait while loading.."
 						delete(g2,g2_1)
-						g2_1<<-ggroup(container=g2,horizontal=FALSE)
+						g2_1<<-ggroup(container=g2,fill="y")
 						visible(g2)<-FALSE	
 						Identifier<-rownames(GOtable.outBP_O)
 						disp1<-cbind(Identifier,GOtable.outBP_O)
@@ -3117,7 +3117,7 @@ display<-function(h,...){
 					{
 						svalue(sb)<-"				Please wait while loading.."
 						delete(g2,g2_1)
-						g2_1<<-ggroup(container=g2,horizontal=FALSE)
+						g2_1<<-ggroup(container=g2,fill="y")
 						visible(g2)<-FALSE	
 						Identifier<-rownames(GOtable.outMF_O)
 						disp1<-cbind(Identifier,GOtable.outMF_O)
@@ -3130,7 +3130,7 @@ display<-function(h,...){
 					{
 						svalue(sb)<-"				Please wait while loading.."
 						delete(g2,g2_1)
-						g2_1<<-ggroup(container=g2,horizontal=FALSE)
+						g2_1<<-ggroup(container=g2,fill="y")
 						visible(g2)<-FALSE	
 						Identifier<-rownames(GOtable.outCC_O)
 						disp1<-cbind(Identifier,GOtable.outCC_O)
@@ -3144,7 +3144,7 @@ display<-function(h,...){
 				{
 					svalue(sb)<-"				Please wait while loading.."
 					delete(g2,g2_1)
-					g2_1<<-ggroup(container=g2,horizontal=FALSE)
+					g2_1<<-ggroup(container=g2,fill="y")
 					visible(g2)<-FALSE	
 					Identifier<-rownames(KEGGtable.out_O)
 					disp1<-cbind(Identifier,KEGGtable.out_O)
@@ -3157,7 +3157,7 @@ display<-function(h,...){
 				{
 					svalue(sb)<-"				Please wait while loading.."
 					delete(g2,g2_1)
-					g2_1<<-ggroup(container=g2,horizontal=FALSE)
+					g2_1<<-ggroup(container=g2,fill="y")
 					visible(g2)<-FALSE
 					disp<-gtable(genes_O,container=g2_1)
 					size(disp)<-c(650,450)
@@ -3170,10 +3170,10 @@ display<-function(h,...){
 					{
 						svalue(sb)<-"				Please wait while loading.."
 						delete(g2,g2_1)
-						g2_1<<-ggroup(container=g2,horizontal=FALSE)
+						g2_1<<-ggroup(container=g2,fill="y")
 						size(g2_1)<-c(650,400)
 						plotarea=NULL;
-						plotarea<<-ggraphics(ps=5,use.scrollwindow=TRUE,horizontal=FALSE,container=g2_1)
+						plotarea<<-ggraphics(ps=5,use.scrollwindow=TRUE,fill="y",container=g2_1)
 						visible(g2)<-FALSE
 						plot(graph_gsea_goBP_O)
 						visible(g2)<-TRUE
@@ -3187,10 +3187,10 @@ display<-function(h,...){
 					{
 						svalue(sb)<-"				Please wait while loading.."
 						delete(g2,g2_1)
-						g2_1<<-ggroup(container=g2,horizontal=FALSE)
+						g2_1<<-ggroup(container=g2,fill="y")
 						size(g2_1)<-c(650,400)
 						plotarea=NULL;
-						plotarea<<-ggraphics(ps=5,use.scrollwindow=TRUE,horizontal=FALSE,container=g2_1)
+						plotarea<<-ggraphics(ps=5,use.scrollwindow=TRUE,fill="y",container=g2_1)
 						visible(g2)<-FALSE
 						plot(graph_gsea_goMF_O)
 						visible(g2)<-TRUE
@@ -3204,10 +3204,10 @@ display<-function(h,...){
 					{
 						svalue(sb)<-"				Please wait while loading.."
 						delete(g2,g2_1)
-						g2_1<<-ggroup(container=g2,horizontal=FALSE)
+						g2_1<<-ggroup(container=g2,fill="y")
 						size(g2_1)<-c(650,400)
 						plotarea=NULL;
-						plotarea<<-ggraphics(ps=5,use.scrollwindow=TRUE,horizontal=FALSE,container=g2_1)
+						plotarea<<-ggraphics(ps=5,use.scrollwindow=TRUE,fill="y",container=g2_1)
 						visible(g2)<-FALSE
 						plot(graph_gsea_goCC_O)
 						visible(g2)<-TRUE
@@ -3222,10 +3222,10 @@ display<-function(h,...){
 				{
 					svalue(sb)<-"				Please wait while loading.."
 					delete(g2,g2_1)
-					g2_1<<-ggroup(container=g2,horizontal=FALSE)
+					g2_1<<-ggroup(container=g2,fill="y")
 					size(g2_1)<-c(650,400)
 					plotarea=NULL;
-					plotarea<<-ggraphics(ps=5,use.scrollwindow=TRUE,horizontal=FALSE,container=g2_1)
+					plotarea<<-ggraphics(ps=5,use.scrollwindow=TRUE,fill="y",container=g2_1)
 					visible(g2)<-FALSE
 					plot(graph_gsea_kegg_O)
 					visible(g2)<-TRUE
@@ -3242,10 +3242,10 @@ display<-function(h,...){
 					{
 						svalue(sb)<-"				Please wait while loading.."
 						delete(g2,g2_1)
-						g2_1<<-ggroup(container=g2,horizontal=FALSE)
+						g2_1<<-ggroup(container=g2,fill="y")
 						size(g2_1)<-c(650,400)
 						plotarea=NULL;
-						plotarea<<-ggraphics(ps=5,use.scrollwindow=TRUE,horizontal=FALSE,container=g2_1)
+						plotarea<<-ggraphics(ps=5,use.scrollwindow=TRUE,fill="y",container=g2_1)
 						visible(g2)<-FALSE
 						plot(graph_gsta_goBP_O)
 						visible(g2)<-TRUE
@@ -3259,10 +3259,10 @@ display<-function(h,...){
 					{
 						svalue(sb)<-"				Please wait while loading.."
 						delete(g2,g2_1)
-						g2_1<<-ggroup(container=g2,horizontal=FALSE)
+						g2_1<<-ggroup(container=g2,fill="y")
 						size(g2_1)<-c(650,400)
 						plotarea=NULL;
-						plotarea<<-ggraphics(ps=5,use.scrollwindow=TRUE,horizontal=FALSE,container=g2_1)
+						plotarea<<-ggraphics(ps=5,use.scrollwindow=TRUE,fill="y",container=g2_1)
 						visible(g2)<-FALSE
 						plot(graph_gsta_goMF_O)
 						visible(g2)<-TRUE
@@ -3276,10 +3276,10 @@ display<-function(h,...){
 					{
 						svalue(sb)<-"				Please wait while loading.."
 						delete(g2,g2_1)
-						g2_1<<-ggroup(container=g2,horizontal=FALSE)
+						g2_1<<-ggroup(container=g2,fill="y")
 						size(g2_1)<-c(650,400)
 						plotarea=NULL;
-						plotarea<<-ggraphics(ps=5,use.scrollwindow=TRUE,horizontal=FALSE,container=g2_1)
+						plotarea<<-ggraphics(ps=5,use.scrollwindow=TRUE,fill="y",container=g2_1)
 						visible(g2)<-FALSE
 						plot(graph_gsta_goCC_O)
 						visible(g2)<-TRUE
@@ -3294,10 +3294,10 @@ display<-function(h,...){
 				{
 					svalue(sb)<-"				Please wait while loading.."
 					delete(g2,g2_1)
-					g2_1<<-ggroup(container=g2,horizontal=FALSE)
+					g2_1<<-ggroup(container=g2,fill="y")
 					size(g2_1)<-c(650,400)
 					plotarea=NULL;
-					plotarea<<-ggraphics(ps=5,use.scrollwindow=TRUE,horizontal=FALSE,container=g2_1)
+					plotarea<<-ggraphics(ps=5,use.scrollwindow=TRUE,fill="y",container=g2_1)
 					visible(g2)<-FALSE
 					plot(graph_gsta_kegg_O)
 					visible(g2)<-TRUE
@@ -3312,10 +3312,10 @@ display<-function(h,...){
 				{
 					svalue(sb)<-"				Please wait while loading.."
 					delete(g2,g2_1)
-					g2_1<<-ggroup(container=g2,horizontal=FALSE)
+					g2_1<<-ggroup(container=g2,fill="y")
 					size(g2_1)<-c(650,400)
 					plotarea=NULL;
-					plotarea<<-ggraphics(ps=5,use.scrollwindow=TRUE,horizontal=FALSE,container=g2_1)
+					plotarea<<-ggraphics(ps=5,use.scrollwindow=TRUE,fill="y",container=g2_1)
 					visible(g2)<-FALSE
 					disp<-plot(myGraph_O,nodeAttrs=makeNodeAttrs(myGraph_O,fontsize=18,fillcolor="grey"))
 					visible(g2)<-TRUE
@@ -3325,10 +3325,10 @@ display<-function(h,...){
 				{
 					svalue(sb)<-"				Please wait while loading.."
 					delete(g2,g2_1)
-					g2_1<<-ggroup(container=g2,horizontal=FALSE)
+					g2_1<<-ggroup(container=g2,fill="y")
 					size(g2_1)<-c(650,400)
 					plotarea=NULL;
-					plotarea<<-ggraphics(ps=5,use.scrollwindow=TRUE,horizontal=FALSE,container=g2_1)
+					plotarea<<-ggraphics(ps=5,use.scrollwindow=TRUE,fill="y",container=g2_1)
 					visible(g2)<-FALSE
 					ssize.plot(size_O,xlim=c(0,20),main=paste("Sample size to detect 2-fold change",sep=""))
 					visible(g2)<-TRUE

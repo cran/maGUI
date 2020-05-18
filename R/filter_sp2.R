@@ -31,14 +31,14 @@ filter_sp2<-function(h,...){
 )
 
 	w_g<-gwindow("Select sample names",width=300,height=80,visible=FALSE)
-	gp_g<-ggroup(container=w_g,horizontal=FALSE)
+	gp_g<-ggroup(container=w_g,fill="y")
 	size(gp_g)=c(420,280)
-	gp_g_pn<-ggroup(container=gp_g,horizontal=TRUE)
+	gp_g_pn<-ggroup(container=gp_g,fill="x")
 	i=1
 	
-	gp_g_p1<-ggroup(container=gp_g,horizontal=TRUE)
+	gp_g_p1<-ggroup(container=gp_g,fill="x")
 	glabel("\n\t\tControls\t\t\t\t\t\t\t   Tests",container=gp_g_p1)
-	gp_g_p2<-ggroup(container=gp_g,horizontal=TRUE)
+	gp_g_p2<-ggroup(container=gp_g,fill="x")
 	gp1<<-gedit("",initial.msg="Samples Names",width=25,height=20,container=gp_g_p2,anchor=c(-1,1))
 	glabel("\t",container=gp_g_p2)
 	gp2<<-gedit("",initial.msg="Samples Names",width=25,height=20,container=gp_g_p2,anchor=c(-1,1))
@@ -61,7 +61,7 @@ filter_sp2<-function(h,...){
 		tests<<-c(tests,v4)
 	}
 
-	gp_g_p<-ggroup(container=gp_g,horizontal=TRUE)
+	gp_g_p<-ggroup(container=gp_g,fill="x")
 	gp3<<-gedit("",initial.msg="Samples Names",width=25,height=20,container=gp_g_p,anchor=c(-1,1))
 	glabel("\t",container=gp_g_p)
 	gp4<<-gedit("",initial.msg="Samples Names",width=25,height=20,container=gp_g_p,anchor=c(-1,1))

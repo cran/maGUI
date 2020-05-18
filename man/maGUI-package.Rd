@@ -11,13 +11,13 @@ Provides a comprehensive graphical user interface for analysis of Affymetrix, Ag
 \tabular{ll}{
 Package: \tab maGUI\cr
 Type: \tab Package\cr
-Version: \tab 2.3\cr
-Date: \tab 2019-03-21\cr
+Version: \tab 2.4\cr
+Date: \tab 2019-05-16\cr
 License: \tab GPL-2\cr
 }
 }
 \author{
 Dhammapal Bharne, Vaibhav Vindal
 
-Maintainer: Dhammapal Bharne <dhammapalb@uohyd.ac.in>
+Maintainer: Dhammapal Bharne <dhammapalb@gmail.com>
 }

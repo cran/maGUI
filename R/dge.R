@@ -37,33 +37,33 @@ dge<-function(h,...){
 
 	x=NULL
 	z=NULL
-	w_dge<-gwindow("Select your data",width=260,height=280,visible=FALSE,horizontal=FALSE)
-	gp_dge<-ggroup(container=w_dge,horizontal=FALSE)
+	w_dge<-gwindow("Select your data",width=260,height=280,visible=FALSE,fill="y")
+	gp_dge<-ggroup(container=w_dge,fill="y")
 	cbg_dge<-gcheckboxgroup(platforms,container=gp_dge,handler=f)
 	svalue(cbg_dge,index=FALSE)<-1:8
 
 
-	gp_dge_t<-ggroup(container=gp_dge,horizontal=TRUE)
-	dge_t<-gradio(c("Top genes","Gene lists"),selected=1,container=gp_dge_t,anchor=c(-1,1),horizontal=FALSE)
+	gp_dge_t<-ggroup(container=gp_dge,fill="x")
+	dge_t<-gradio(c("Top genes","Gene lists"),selected=1,container=gp_dge_t,anchor=c(-1,1),fill="y")
 #	size(dge_t)=c(80,25)
-	gp_dge_gn<-ggroup(container=gp_dge,horizontal=TRUE)
+	gp_dge_gn<-ggroup(container=gp_dge,fill="x")
 	glabel("\t",container=gp_dge_gn)
 	genes_lists<-gedit("",initial.msg="gene names",width=25,height=20,container=gp_dge_gn,anchor=c(-1,1))
 
 	p_value<-1;adjust_value<-"BH";s_value<-"p"
 		
-	gp_dge_p1<-ggroup(container=gp_dge,horizontal=TRUE)
+	gp_dge_p1<-ggroup(container=gp_dge,fill="x")
 	numb_l<-gbutton("Number",container=gp_dge_p1,anchor=c(-1,1))
 	size(numb_l)=c(80,25)
 	numb_numb<-gedit("",initial.msg="10",width=10,height=20,container=gp_dge_p1,anchor=c(-1,1))
 	
 		
-	gp_dge_p2<-ggroup(container=gp_dge,horizontal=TRUE)
+	gp_dge_p2<-ggroup(container=gp_dge,fill="x")
 	logfc_l<-gbutton("logFC",container=gp_dge_p2,anchor=c(-1,1))
 	size(logfc_l)=c(80,25)
 	logfc_logfc<-gedit("",initial.msg="0",width=10,height=20,container=gp_dge_p2,anchor=c(-1,1))
 
-	gp_dge_p3<-ggroup(container=gp_dge,horizontal=TRUE)
+	gp_dge_p3<-ggroup(container=gp_dge,fill="x")
 	pvalue_l<-gbutton("P-value",container=gp_dge_p3,anchor=c(-1,1))
 	size(pvalue_l)=c(80,25)
 	p_list<-c(10,1,0.5,0.1,0.05,0.01,0.001,0.0001)
@@ -75,7 +75,7 @@ dge<-function(h,...){
 	)
 	size(p_value_combo)=c(80,25)
 	
-	gp_dge_p4<-ggroup(container=gp_dge,horizontal=TRUE)
+	gp_dge_p4<-ggroup(container=gp_dge,fill="x")
 	adjust_l<-gbutton("Adjustment",container=gp_dge_p4,anchor=c(-1,1))
 	size(adjust_l)=c(80,25)
 	adjust_list<-c("BH","BY","holm","hochberg","hommel","bonferroni","fdr","none")
@@ -87,7 +87,7 @@ dge<-function(h,...){
 	)
 	size(adjust_value_combo)=c(80,25)
 	
-	gp_dge_p5<-ggroup(container=gp_dge,horizontal=TRUE)
+	gp_dge_p5<-ggroup(container=gp_dge,fill="x")
 	sort_l<-gbutton("Sort",container=gp_dge_p5,anchor=c(-1,1))
 	size(sort_l)=c(80,25)
 	sort_list<-c("B","F","P","p","t","logFC","AveExpr","none")
@@ -99,7 +99,7 @@ dge<-function(h,...){
 	)
 	size(p_value_combo)=c(80,25)
 
-	gp2_dge<-ggroup(container=gp_dge,width=30,height=15,horizontal=TRUE)
+	gp2_dge<-ggroup(container=gp_dge,width=30,height=15,fill="x")
 	addSpring(gp2_dge)
 	y<-gbutton("CANCEL",border=TRUE,handler=function(h,...){
 		dispose(w_dge)

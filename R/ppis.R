@@ -1,7 +1,7 @@
 ppis<-function(h,...){
 ppis_result=NULL;ppis_1=NULL;ppis_2=NULL;f1=NULL;f2=NULL;f_norm1=NULL;f_norm2=NULL;
-	w<-gwindow("PPI_Prediction",horizontal=FALSE,height=120,width=250)
-	g1<-ggroup(container=w,horizontal=FALSE)
+	w<-gwindow("PPI_Prediction",fill="y",height=120,width=250)
+	g1<-ggroup(container=w,fill="y")
 	b1<-gbutton("Normalized_data1",container=g1)
 	b2<-gbutton("Normalized_data2",container=g1)
 	g2<-ggroup(container=w)

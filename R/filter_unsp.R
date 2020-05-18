@@ -45,10 +45,10 @@ filter_unsp<-function(h,...){
 	unsf_xx=NULL
 	unsf_methods=c("Standard_Deviation_Filter","Expression_Filter")
 	unsf_w<-gwindow("Select a Filter",width=300,height=150)
-	unsf_gp<-ggroup(container=unsf_w,horizontal=FALSE)
+	unsf_gp<-ggroup(container=unsf_w,fill="y")
 	unsf_x<-gtable(unsf_methods,chosencol=1,container=unsf_gp)
 	size(unsf_x)=c(200,100)
-	unsf_gp2<-ggroup(container=unsf_gp,width=30,height=15,horizontal=TRUE)
+	unsf_gp2<-ggroup(container=unsf_gp,width=30,height=15,fill="x")
 	addHandlerClicked(unsf_x,handler=function(h,...){
 		unsf_x2<-svalue(h$obj)
 		unsf_xx<<-unsf_x2
@@ -66,11 +66,11 @@ filter_unsp<-function(h,...){
 		if(unsf_xx=="Standard_Deviation_Filter")
 		{
 			w_f<-gwindow("Select your data",width=260,height=280,visible=FALSE)
-			gp_f<-ggroup(container=w_f,horizontal=FALSE)
+			gp_f<-ggroup(container=w_f,fill="y")
 			size(gp_f)=c(220,180)
 			cbg<-gcheckboxgroup(platforms,container=gp_f,handler=f)
 			svalue(cbg,index=FALSE)<-1:8
-			gp2_f<-ggroup(container=gp_f,width=30,height=15,horizontal=TRUE)
+			gp2_f<-ggroup(container=gp_f,width=30,height=15,fill="x")
 			addSpring(gp2_f)
 			y<-gbutton("CANCEL",border=TRUE,handler=function(h,...){
 				dispose(w_f)
@@ -80,12 +80,12 @@ filter_unsp<-function(h,...){
 					dispose(w_f)
 					svalue(sb)<-"				Please wait while Filtering.."
 					if(length(which(x=="Affymetrix"))!=0){
-						w_ef<-gwindow("Standard_Deviation_Filter",horizontal=FALSE,height=100,width=100)
-						gpc<-ggroup(container=w_ef,horizontal=FALSE)
-						gp1<-ggroup(container=gpc,horizontal=TRUE)
+						w_ef<-gwindow("Standard_Deviation_Filter",fill="y",height=100,width=100)
+						gpc<-ggroup(container=w_ef,fill="y")
+						gp1<-ggroup(container=gpc,fill="x")
 						glabel("Standard Deviation Value ",container=gp1)
 						std_box<-gedit("",initial.msg="gene names",width=12,height=20,container=gp1,anchor=c(-1,1))
-						gp3<-ggroup(container=gpc,width=30,height=15,horizontal=TRUE)
+						gp3<-ggroup(container=gpc,width=30,height=15,fill="x")
 						addSpring(gp3)
 						y<-gbutton("CANCEL",border=TRUE,handler=function(h,...){
 							dispose(w_ef)
@@ -118,12 +118,12 @@ filter_unsp<-function(h,...){
 						},container=gp3,anchor=c(1,-1))
 					}
 					if(length(which(x=="Agilent_OneColor"))!=0){
-						w_ef<-gwindow("Standard_Deviation_Filter",horizontal=FALSE,height=100,width=100)
-						gpc<-ggroup(container=w_ef,horizontal=FALSE)
-						gp1<-ggroup(container=gpc,horizontal=TRUE)
+						w_ef<-gwindow("Standard_Deviation_Filter",fill="y",height=100,width=100)
+						gpc<-ggroup(container=w_ef,fill="y")
+						gp1<-ggroup(container=gpc,fill="x")
 						glabel("Standard Deviation Value ",container=gp1)
 						std_box<-gedit("",initial.msg="gene names",width=12,height=20,container=gp1,anchor=c(-1,1))
-						gp3<-ggroup(container=gpc,width=30,height=15,horizontal=TRUE)
+						gp3<-ggroup(container=gpc,width=30,height=15,fill="x")
 						addSpring(gp3)
 						y<-gbutton("CANCEL",border=TRUE,handler=function(h,...){
 							dispose(w_ef)
@@ -156,12 +156,12 @@ filter_unsp<-function(h,...){
 						},container=gp3,anchor=c(1,-1))
 					}
 					if(length(which(x=="Agilent_TwoColor"))!=0){
-						w_ef<-gwindow("Standard_Deviation_Filter",horizontal=FALSE,height=100,width=100)
-						gpc<-ggroup(container=w_ef,horizontal=FALSE)
-						gp1<-ggroup(container=gpc,horizontal=TRUE)
+						w_ef<-gwindow("Standard_Deviation_Filter",fill="y",height=100,width=100)
+						gpc<-ggroup(container=w_ef,fill="y")
+						gp1<-ggroup(container=gpc,fill="x")
 						glabel("Standard Deviation Value ",container=gp1)
 						std_box<-gedit("",initial.msg="gene names",width=12,height=20,container=gp1,anchor=c(-1,1))
-						gp3<-ggroup(container=gpc,width=30,height=15,horizontal=TRUE)
+						gp3<-ggroup(container=gpc,width=30,height=15,fill="x")
 						addSpring(gp3)
 						y<-gbutton("CANCEL",border=TRUE,handler=function(h,...){
 							dispose(w_ef)
@@ -194,12 +194,12 @@ filter_unsp<-function(h,...){
 						},container=gp3,anchor=c(1,-1))
 					}
 					if(length(which(x=="Illumina_Beadarray"))!=0){
-						w_ef<-gwindow("Standard_Deviation_Filter",horizontal=FALSE,height=100,width=100)
-						gpc<-ggroup(container=w_ef,horizontal=FALSE)
-						gp1<-ggroup(container=gpc,horizontal=TRUE)
+						w_ef<-gwindow("Standard_Deviation_Filter",fill="y",height=100,width=100)
+						gpc<-ggroup(container=w_ef,fill="y")
+						gp1<-ggroup(container=gpc,fill="x")
 						glabel("Standard Deviation Value ",container=gp1)
 						std_box<-gedit("",initial.msg="gene names",width=12,height=20,container=gp1,anchor=c(-1,1))
-						gp3<-ggroup(container=gpc,width=30,height=15,horizontal=TRUE)
+						gp3<-ggroup(container=gpc,width=30,height=15,fill="x")
 						addSpring(gp3)
 						y<-gbutton("CANCEL",border=TRUE,handler=function(h,...){
 							dispose(w_ef)
@@ -232,12 +232,12 @@ filter_unsp<-function(h,...){
 						},container=gp3,anchor=c(1,-1))
 					}
 					if(length(which(x=="Illumina_Lumi"))!=0){
-						w_ef<-gwindow("Standard_Deviation_Filter",horizontal=FALSE,height=100,width=100)
-						gpc<-ggroup(container=w_ef,horizontal=FALSE)
-						gp1<-ggroup(container=gpc,horizontal=TRUE)
+						w_ef<-gwindow("Standard_Deviation_Filter",fill="y",height=100,width=100)
+						gpc<-ggroup(container=w_ef,fill="y")
+						gp1<-ggroup(container=gpc,fill="x")
 						glabel("Standard Deviation Value ",container=gp1)
 						std_box<-gedit("",initial.msg="gene names",width=12,height=20,container=gp1,anchor=c(-1,1))
-						gp3<-ggroup(container=gpc,width=30,height=15,horizontal=TRUE)
+						gp3<-ggroup(container=gpc,width=30,height=15,fill="x")
 						addSpring(gp3)
 						y<-gbutton("CANCEL",border=TRUE,handler=function(h,...){
 							dispose(w_ef)
@@ -270,12 +270,12 @@ filter_unsp<-function(h,...){
 						},container=gp3,anchor=c(1,-1))
 					}
 					if(length(which(x=="Nimblegen"))!=0){
-						w_ef<-gwindow("Standard_Deviation_Filter",horizontal=FALSE,height=100,width=100)
-						gpc<-ggroup(container=w_ef,horizontal=FALSE)
-						gp1<-ggroup(container=gpc,horizontal=TRUE)
+						w_ef<-gwindow("Standard_Deviation_Filter",fill="y",height=100,width=100)
+						gpc<-ggroup(container=w_ef,fill="y")
+						gp1<-ggroup(container=gpc,fill="x")
 						glabel("Standard Deviation Value ",container=gp1)
 						std_box<-gedit("",initial.msg="gene names",width=12,height=20,container=gp1,anchor=c(-1,1))
-						gp3<-ggroup(container=gpc,width=30,height=15,horizontal=TRUE)
+						gp3<-ggroup(container=gpc,width=30,height=15,fill="x")
 						addSpring(gp3)
 						y<-gbutton("CANCEL",border=TRUE,handler=function(h,...){
 							dispose(w_ef)
@@ -308,12 +308,12 @@ filter_unsp<-function(h,...){
 						},container=gp3,anchor=c(1,-1))
 					}
 					if(length(which(x=="Series_Matrix"))!=0){
-						w_ef<-gwindow("Standard_Deviation_Filter",horizontal=FALSE,height=100,width=100)
-						gpc<-ggroup(container=w_ef,horizontal=FALSE)
-						gp1<-ggroup(container=gpc,horizontal=TRUE)
+						w_ef<-gwindow("Standard_Deviation_Filter",fill="y",height=100,width=100)
+						gpc<-ggroup(container=w_ef,fill="y")
+						gp1<-ggroup(container=gpc,fill="x")
 						glabel("Standard Deviation Value ",container=gp1)
 						std_box<-gedit("",initial.msg="gene names",width=12,height=20,container=gp1,anchor=c(-1,1))
-						gp3<-ggroup(container=gpc,width=30,height=15,horizontal=TRUE)
+						gp3<-ggroup(container=gpc,width=30,height=15,fill="x")
 						addSpring(gp3)
 						y<-gbutton("CANCEL",border=TRUE,handler=function(h,...){
 							dispose(w_ef)
@@ -346,12 +346,12 @@ filter_unsp<-function(h,...){
 						},container=gp3,anchor=c(1,-1))
 					}
 					if(length(which(x=="Online_Data"))!=0){
-						w_ef<-gwindow("Standard_Deviation_Filter",horizontal=FALSE,height=100,width=100)
-						gpc<-ggroup(container=w_ef,horizontal=FALSE)
-						gp1<-ggroup(container=gpc,horizontal=TRUE)
+						w_ef<-gwindow("Standard_Deviation_Filter",fill="y",height=100,width=100)
+						gpc<-ggroup(container=w_ef,fill="y")
+						gp1<-ggroup(container=gpc,fill="x")
 						glabel("Standard Deviation Value ",container=gp1)
 						std_box<-gedit("",initial.msg="gene names",width=12,height=20,container=gp1,anchor=c(-1,1))
-						gp3<-ggroup(container=gpc,width=30,height=15,horizontal=TRUE)
+						gp3<-ggroup(container=gpc,width=30,height=15,fill="x")
 						addSpring(gp3)
 						y<-gbutton("CANCEL",border=TRUE,handler=function(h,...){
 							dispose(w_ef)
@@ -394,11 +394,11 @@ filter_unsp<-function(h,...){
 		else if(unsf_xx=="Expression_Filter")
 		{
 			w_f<-gwindow("Select your data",width=260,height=280,visible=FALSE)
-			gp_f<-ggroup(container=w_f,horizontal=FALSE)
+			gp_f<-ggroup(container=w_f,fill="y")
 			size(gp_f)=c(220,180)
 			cbg<-gcheckboxgroup(platforms,container=gp_f,handler=f)
 			svalue(cbg,index=FALSE)<-1:8
-			gp2_f<-ggroup(container=gp_f,width=30,height=15,horizontal=TRUE)
+			gp2_f<-ggroup(container=gp_f,width=30,height=15,fill="x")
 			addSpring(gp2_f)
 			y<-gbutton("CANCEL",border=TRUE,handler=function(h,...){
 				dispose(w_f)
@@ -408,15 +408,15 @@ filter_unsp<-function(h,...){
 					dispose(w_f)
 					svalue(sb)<-"				Please wait while Filtering.."
 					if(length(which(x=="Affymetrix"))!=0){
-						w_ef<-gwindow("Expression_Filter",horizontal=FALSE,height=100,width=100)
-						gpc<-ggroup(container=w_ef,horizontal=FALSE)
-						gp1<-ggroup(container=gpc,horizontal=TRUE)
+						w_ef<-gwindow("Expression_Filter",fill="y",height=100,width=100)
+						gpc<-ggroup(container=w_ef,fill="y")
+						gp1<-ggroup(container=gpc,fill="x")
 						glabel("Over Expression Value ",container=gp1)
 						ove_box<-gedit("",initial.msg="gene names",width=12,height=20,container=gp1,anchor=c(-1,1))
-						gp2<-ggroup(container=gpc,horizontal=TRUE)
+						gp2<-ggroup(container=gpc,fill="x")
 						glabel("Percentage of Samples",container=gp2)
 						posp_box<-gedit("",initial.msg="gene names",width=12,height=20,container=gp2,anchor=c(-1,1))
-						gp3<-ggroup(container=gpc,width=30,height=15,horizontal=TRUE)
+						gp3<-ggroup(container=gpc,width=30,height=15,fill="x")
 						addSpring(gp3)
 						y<-gbutton("CANCEL",border=TRUE,handler=function(h,...){
 							dispose(w_ef)
@@ -453,15 +453,15 @@ filter_unsp<-function(h,...){
 						},container=gp3,anchor=c(1,-1))
 					}
 					if(length(which(x=="Agilent_OneColor"))!=0){
-						w_ef<-gwindow("Expression_Filter",horizontal=FALSE,height=100,width=100)
-						gpc<-ggroup(container=w_ef,horizontal=FALSE)
-						gp1<-ggroup(container=gpc,horizontal=TRUE)
+						w_ef<-gwindow("Expression_Filter",fill="y",height=100,width=100)
+						gpc<-ggroup(container=w_ef,fill="y")
+						gp1<-ggroup(container=gpc,fill="x")
 						glabel("Over Expression Value ",container=gp1)
 						ove_box<-gedit("",initial.msg="gene names",width=12,height=20,container=gp1,anchor=c(-1,1))
-						gp2<-ggroup(container=gpc,horizontal=TRUE)
+						gp2<-ggroup(container=gpc,fill="x")
 						glabel("Percentage of Samples",container=gp2)
 						posp_box<-gedit("",initial.msg="gene names",width=12,height=20,container=gp2,anchor=c(-1,1))
-						gp3<-ggroup(container=gpc,width=30,height=15,horizontal=TRUE)
+						gp3<-ggroup(container=gpc,width=30,height=15,fill="x")
 						addSpring(gp3)
 						y<-gbutton("CANCEL",border=TRUE,handler=function(h,...){
 							dispose(w_ef)
@@ -498,15 +498,15 @@ filter_unsp<-function(h,...){
 						},container=gp3,anchor=c(1,-1))
 					}
 					if(length(which(x=="Agilent_TwoColor"))!=0){
-						w_ef<-gwindow("Expression_Filter",horizontal=FALSE,height=100,width=100)
-						gpc<-ggroup(container=w_ef,horizontal=FALSE)
-						gp1<-ggroup(container=gpc,horizontal=TRUE)
+						w_ef<-gwindow("Expression_Filter",fill="y",height=100,width=100)
+						gpc<-ggroup(container=w_ef,fill="y")
+						gp1<-ggroup(container=gpc,fill="x")
 						glabel("Over Expression Value ",container=gp1)
 						ove_box<-gedit("",initial.msg="gene names",width=12,height=20,container=gp1,anchor=c(-1,1))
-						gp2<-ggroup(container=gpc,horizontal=TRUE)
+						gp2<-ggroup(container=gpc,fill="x")
 						glabel("Percentage of Samples",container=gp2)
 						posp_box<-gedit("",initial.msg="gene names",width=12,height=20,container=gp2,anchor=c(-1,1))
-						gp3<-ggroup(container=gpc,width=30,height=15,horizontal=TRUE)
+						gp3<-ggroup(container=gpc,width=30,height=15,fill="x")
 						addSpring(gp3)
 						y<-gbutton("CANCEL",border=TRUE,handler=function(h,...){
 							dispose(w_ef)
@@ -543,15 +543,15 @@ filter_unsp<-function(h,...){
 						},container=gp3,anchor=c(1,-1))
 					}
 					if(length(which(x=="Illumina_Beadarray"))!=0){
-						w_ef<-gwindow("Expression_Filter",horizontal=FALSE,height=100,width=100)
-						gpc<-ggroup(container=w_ef,horizontal=FALSE)
-						gp1<-ggroup(container=gpc,horizontal=TRUE)
+						w_ef<-gwindow("Expression_Filter",fill="y",height=100,width=100)
+						gpc<-ggroup(container=w_ef,fill="y")
+						gp1<-ggroup(container=gpc,fill="x")
 						glabel("Over Expression Value ",container=gp1)
 						ove_box<-gedit("",initial.msg="gene names",width=12,height=20,container=gp1,anchor=c(-1,1))
-						gp2<-ggroup(container=gpc,horizontal=TRUE)
+						gp2<-ggroup(container=gpc,fill="x")
 						glabel("Percentage of Samples",container=gp2)
 						posp_box<-gedit("",initial.msg="gene names",width=12,height=20,container=gp2,anchor=c(-1,1))
-						gp3<-ggroup(container=gpc,width=30,height=15,horizontal=TRUE)
+						gp3<-ggroup(container=gpc,width=30,height=15,fill="x")
 						addSpring(gp3)
 						y<-gbutton("CANCEL",border=TRUE,handler=function(h,...){
 							dispose(w_ef)
@@ -588,15 +588,15 @@ filter_unsp<-function(h,...){
 						},container=gp3,anchor=c(1,-1))
 					}
 					if(length(which(x=="Illumina_Lumi"))!=0){
-						w_ef<-gwindow("Expression_Filter",horizontal=FALSE,height=100,width=100)
-						gpc<-ggroup(container=w_ef,horizontal=FALSE)
-						gp1<-ggroup(container=gpc,horizontal=TRUE)
+						w_ef<-gwindow("Expression_Filter",fill="y",height=100,width=100)
+						gpc<-ggroup(container=w_ef,fill="y")
+						gp1<-ggroup(container=gpc,fill="x")
 						glabel("Over Expression Value ",container=gp1)
 						ove_box<-gedit("",initial.msg="gene names",width=12,height=20,container=gp1,anchor=c(-1,1))
-						gp2<-ggroup(container=gpc,horizontal=TRUE)
+						gp2<-ggroup(container=gpc,fill="x")
 						glabel("Percentage of Samples",container=gp2)
 						posp_box<-gedit("",initial.msg="gene names",width=12,height=20,container=gp2,anchor=c(-1,1))
-						gp3<-ggroup(container=gpc,width=30,height=15,horizontal=TRUE)
+						gp3<-ggroup(container=gpc,width=30,height=15,fill="x")
 						addSpring(gp3)
 						y<-gbutton("CANCEL",border=TRUE,handler=function(h,...){
 							dispose(w_ef)
@@ -633,15 +633,15 @@ filter_unsp<-function(h,...){
 						},container=gp3,anchor=c(1,-1))
 					}
 					if(length(which(x=="Nimblegen"))!=0){
-						w_ef<-gwindow("Expression_Filter",horizontal=FALSE,height=100,width=100)
-						gpc<-ggroup(container=w_ef,horizontal=FALSE)
-						gp1<-ggroup(container=gpc,horizontal=TRUE)
+						w_ef<-gwindow("Expression_Filter",fill="y",height=100,width=100)
+						gpc<-ggroup(container=w_ef,fill="y")
+						gp1<-ggroup(container=gpc,fill="x")
 						glabel("Over Expression Value ",container=gp1)
 						ove_box<-gedit("",initial.msg="gene names",width=12,height=20,container=gp1,anchor=c(-1,1))
-						gp2<-ggroup(container=gpc,horizontal=TRUE)
+						gp2<-ggroup(container=gpc,fill="x")
 						glabel("Percentage of Samples",container=gp2)
 						posp_box<-gedit("",initial.msg="gene names",width=12,height=20,container=gp2,anchor=c(-1,1))
-						gp3<-ggroup(container=gpc,width=30,height=15,horizontal=TRUE)
+						gp3<-ggroup(container=gpc,width=30,height=15,fill="x")
 						addSpring(gp3)
 						y<-gbutton("CANCEL",border=TRUE,handler=function(h,...){
 							dispose(w_ef)
@@ -678,15 +678,15 @@ filter_unsp<-function(h,...){
 						},container=gp3,anchor=c(1,-1))
 					}
 					if(length(which(x=="Series_Matrix"))!=0){
-						w_ef<-gwindow("Expression_Filter",horizontal=FALSE,height=100,width=100)
-						gpc<-ggroup(container=w_ef,horizontal=FALSE)
-						gp1<-ggroup(container=gpc,horizontal=TRUE)
+						w_ef<-gwindow("Expression_Filter",fill="y",height=100,width=100)
+						gpc<-ggroup(container=w_ef,fill="y")
+						gp1<-ggroup(container=gpc,fill="x")
 						glabel("Over Expression Value ",container=gp1)
 						ove_box<-gedit("",initial.msg="gene names",width=12,height=20,container=gp1,anchor=c(-1,1))
-						gp2<-ggroup(container=gpc,horizontal=TRUE)
+						gp2<-ggroup(container=gpc,fill="x")
 						glabel("Percentage of Samples",container=gp2)
 						posp_box<-gedit("",initial.msg="gene names",width=12,height=20,container=gp2,anchor=c(-1,1))
-						gp3<-ggroup(container=gpc,width=30,height=15,horizontal=TRUE)
+						gp3<-ggroup(container=gpc,width=30,height=15,fill="x")
 						addSpring(gp3)
 						y<-gbutton("CANCEL",border=TRUE,handler=function(h,...){
 							dispose(w_ef)
@@ -723,15 +723,15 @@ filter_unsp<-function(h,...){
 						},container=gp3,anchor=c(1,-1))
 					}
 					if(length(which(x=="Online_Data"))!=0){
-						w_ef<-gwindow("Expression_Filter",horizontal=FALSE,height=100,width=100)
-						gpc<-ggroup(container=w_ef,horizontal=FALSE)
-						gp1<-ggroup(container=gpc,horizontal=TRUE)
+						w_ef<-gwindow("Expression_Filter",fill="y",height=100,width=100)
+						gpc<-ggroup(container=w_ef,fill="y")
+						gp1<-ggroup(container=gpc,fill="x")
 						glabel("Over Expression Value ",container=gp1)
 						ove_box<-gedit("",initial.msg="gene names",width=12,height=20,container=gp1,anchor=c(-1,1))
-						gp2<-ggroup(container=gpc,horizontal=TRUE)
+						gp2<-ggroup(container=gpc,fill="x")
 						glabel("Percentage of Samples",container=gp2)
 						posp_box<-gedit("",initial.msg="gene names",width=12,height=20,container=gp2,anchor=c(-1,1))
-						gp3<-ggroup(container=gpc,width=30,height=15,horizontal=TRUE)
+						gp3<-ggroup(container=gpc,width=30,height=15,fill="x")
 						addSpring(gp3)
 						y<-gbutton("CANCEL",border=TRUE,handler=function(h,...){
 							dispose(w_ef)

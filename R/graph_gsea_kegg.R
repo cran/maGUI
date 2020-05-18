@@ -65,8 +65,8 @@ graph_gsea_kegg<-function(h,...){
 		}
 	z=NULL
 	p_value=c(0.0000001,0.000001,0.00001,0.0001,0.001,0.01,0.05,0.1,0.5,1)
-	w_gsea<-gwindow("Select p-value",horizontal=FALSE,height=100,width=100)
-	gp_gsea<-ggroup(container=w_gsea,horizontal=FALSE)
+	w_gsea<-gwindow("Select p-value",fill="y",height=100,width=100)
+	gp_gsea<-ggroup(container=w_gsea,fill="y")
 	glabel("p-value",container=gp_gsea)
 	cb_gsea<-gcombobox(p_value,editable=TRUE,selected=7,container=gp_gsea,handler=function(h,...){
 		z<-svalue(h$obj)
@@ -85,11 +85,11 @@ graph_gsea_kegg<-function(h,...){
 		p_v<<-as.numeric(z)
 		dispose(w_gsea)
 #		svalue(sb)<-"				Please wait while Graphs.."
-		w_dge<-gwindow("Select your data",width=260,height=280,visible=FALSE,horizontal=FALSE)
-		gp_dge<-ggroup(container=w_dge,horizontal=FALSE)
+		w_dge<-gwindow("Select your data",width=260,height=280,visible=FALSE,fill="y")
+		gp_dge<-ggroup(container=w_dge,fill="y")
 		cbg_dge<-gcheckboxgroup(platforms,container=gp_dge,handler=f)
 		svalue(cbg_dge,index=FALSE)<-1:8
-		gp2_dge<-ggroup(container=gp_dge,width=30,height=15,horizontal=TRUE)
+		gp2_dge<-ggroup(container=gp_dge,width=30,height=15,fill="x")
 		addSpring(gp2_dge)
 		y<-gbutton("CANCEL",border=TRUE,handler=function(h,...){
 			dispose(w_dge)
@@ -104,8 +104,8 @@ graph_gsea_kegg<-function(h,...){
 					KEGG.vec<-rownames(KEGGresult_Affy)[KEGGresult_Affy$Pvalue<=p_v]
 				
 					z=NULL
-					w_kegg<-gwindow("Select KEGG ID",horizontal=FALSE,height=100,width=100)
-					gp_kegg<-ggroup(container=w_kegg,horizontal=FALSE)
+					w_kegg<-gwindow("Select KEGG ID",fill="y",height=100,width=100)
+					gp_kegg<-ggroup(container=w_kegg,fill="y")
 					glabel("KEGG Id",container=gp_kegg)
 					cb_kegg<-gcombobox(KEGG.vec,editable=TRUE,selected=1,container=gp_kegg,handler=function(h,...){
 						z<-svalue(h$obj)
@@ -191,8 +191,8 @@ graph_gsea_kegg<-function(h,...){
 					KEGG.vec<-rownames(KEGGresult_Ag1)[KEGGresult_Ag1$Pvalue<=p_v]
 				
 					z=NULL
-					w_kegg<-gwindow("Select KEGG ID",horizontal=FALSE,height=100,width=100)
-					gp_kegg<-ggroup(container=w_kegg,horizontal=FALSE)
+					w_kegg<-gwindow("Select KEGG ID",fill="y",height=100,width=100)
+					gp_kegg<-ggroup(container=w_kegg,fill="y")
 					glabel("KEGG Id",container=gp_kegg)
 					cb_kegg<-gcombobox(KEGG.vec,editable=TRUE,selected=1,container=gp_kegg,handler=function(h,...){
 						z<-svalue(h$obj)
@@ -276,8 +276,8 @@ graph_gsea_kegg<-function(h,...){
 					KEGG.vec<-rownames(KEGGresult_Ag2)[KEGGresult_Ag2$Pvalue<=p_v]
 				
 					z=NULL
-					w_kegg<-gwindow("Select KEGG ID",horizontal=FALSE,height=100,width=100)
-					gp_kegg<-ggroup(container=w_kegg,horizontal=FALSE)
+					w_kegg<-gwindow("Select KEGG ID",fill="y",height=100,width=100)
+					gp_kegg<-ggroup(container=w_kegg,fill="y")
 					glabel("KEGG Id",container=gp_kegg)
 					cb_kegg<-gcombobox(KEGG.vec,editable=TRUE,selected=1,container=gp_kegg,handler=function(h,...){
 						z<-svalue(h$obj)
@@ -361,8 +361,8 @@ graph_gsea_kegg<-function(h,...){
 					KEGG.vec<-rownames(KEGGresult_Il_B)[KEGGresult_Il_B$Pvalue<=p_v]
 				
 					z=NULL
-					w_kegg<-gwindow("Select KEGG ID",horizontal=FALSE,height=100,width=100)
-					gp_kegg<-ggroup(container=w_kegg,horizontal=FALSE)
+					w_kegg<-gwindow("Select KEGG ID",fill="y",height=100,width=100)
+					gp_kegg<-ggroup(container=w_kegg,fill="y")
 					glabel("KEGG Id",container=gp_kegg)
 					cb_kegg<-gcombobox(KEGG.vec,editable=TRUE,selected=1,container=gp_kegg,handler=function(h,...){
 						z<-svalue(h$obj)
@@ -446,8 +446,8 @@ graph_gsea_kegg<-function(h,...){
 					KEGG.vec<-rownames(KEGGresult_Il_L)[KEGGresult_Il_L$Pvalue<=p_v]
 				
 					z=NULL
-					w_kegg<-gwindow("Select KEGG ID",horizontal=FALSE,height=100,width=100)
-					gp_kegg<-ggroup(container=w_kegg,horizontal=FALSE)
+					w_kegg<-gwindow("Select KEGG ID",fill="y",height=100,width=100)
+					gp_kegg<-ggroup(container=w_kegg,fill="y")
 					glabel("KEGG Id",container=gp_kegg)
 					cb_kegg<-gcombobox(KEGG.vec,editable=TRUE,selected=1,container=gp_kegg,handler=function(h,...){
 						z<-svalue(h$obj)
@@ -531,8 +531,8 @@ graph_gsea_kegg<-function(h,...){
 					KEGG.vec<-rownames(KEGGresult_N)[KEGGresult_N$Pvalue<=p_v]
 				
 					z=NULL
-					w_kegg<-gwindow("Select KEGG ID",horizontal=FALSE,height=100,width=100)
-					gp_kegg<-ggroup(container=w_kegg,horizontal=FALSE)
+					w_kegg<-gwindow("Select KEGG ID",fill="y",height=100,width=100)
+					gp_kegg<-ggroup(container=w_kegg,fill="y")
 					glabel("KEGG Id",container=gp_kegg)
 					cb_kegg<-gcombobox(KEGG.vec,editable=TRUE,selected=1,container=gp_kegg,handler=function(h,...){
 						z<-svalue(h$obj)
@@ -616,8 +616,8 @@ graph_gsea_kegg<-function(h,...){
 					KEGG.vec<-rownames(KEGGresult_S)[KEGGresult_S$Pvalue<=p_v]
 				
 					z=NULL
-					w_kegg<-gwindow("Select KEGG ID",horizontal=FALSE,height=100,width=100)
-					gp_kegg<-ggroup(container=w_kegg,horizontal=FALSE)
+					w_kegg<-gwindow("Select KEGG ID",fill="y",height=100,width=100)
+					gp_kegg<-ggroup(container=w_kegg,fill="y")
 					glabel("KEGG Id",container=gp_kegg)
 					cb_kegg<-gcombobox(KEGG.vec,editable=TRUE,selected=1,container=gp_kegg,handler=function(h,...){
 						z<-svalue(h$obj)
@@ -701,8 +701,8 @@ graph_gsea_kegg<-function(h,...){
 					KEGG.vec<-rownames(KEGGresult_O)[KEGGresult_O$Pvalue<=p_v]
 				
 					z=NULL
-					w_kegg<-gwindow("Select KEGG ID",horizontal=FALSE,height=100,width=100)
-					gp_kegg<-ggroup(container=w_kegg,horizontal=FALSE)
+					w_kegg<-gwindow("Select KEGG ID",fill="y",height=100,width=100)
+					gp_kegg<-ggroup(container=w_kegg,fill="y")
 					glabel("KEGG Id",container=gp_kegg)
 					cb_kegg<-gcombobox(KEGG.vec,editable=TRUE,selected=1,container=gp_kegg,handler=function(h,...){
 						z<-svalue(h$obj)

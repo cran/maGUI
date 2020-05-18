@@ -40,11 +40,11 @@ filter_sp<-function(h,...){
 	sf_xx=NULL
 
 	w_f<-gwindow("Select your data",width=260,height=280,visible=FALSE)
-	gp_f<-ggroup(container=w_f,horizontal=FALSE)
+	gp_f<-ggroup(container=w_f,fill="y")
 	size(gp_f)=c(220,180)
 	cbg<-gcheckboxgroup(platforms,container=gp_f,handler=f)
 	svalue(cbg,index=FALSE)<-1:8
-	gp2_f<-ggroup(container=gp_f,width=30,height=15,horizontal=TRUE)
+	gp2_f<-ggroup(container=gp_f,width=30,height=15,fill="x")
 	addSpring(gp2_f)
 	y<-gbutton("CANCEL",border=TRUE,handler=function(h,...){
 		dispose(w_f)

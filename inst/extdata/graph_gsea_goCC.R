@@ -1,0 +1,395 @@
+graph_gsea_goCC<-function(h,...){
+	try(({GOresultCC_Affy<-GOresultCC_Affy;GOresultCC_Ag1<-GOresultCC_Ag1;GOresultCC_Ag2<-GOresultCC_Ag2;
+		GOresultCC_Il_B<-GOresultCC_Il_B;GOresultCC_Il_L<-GOresultCC_Il_L;GOresultCC_N<-GOresultCC_N;
+		GOresultCC_S<-GOresultCC_S;GOresultCC_O<-GOresultCC_O;g1_1<-g1_1;l<-l;tree<-tree;
+	}),silent=TRUE)
+	platforms=NULL;
+	aa=0;bb=0;cc=0;dd=0;ee=0;fff=0;gg=0;hh=0;
+	try(({
+		if(exists("GOresultCC_Affy"))aa=length(GOresultCC_Affy)
+		if(exists("GOresultCC_Ag1"))bb=length(GOresultCC_Ag1)
+		if(exists("GOresultCC_Ag2"))cc=length(GOresultCC_Ag2)
+		if(exists("GOresultCC_Il_B"))dd=length(GOresultCC_Il_B)
+		if(exists("GOresultCC_Il_L"))ee=length(GOresultCC_Il_L)
+		if(exists("GOresultCC_N"))fff=length(GOresultCC_N)
+		if(exists("GOresultCC_S"))gg=length(GOresultCC_S)
+		if(exists("GOresultCC_O"))hh=length(GOresultCC_O)
+		}),silent=TRUE)
+	if(aa!=0)platforms=c(platforms,"Affymetrix")
+	if(bb!=0)platforms=c(platforms,"Agilent_OneColor")
+	if(cc!=0)platforms=c(platforms,"Agilent_TwoColor")
+	if(dd!=0)platforms=c(platforms,"Illumina_Beadarray")
+	if(ee!=0)platforms=c(platforms,"Illumina_Lumi")
+	if(fff!=0)platforms=c(platforms,"Nimblegen")
+	if(gg!=0)platforms=c(platforms,"Series_Matrix")
+	if(hh!=0)platforms=c(platforms,"Online_Data")
+
+	graph_gsea_goCC_Affy=NULL;graph_gsea_goCC_Ag1=NULL;graph_gsea_goCC_Ag2=NULL;graph_gsea_goCC_Il_B=NULL;graph_gsea_goCC_Il_L=NULL;
+	graph_gsea_goCC_N=NULL;graph_gsea_goCC_S=NULL;graph_gsea_goCC_O=NULL;
+	legend_gsea_goCC_Affy=NULL;legend_gsea_goCC_Ag1=NULL;legend_gsea_goCC_Ag2=NULL;legend_gsea_goCC_Il_B=NULL;legend_gsea_goCC_Il_L=NULL;
+	legend_gsea_goCC_N=NULL;legend_gsea_goCC_S=NULL;legend_gsea_goCC_O=NULL;p_v_1=NULL;p_v_2=NULL;view_ww=NULL;
+	nodefill_gsea_goCC_Affy=NULL;g_gsea_goCC_Affy=NULL;nodefill_gsea_goCC_Ag1=NULL;g_gsea_goCC_Ag1=NULL;
+	nodefill_gsea_goCC_Ag2=NULL;g_gsea_goCC_Ag2=NULL;nodefill_gsea_goCC_Il_B=NULL;g_gsea_goCC_Il_B=NULL;
+	nodefill_gsea_goCC_Il_L=NULL;g_gsea_goCC_Il_L=NULL;nodefill_gsea_goCC_N=NULL;g_gsea_goCC_N=NULL;
+	nodefill_gsea_goCC_S=NULL;g_gsea_goCC_S=NULL;nodefill_gsea_goCC_O=NULL;g_gsea_goCC_O=NULL;
+
+	rm(graph_gsea_goCC_Affy,graph_gsea_goCC_Ag1,graph_gsea_goCC_Ag2,graph_gsea_goCC_Il_B,graph_gsea_goCC_Il_L,
+	graph_gsea_goCC_N,graph_gsea_goCC_S,graph_gsea_goCC_O,
+	nodefill_gsea_goCC_Affy,g_gsea_goCC_Affy,nodefill_gsea_goCC_Ag1,g_gsea_goCC_Ag1,
+	nodefill_gsea_goCC_Ag2,g_gsea_goCC_Ag2,nodefill_gsea_goCC_Il_B,g_gsea_goCC_Il_B,
+	nodefill_gsea_goCC_Il_L,g_gsea_goCC_Il_L,nodefill_gsea_goCC_N,g_gsea_goCC_N,
+	nodefill_gsea_goCC_S,g_gsea_goCC_S,nodefill_gsea_goCC_O,g_gsea_goCC_O,
+	legend_gsea_goCC_Affy,legend_gsea_goCC_Ag1,legend_gsea_goCC_Ag2,legend_gsea_goCC_Il_B,legend_gsea_goCC_Il_L,
+	legend_gsea_goCC_N,legend_gsea_goCC_S,legend_gsea_goCC_O,p_v_1,p_v_2,view_ww)
+
+	x=NULL
+	f<-function(h,...){
+		x<<-svalue(h$obj)
+		}
+	z=NULL
+	w_gsea<-gwindow("Select p-value",horizontal=FALSE,height=100,width=100)
+	gp_gsea<-ggroup(container=w_gsea)
+	gp_gsea_1<-ggroup(container=gp_gsea,horizontal=FALSE)
+	glabel("Lower limit",container=gp_gsea_1)
+	ge_gsea_1<-gedit("",initial.msg="0",width=10,height=20,container=gp_gsea_1,anchor=c(-1,1))
+
+	gp_gsea_2<-ggroup(container=gp_gsea,horizontal=FALSE)
+	glabel("Upper limit",container=gp_gsea_2)
+	ge_gsea_2<-gedit("",initial.msg="0.05",width=10,height=20,container=gp_gsea_2,anchor=c(-1,1))
+
+	gp_gsea2<-ggroup(container=w_gsea)
+	gbutton("CANCEL",border=TRUE,handler=function(h,...){
+		p_v_1<<-svalue(ge_gsea_1)
+		p_v_2<<-svalue(ge_gsea_2)
+		svalue(sb)<-"Done"
+		dispose(w_gsea)
+	},container=gp_gsea2,anchor=c(1,-1))
+	gbutton("OK",border=TRUE,handler=function(h,...){
+		p_v_1<<-svalue(ge_gsea_1)
+		if(p_v_1=="")p_v_1<<-0;
+		p_v_2<<-svalue(ge_gsea_2)
+		if(p_v_2=="")p_v_2<<-0.05;
+		p_v_1<<-as.numeric(p_v_1);p_v_2<<-as.numeric(p_v_2);
+		dispose(w_gsea)
+		svalue(sb)<-"				Please wait while Graphs.."
+		w_dge<-gwindow("Select your data",width=260,height=280,visible=FALSE,horizontal=FALSE)
+		gp_dge<-ggroup(container=w_dge,horizontal=FALSE)
+		cbg_dge<-gcheckboxgroup(platforms,container=gp_dge,handler=f)
+		svalue(cbg_dge,index=FALSE)<-1:8
+		gp2_dge<-ggroup(container=gp_dge,width=30,height=15,horizontal=TRUE)
+		addSpring(gp2_dge)
+		y<-gbutton("CANCEL",border=TRUE,handler=function(h,...){
+			dispose(w_dge)
+		},container=gp2_dge,anchor=c(1,-1))
+		y2<-gbutton("OK",border=TRUE,handler=function(h,...){
+			if(length(x)!=0){
+				dispose(w_dge)
+				if(length(which(x=="Affymetrix"))!=0)
+				{
+					try(dispose(view_ww),silent=TRUE)
+					p1<-rownames(GOresultCC_Affy)[GOresultCC_Affy$Pvalue>=p_v_1]
+					p2<-rownames(GOresultCC_Affy)[GOresultCC_Affy$Pvalue<=p_v_2]
+					p<-p2[match(p1,p2)]
+					GO.vec<-p[!is.na(p)==TRUE]
+					g<-GOGraph(GO.vec,GOCCPARENTS)
+					g<-removeNode("all",g)
+					nodes<-buildNodeList(g)
+					focusnode<-sapply(nodes,name) %in% GO.vec
+					names(focusnode)<-names(nodes)
+					nodefill<-ifelse(focusnode,"yellow","white")
+					nodefill_gsea_goCC_Affy<<-nodefill
+					g_gsea_goCC_Affy<<-g
+					nAttrs<-list()
+					nAttrs$fillcolor<-nodefill
+					graph_gsea_goCC_Affy<<-plot(g,nodeAttrs=nAttrs)
+					terms<-getGOTerm(nodes(g))
+					legend<-data.frame(terms)
+					legend_gsea_goCC_Affy<<-data.frame(rownames(legend),legend)
+					colnames(legend_gsea_goCC_Affy)<<-c("Identifier","CC")
+					view_ww<<-gwindow("Graph_Legend",visible=FALSE,height=480,width=650)
+					gtable(legend_gsea_goCC_Affy,container=view_ww)
+					visible(view_ww)<<-TRUE
+					if(length(graph_gsea_goCC_Affy)!=0){
+						visible(g1_1)<-FALSE
+						l$Affymetrix$Graph_GSEA_GO$CC<<-list()
+						tr<<-gtree(offspring=tree,container=g1_1)
+						size(tr)<-c(300,480)
+						visible(g1_1)<-TRUE
+					}
+					display()	
+				}
+				if(length(which(x=="Agilent_OneColor"))!=0)
+				{
+					try(dispose(view_ww),silent=TRUE)
+					p1<-rownames(GOresultCC_Ag1)[GOresultCC_Ag1$Pvalue>=p_v_1]
+					p2<-rownames(GOresultCC_Ag1)[GOresultCC_Ag1$Pvalue<=p_v_2]
+					p<-p2[match(p1,p2)]
+					GO.vec<-p[!is.na(p)==TRUE]
+					g<-GOGraph(GO.vec,GOCCPARENTS)
+					g<-removeNode("all",g)
+					nodes<-buildNodeList(g)
+					focusnode<-sapply(nodes,name) %in% GO.vec
+					names(focusnode)<-names(nodes)
+					nodefill<-ifelse(focusnode,"yellow","white")
+					nodefill_gsea_goCC_Ag1<<-nodefill
+					g_gsea_goCC_Ag1<<-g
+					nAttrs<-list()
+					nAttrs$fillcolor<-nodefill
+					graph_gsea_goCC_Ag1<<-plot(g,nodeAttrs=nAttrs)
+					terms<-getGOTerm(nodes(g))
+					legend<-data.frame(terms)
+					legend_gsea_goCC_Ag1<<-data.frame(rownames(legend),legend)
+					colnames(legend_gsea_goCC_Ag1)<<-c("Identifier","CC")
+					view_ww<<-gwindow("Graph_Legend",visible=FALSE,height=480,width=650)
+					gtable(legend_gsea_goCC_Ag1,container=view_ww)
+					visible(view_ww)<<-TRUE
+					if(length(graph_gsea_goCC_Ag1)!=0){
+						visible(g1_1)<-FALSE
+						l$Agilent_OneColor$Graph_GSEA_GO$CC<<-list()
+						tr<<-gtree(offspring=tree,container=g1_1)
+						size(tr)<-c(300,480)
+						visible(g1_1)<-TRUE
+					}
+					display()	
+				}
+				if(length(which(x=="Agilent_TwoColor"))!=0)
+				{
+					try(dispose(view_ww),silent=TRUE)
+					p1<-rownames(GOresultCC_Ag2)[GOresultCC_Ag2$Pvalue>=p_v_1]
+					p2<-rownames(GOresultCC_Ag2)[GOresultCC_Ag2$Pvalue<=p_v_2]
+					p<-p2[match(p1,p2)]
+					GO.vec<-p[!is.na(p)==TRUE]
+					g<-GOGraph(GO.vec,GOCCPARENTS)
+					g<-removeNode("all",g)
+					nodes<-buildNodeList(g)
+					focusnode<-sapply(nodes,name) %in% GO.vec
+					names(focusnode)<-names(nodes)
+					nodefill<-ifelse(focusnode,"yellow","white")
+					nodefill_gsea_goCC_Ag2<<-nodefill
+					g_gsea_goCC_Ag2<<-g
+					nAttrs<-list()
+					nAttrs$fillcolor<-nodefill
+					graph_gsea_goCC_Ag2<<-plot(g,nodeAttrs=nAttrs)
+					terms<-getGOTerm(nodes(g))
+					legend<-data.frame(terms)
+					legend_gsea_goCC_Ag2<<-data.frame(rownames(legend),legend)
+					colnames(legend_gsea_goCC_Ag2)<<-c("Identifier","CC")
+					view_ww<<-gwindow("Graph_Legend",visible=FALSE,height=480,width=650)
+					gtable(legend_gsea_goCC_Ag2,container=view_ww)
+					visible(view_ww)<<-TRUE
+					if(length(graph_gsea_goCC_Ag2)!=0){
+						visible(g1_1)<-FALSE
+						l$Agilent_TwoColor$Graph_GSEA_GO$CC<<-list()
+						tr<<-gtree(offspring=tree,container=g1_1)
+						size(tr)<-c(300,480)
+						visible(g1_1)<-TRUE
+					}
+					display()	
+				}
+				if(length(which(x=="Illumina_Beadarray"))!=0)
+				{
+					try(dispose(view_ww),silent=TRUE)
+					p1<-rownames(GOresultCC_Il_B)[GOresultCC_Il_B$Pvalue>=p_v_1]
+					p2<-rownames(GOresultCC_Il_B)[GOresultCC_Il_B$Pvalue<=p_v_2]
+					p<-p2[match(p1,p2)]
+					GO.vec<-p[!is.na(p)==TRUE]
+					g<-GOGraph(GO.vec,GOCCPARENTS)
+					g<-removeNode("all",g)
+					nodes<-buildNodeList(g)
+					focusnode<-sapply(nodes,name) %in% GO.vec
+					names(focusnode)<-names(nodes)
+					nodefill<-ifelse(focusnode,"yellow","white")
+					nodefill_gsea_goCC_Il_B<<-nodefill
+					g_gsea_goCC_Il_B<<-g
+					nAttrs<-list()
+					nAttrs$fillcolor<-nodefill
+					graph_gsea_goCC_Il_B<<-plot(g,nodeAttrs=nAttrs)
+					terms<-getGOTerm(nodes(g))
+					legend<-data.frame(terms)
+					legend_gsea_goCC_Il_B<<-data.frame(rownames(legend),legend)
+					colnames(legend_gsea_goCC_Il_B)<<-c("Identifier","CC")
+					view_ww<<-gwindow("Graph_Legend",visible=FALSE,height=480,width=650)
+					gtable(legend_gsea_goCC_Il_B,container=view_ww)
+					visible(view_ww)<<-TRUE
+					if(length(graph_gsea_goCC_Il_B)!=0){
+						visible(g1_1)<-FALSE
+						l$Illumina_Beadarray$Graph_GSEA_GO$CC<<-list()
+						tr<<-gtree(offspring=tree,container=g1_1)
+						size(tr)<-c(300,480)
+						visible(g1_1)<-TRUE
+					}
+					display()	
+				}
+				if(length(which(x=="Illumina_Lumi"))!=0)
+				{
+					try(dispose(view_ww),silent=TRUE)
+					p1<-rownames(GOresultCC_Il_L)[GOresultCC_Il_L$Pvalue>=p_v_1]
+					p2<-rownames(GOresultCC_Il_L)[GOresultCC_Il_L$Pvalue<=p_v_2]
+					p<-p2[match(p1,p2)]
+					GO.vec<-p[!is.na(p)==TRUE]
+					g<-GOGraph(GO.vec,GOCCPARENTS)
+					g<-removeNode("all",g)
+					nodes<-buildNodeList(g)
+					focusnode<-sapply(nodes,name) %in% GO.vec
+					names(focusnode)<-names(nodes)
+					nodefill<-ifelse(focusnode,"yellow","white")
+					nodefill_gsea_goCC_Il_L<<-nodefill
+					g_gsea_goCC_Il_L<<-g
+					nAttrs<-list()
+					nAttrs$fillcolor<-nodefill
+					graph_gsea_goCC_Il_L<<-plot(g,nodeAttrs=nAttrs)
+					terms<-getGOTerm(nodes(g))
+					legend<-data.frame(terms)
+					legend_gsea_goCC_Il_L<<-data.frame(rownames(legend),legend)
+					colnames(legend_gsea_goCC_Il_L)<<-c("Identifier","CC")
+					view_ww<<-gwindow("Graph_Legend",visible=FALSE,height=480,width=650)
+					gtable(legend_gsea_goCC_Il_L,container=view_ww)
+					visible(view_ww)<<-TRUE
+					if(length(graph_gsea_goCC_Il_L)!=0){
+						visible(g1_1)<-FALSE
+						l$Illumina_Lumi$Graph_GSEA_GO$CC<<-list()
+						tr<<-gtree(offspring=tree,container=g1_1)
+						size(tr)<-c(300,480)
+						visible(g1_1)<-TRUE
+					}
+					display()	
+				}
+				if(length(which(x=="Nimblegen"))!=0)
+				{
+					try(dispose(view_ww),silent=TRUE)
+					p1<-rownames(GOresultCC_N)[GOresultCC_N$Pvalue>=p_v_1]
+					p2<-rownames(GOresultCC_N)[GOresultCC_N$Pvalue<=p_v_2]
+					p<-p2[match(p1,p2)]
+					GO.vec<-p[!is.na(p)==TRUE]
+					g<-GOGraph(GO.vec,GOCCPARENTS)
+					g<-removeNode("all",g)
+					nodes<-buildNodeList(g)
+					focusnode<-sapply(nodes,name) %in% GO.vec
+					names(focusnode)<-names(nodes)
+					nodefill<-ifelse(focusnode,"yellow","white")
+					nodefill_gsea_goCC_N<<-nodefill
+					g_gsea_goCC_N<<-g
+					nAttrs<-list()
+					nAttrs$fillcolor<-nodefill
+					graph_gsea_goCC_N<<-plot(g,nodeAttrs=nAttrs)
+					terms<-getGOTerm(nodes(g))
+					legend<-data.frame(terms)
+					legend_gsea_goCC_N<<-data.frame(rownames(legend),legend)
+					colnames(legend_gsea_goCC_N)<<-c("Identifier","CC")
+					view_ww<<-gwindow("Graph_Legend",visible=FALSE,height=480,width=650)
+					gtable(legend_gsea_goCC_N,container=view_ww)
+					visible(view_ww)<<-TRUE
+					if(length(graph_gsea_goCC_N)!=0){
+						visible(g1_1)<-FALSE
+						l$Nimblegen$Graph_GSEA_GO$CC<<-list()
+						tr<<-gtree(offspring=tree,container=g1_1)
+						size(tr)<-c(300,480)
+						visible(g1_1)<-TRUE
+					}
+					display()	
+				}
+				if(length(which(x=="Series_Matrix"))!=0)
+				{
+					try(dispose(view_ww),silent=TRUE)
+					p1<-rownames(GOresultCC_S)[GOresultCC_S$Pvalue>=p_v_1]
+					p2<-rownames(GOresultCC_S)[GOresultCC_S$Pvalue<=p_v_2]
+					p<-p2[match(p1,p2)]
+					GO.vec<-p[!is.na(p)==TRUE]
+					g<-GOGraph(GO.vec,GOCCPARENTS)
+					g<-removeNode("all",g)
+					nodes<-buildNodeList(g)
+					focusnode<-sapply(nodes,name) %in% GO.vec
+					names(focusnode)<-names(nodes)
+					nodefill<-ifelse(focusnode,"yellow","white")
+					nodefill_gsea_goCC_S<<-nodefill
+					g_gsea_goCC_S<<-g
+					nAttrs<-list()
+					nAttrs$fillcolor<-nodefill
+					graph_gsea_goCC_S<<-plot(g,nodeAttrs=nAttrs)
+					terms<-getGOTerm(nodes(g))
+					legend<-data.frame(terms)
+					legend_gsea_goCC_S<<-data.frame(rownames(legend),legend)
+					colnames(legend_gsea_goCC_S)<<-c("Identifier","CC")
+					view_ww<<-gwindow("Graph_Legend",visible=FALSE,height=480,width=650)
+					gtable(legend_gsea_goCC_S,container=view_ww)
+					visible(view_ww)<<-TRUE
+					if(length(graph_gsea_goCC_S)!=0){
+						visible(g1_1)<-FALSE
+						l$Series_Matrix$Graph_GSEA_GO$CC<<-list()
+						tr<<-gtree(offspring=tree,container=g1_1)
+						size(tr)<-c(300,480)
+						visible(g1_1)<-TRUE
+					}
+					display()	
+				}
+				if(length(which(x=="Online_Data"))!=0)
+				{
+					try(dispose(view_ww),silent=TRUE)
+					p1<-rownames(GOresultCC_O)[GOresultCC_O$Pvalue>=p_v_1]
+					p2<-rownames(GOresultCC_O)[GOresultCC_O$Pvalue<=p_v_2]
+					p<-p2[match(p1,p2)]
+					GO.vec<-p[!is.na(p)==TRUE]
+					g<-GOGraph(GO.vec,GOCCPARENTS)
+					g<-removeNode("all",g)
+					nodes<-buildNodeList(g)
+					focusnode<-sapply(nodes,name) %in% GO.vec
+					names(focusnode)<-names(nodes)
+					nodefill<-ifelse(focusnode,"yellow","white")
+					nodefill_gsea_goCC_O<<-nodefill
+					g_gsea_goCC_O<<-g
+					nAttrs<-list()
+					nAttrs$fillcolor<-nodefill
+					graph_gsea_goCC_O<<-plot(g,nodeAttrs=nAttrs)
+					terms<-getGOTerm(nodes(g))
+					legend<-data.frame(terms)
+					legend_gsea_goCC_O<<-data.frame(rownames(legend),legend)
+					colnames(legend_gsea_goCC_O)<<-c("Identifier","CC")
+					view_ww<<-gwindow("Graph_Legend",visible=FALSE,height=480,width=650)
+					gtable(legend_gsea_goCC_O,container=view_ww)
+					visible(view_ww)<<-TRUE
+					if(length(graph_gsea_goCC_O)!=0){
+						visible(g1_1)<-FALSE
+						l$Online_Data$Graph_GSEA_GO$CC<<-list()
+						tr<<-gtree(offspring=tree,container=g1_1)
+						size(tr)<-c(300,480)
+						visible(g1_1)<-TRUE
+					}
+					display()	
+				}
+				svalue(sb)<-"Done"
+				dispose(w_dge)
+				}else{
+				gmessage("Plz select the data for generating Co-expression network","Select Data")
+			}
+		},container=gp2_dge,anchor=c(1,-1)
+		)
+		visible(w_dge)<-TRUE
+	},container=gp_gsea2,anchor=c(1,-1)
+	)
+}
+
+if (!requireNamespace("annotate", quietly = TRUE))
+{
+	install.packages("annotate")
+} else {
+	library(annotate)
+}
+if (!requireNamespace("GO.db", quietly = TRUE))
+{
+	install.packages("GO.db")
+} else {
+	library(GO.db)
+}
+if (!requireNamespace("GOstats", quietly = TRUE))
+{
+	install.packages("GOstats")
+} else {
+	library(GOstats)
+}
+if (!requireNamespace("graph", quietly = TRUE))
+{
+	install.packages("graph")
+} else {
+	library(graph)
+}
+graph_gsea_goCC()

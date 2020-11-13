@@ -30,6 +30,8 @@ dat2Affy=NULL;datAgOne2=NULL;datAgTwo2=NULL;datIllBA2=NULL;lumi_NQ=NULL;data.mat
 data.matrix=NULL;data.matrix_online=NULL;
 dat2Affy.m=NULL;datAgOne2.m=NULL;datAgTwo2.m=NULL;datIllBA2.m2=NULL;lumi_NQ.m=NULL;data.matrix_Nimblegen2.m=NULL;
 data.matrixNorm.m=NULL;data.matrix_onlineNorm.m=NULL;dgeF=NULL
+normAffy=NULL;normAgOne=NULL;normAgTwo=NULL;normIl_B=NULL;normIl_L=NULL;normNimblg=NULL;normDmsm=NULL;normDmo=NULL;
+qcAffy=NULL;qcAgOne=NULL;qcAgTwo=NULL;qcIl_B=NULL;qcIl_L=NULL;qcNimblg=NULL;qcDmsm=NULL;qcDmo=NULL;
 dgeF=NULL
 dat2Affy.f=NULL;datAgOne2.f=NULL;datAgTwo2.f=NULL;datIllBA2.f=NULL;lumi_NQ.f=NULL;data.matrix_Nimblegen2.f=NULL;
 data.matrixNorm.f=NULL;data.matrix_onlineNorm.f=NULL
@@ -166,51 +168,39 @@ tree<<-function(path,...){
 	out
 	}
 
-pair2xys<-function(pairFiles,outdir=getwd(),verbose=TRUE){
-	if(verbose)message('Output directory:',outdir)
-	for(pairFile in pairFiles)
-	{
-		if(verbose)message('Processing',basename(pairFile))
-		header<-readLines(pairFile,n=1)
-		pair<-read.delim(pairFile,header=TRUE,sep='\t',stringsAsFactors=FALSE,comment.char='#')
-		maxX<-max(pair$X)
-		maxY<-max(pair$Y)
-		xys<-expand.grid(X=1:maxX,Y=1:maxY)
-		xys<-merge(xys,pair[,c('X','Y','PM')],all.x=TRUE)
-		xys<-pair[,c('X','Y','PM')]
-		names(xys)<-c('X','Y','SIGNAL')
-		xys$COUNT<-ifelse(is.na(xys$SIGNAL),NA_integer_,1L)
-		xys<-xys[with(xys,order(Y,X)),]
-		rownames(xys)<-NULL
-		xysFile<-file.path(outdir,gsub('\\.pair$','\\.xys',basename(pairFile)))
-		if(verbose)message('Writing',basename(xysFile))
-		writeLines(header,con=xysFile)
-		suppressWarnings(write.table(xys,file=xysFile,sep='\t',row.names=FALSE,quote=FALSE,append=TRUE))
-	}
-}
 heatcol<<-colorRampPalette(c("Green","Red"))(32)
 
-options(guiToolkit="RGtk2")
+code<-system.file("extdata","dendro.R",package="maGUI")
+source(code)
+
+#options(guiToolkit="RGtk2")
 cur_dir=NULL;
 rm(cur_dir)
 cur_dir<<-getwd()
+on.exit(setwd(cur_dir))
 
 g1=NULL;g2=NULL;g1_1=NULL;g2_1=NULL;
-w<-gwindow("GUI for MA Analysis",visible=FALSE,width=1000,height=500,fill="y",parent=c(20,60))
+#w<-gwindow("GUI for MA Analysis",visible=FALSE,width=1000,height=500,,horizontal=FALSE,parent=c(20,60))
+w<-gwindow("GUI for MA Analysis",visible=FALSE,width=1000,height=500,parent=c(20,60))
+g<-ggroup(container=w)
 rm(g1)
-g1<<-ggroup(container=w)
+#g1<<-ggroup(container=w)
+g1<<-gvbox(container=g)
 glabel(" ",container=g1)
 rm(g2)
-g2<<-ggroup(container=w)
+#g2<<-ggroup(container=w)
+g2<<-gvbox(container=g)
 glabel(" ",container=g2)
 rm(g1_1)
-g1_1<<-ggroup(fill="y",container=g1)
+#g1_1<<-ggroup(horizontal=FALSE,container=g1)
+g1_1<<-ggroup(container=g1)
 glabel(" ",container=g1_1)
 visible(g1_1)<-FALSE
 rm(g2_1)
-g2_1<<-ggroup(container=g2,fill="y")
-size(g2_1)<-c(650,400)
-plotarea<<-ggraphics(ps=5,use.scrollwindow=TRUE,fill="y",container=g2_1)
+#g2_1<<-ggroup(container=g2,horizontal=FALSE)
+g2_1<<-ggroup(container=g2)
+size(g2_1)<-c(650,480)
+plotarea<<-ggraphics(ps=5,use.scrollwindow=TRUE,horizontal=FALSE,container=g2_1)
 sb<<-gstatusbar("Ready",container=w)
 
 try(({rm(
@@ -226,6 +216,8 @@ new_data.matrix,new_data.matrix_online,
 new_rawData,dat2Affy,datAgOne2,datAgTwo2,datIllBA2,lumi_NQ,data.matrix_Nimblegen2,
 dat2Affy.m,datAgOne2.m,datAgTwo2.m,datIllBA2.m2,lumi_NQ.m,data.matrix_Nimblegen2.m,
 data.matrixNorm.m,data.matrix_onlineNorm.m,
+normAffy,normAgOne,normAgTwo,normIl_B,normIl_L,normNimblg,normDmsm,normDmo,
+qcAffy,qcAgOne,qcAgTwo,qcIl_B,qcIl_L,qcNimblg,qcDmsm,qcDmo,
 dgeF,
 dat2Affy.f,datAgOne2.f,datAgTwo2.f,datIllBA2.f,lumi_NQ.f,data.matrix_Nimblegen2.f,
 data.matrixNorm.f,data.matrix_onlineNorm.f,
@@ -358,6 +350,8 @@ new_data.matrix,new_data.matrix_online,
 new_rawData,dat2Affy,datAgOne2,datAgTwo2,datIllBA2,lumi_NQ,data.matrix_Nimblegen2,
 dat2Affy.m,datAgOne2.m,datAgTwo2.m,datIllBA2.m2,lumi_NQ.m,data.matrix_Nimblegen2.m,
 data.matrixNorm.m,data.matrix_onlineNorm.m,
+normAffy,normAgOne,normAgTwo,normIl_B,normIl_L,normNimblg,normDmsm,normDmo,
+qcAffy,qcAgOne,qcAgTwo,qcIl_B,qcIl_L,qcNimblg,qcDmsm,qcDmo,
 dgeF,
 dat2Affy.f,datAgOne2.f,datAgTwo2.f,datIllBA2.f,lumi_NQ.f,data.matrix_Nimblegen2.f,
 data.matrixNorm.f,data.matrix_onlineNorm.f,
@@ -493,6 +487,8 @@ dat2Affy=NULL;datAgOne2=NULL;datAgTwo2=NULL;datIllBA2=NULL;lumi_NQ=NULL;data.mat
 data.matrix=NULL;data.matrix_online=NULL;
 dat2Affy.m=NULL;datAgOne2.m=NULL;datAgTwo2.m=NULL;datIllBA2.m2=NULL;lumi_NQ.m=NULL;data.matrix_Nimblegen2.m=NULL;
 data.matrixNorm.m=NULL;data.matrix_onlineNorm.m=NULL;dgeF=NULL
+normAffy=NULL;normAgOne=NULL;normAgTwo=NULL;normIl_B=NULL;normIl_L=NULL;normNimblg=NULL;normDmsm=NULL;normDmo=NULL;
+qcAffy=NULL;qcAgOne=NULL;qcAgTwo=NULL;qcIl_B=NULL;qcIl_L=NULL;qcNimblg=NULL;qcDmsm=NULL;qcDmo=NULL;
 dgeF=NULL
 dat2Affy.f=NULL;datAgOne2.f=NULL;datAgTwo2.f=NULL;datIllBA2.f=NULL;lumi_NQ.f=NULL;data.matrix_Nimblegen2.f=NULL;
 data.matrixNorm.f=NULL;data.matrix_onlineNorm.f=NULL
@@ -615,7 +611,7 @@ rawData=NULL
 x=NULL;y=NULL
 plotarea=NULL;
 l=NULL;tree=NULL;
-		setwd(cur_dir)
+		on.exit(setwd(cur_dir))
 		}
 }
 )
@@ -625,13 +621,16 @@ mbl$File$Open=gaction(label="Open",handler=function(h,...)
 {
 	f_oo<<-NULL
 	if(gconfirm("Data tree will not be available for this..!")==TRUE){
-		choose_file()
+#		choose_file()
+		filechoose=NULL;
+		file<-tclvalue(tkgetOpenFile(title="Select the file"))
+		filechoose<<-file
 		f_oo<<-filechoose
 		filechoose=NULL
 		if(!is.na(f_oo) && length(grep(".Rdata",f_oo))!=0)
 		{
 			try(delete(g1,g1_1),silent=TRUE)
-			try(delete(g2,g2_1),silent=TRUE)
+			try(delete(g2,g1_1),silent=TRUE)
 			load(f_oo,.GlobalEnv)
 		}
 		else
@@ -639,403 +638,79 @@ mbl$File$Open=gaction(label="Open",handler=function(h,...)
 			gmessage("Could not load this type of file..!",title="Error",icon="error")
 		}
 	}
-	setwd(cur_dir)	
+	on.exit(setwd(cur_dir))	
 }
 )
 #mbl$File$Load$Affymetrix$handler=function(h,...)
 mbl$File$Load$Affymetrix=gaction(label="Affymetrix",handler=function(h,...)
 {
-	choose_folder()
-	folder_Affy<<-folderchoose
-	folderchoose=NULL
-	new_datAffy<<-NULL
-	if(folder_Affy==""){
-		folder_Affy<<-NULL
-		} else { try(({
-	setwd(folder_Affy)
-	svalue(sb)<-"				Please wait while loading.."
-	new_datAffy<<-ReadAffy()
-	if(length(new_datAffy)!=0){datAffy<<-new_datAffy}
-	ann_Affy<<-annotation(datAffy)
-	 }),silent=TRUE)
-	if(length(new_datAffy)==0)gmessage("Could not load this type of data..!\nTry Series_matrix or Online_Data methods",title="Loading error",icon="error")
-	 }
-	if(length(datAffy)!=0){
-		delete(g1,g1_1)
-		l$Affymetrix<<-list()
-		g1_1<<-ggroup(container=g1)
-		tr<<-gtree(offspring=tree,container=g1_1)
-		size(tr)<-c(300,400)
-		if(length(new_datAffy)!=0)
-		{
-			if(gconfirm("Do you want to pre-process and analyze automatically",icon="question")==TRUE)affym()
-			}
-		} 
+	svalue(sb)<-"				              Please wait .."
+	code<-system.file("extdata","affym.R",package="maGUI")
+	source(code)
 	svalue(sb)<-"Done"
-	setwd(cur_dir)
 }
 )
 #mbl$File$Load$Agilent$One_Color$handler=function(h,...)
 mbl$File$Load$Agilent$One_Color=gaction(label="One_Color",handler=function(h,...)
 {
-	choose_folder()
-	folder_Ag1<<-folderchoose
-	folderchoose=NULL
-	new_datAgOne<<-NULL
-	if(folder_Ag1==""){
-		folder_Ag1<<-NULL
-		} else { try(({
-	setwd(folder_Ag1)
-	svalue(sb)<-"				Please wait while loading.."
-	new_datAgOne<<-read.maimages(files=dir(folder_Ag1),columns=list(G="gMeanSignal",Gb="gBGMedianSignal",R="gMeanSignal",Rb="gBGMedianSignal"))
-	if(length(new_datAgOne)!=0){datAgOne<<-new_datAgOne}
-	z<-as(datAgOne,"NChannelSet")
-	ann_Ag1<<-annotation(z)
-	 }),silent=TRUE)
-	if(length(new_datAgOne)==0)gmessage("Could not load this type of data..!\nTry Series_matrix or Online_Data methods",title="Loading error",icon="error")
-	}
-	if(length(datAgOne)!=0){
-		delete(g1,g1_1)
-		l$Agilent_OneColor<<-list()
-		g1_1<<-ggroup(container=g1)
-		tr<<-gtree(offspring=tree,container=g1_1)
-		size(tr)<-c(300,400)
-		if(length(new_datAgOne)!=0)
-		{
-			if(gconfirm("Do you want to pre-process and analyze automatically",icon="question")==TRUE)agone()
-			}
-		}
+	svalue(sb)<-"				              Please wait .."
+	code<-system.file("extdata","agone.R",package="maGUI")
+	source(code)
 	svalue(sb)<-"Done"
-	setwd(cur_dir)
 }
 )
 #mbl$File$Load$Agilent$Two_Color$handler=function(h,...)
 mbl$File$Load$Agilent$Two_Color=gaction(label="Two_Color",handler=function(h,...)
 {
-	choose_folder()
-	folder_Ag2<<-folderchoose
-	folderchoose=NULL
-	new_datAgTwo<<-NULL
-	if(folder_Ag2==""){
-		folder_Ag2<<-NULL
-		} else { try(({
-	setwd(folder_Ag2)
-	svalue(sb)<-"				Please wait while loading.."
-	new_datAgTwo<<-read.maimages(files=dir(folder_Ag2),source="agilent")
-	if(length(new_datAgTwo)!=0){datAgTwo<<-new_datAgTwo}
-	z<-as(datAgTwo,"NChannelSet")
-	ann_Ag2<<-annotation(z)
-	 }),silent=TRUE)
-	if(length(new_datAgTwo)==0)gmessage("Could not load this type of data..!\nTry Series_matrix or Online_Data methods",title="Loading error",icon="error")
-	 }
-	if(length(datAgTwo)!=0){
-		delete(g1,g1_1)
-		l$Agilent_TwoColor<<-list()
-		g1_1<<-ggroup(container=g1)
-		tr<<-gtree(offspring=tree,container=g1_1)
-		size(tr)<-c(300,400)
-		if(length(new_datAgTwo)!=0)
-		{
-			if(gconfirm("Do you want to pre-process and analyze automatically",icon="question")==TRUE)agtwo()
-			}
-		}
+	svalue(sb)<-"				              Please wait .."
+	code<-system.file("extdata","agtwo.R",package="maGUI")
+	source(code)
 	svalue(sb)<-"Done"
-	setwd(cur_dir)
 }
 )
 #mbl$File$Load$Illumina$BeadArray$handler=function(h,...)
 mbl$File$Load$Illumina$BeadArray=gaction(label="BeadArray",handler=function(h,...)
 {
-	choose_file()
-	file<-filechoose
-	filechoose=NULL
-	new_datIllBA<<-NULL
-	if(file==""){
-		file<<-NULL
-		} else { try(({
-	folder_Il_B<<-dirname(file)
-	setwd(folder_Il_B)
-	svalue(sb)<-"				Please wait while loading.."
-	probes<-c("ProbeID","TargetID","ProbeId","TargetId","Probe_ID","Probe_Id","Target_ID","Target_Id","ID_REF","Id_Ref")
-	x<-read.table(file,sep="\t",fill=TRUE)
-	y<-which(x[,4]!="")
-	ToSkip<-y[1]-1
-	x2<-read.table(file,sep="\t",header=TRUE,skip=ToSkip,fill=TRUE)
-	ProbeID=probes[which(probes %in% colnames(x2))]
-	new_datIllBA<<-readBeadSummaryData(file,sep="\t",skip=ToSkip,ProbeID=ProbeID)
-	if(length(new_datIllBA)!=0){datIllBA<<-new_datIllBA}
-	ann_Il_B<<-annotation(datIllBA)
-	 }),silent=TRUE)
-	if(length(new_datIllBA)==0)gmessage("Could not load this type of file..!\nTry Series_matrix or Online_Data methods",title="Loading error",icon="error")
-	 }
-	if(length(datIllBA)!=0){
-		delete(g1,g1_1)
-		l$Illumina_Beadarray<<-list()
-		g1_1<<-ggroup(container=g1)
-		tr<<-gtree(offspring=tree,container=g1_1)
-		size(tr)<-c(300,400)
-		if(length(new_datIllBA)!=0)
-		{
-			if(gconfirm("Do you want to pre-process and analyze automatically",icon="question")==TRUE)illbead()
-			}
-		}
+	svalue(sb)<-"				              Please wait .."
+	code<-system.file("extdata","illbead.R",package="maGUI")
+	source(code)
 	svalue(sb)<-"Done"
-	setwd(cur_dir)
 }
 )
 #mbl$File$Load$Illumina$Lumi$handler=function(h,...)
 mbl$File$Load$Illumina$Lumi=gaction(label="Lumi",handler=function(h,...)
 {
-	choose_file()
-	file<-filechoose
-	filechoose=NULL
-	new_lumi_data<<-NULL
-	if(file==""){
-		file<<-NULL
-		} else { try(({
-	folder_Il_L<<-dirname(file)
-	setwd(folder_Il_L)
-	svalue(sb)<-"				Please wait while loading.."
-	new_lumi_data<<-lumiR(file)
-	summary(new_lumi_data,'QC')
-	if(length(new_lumi_data)!=0){lumi_data<<-new_lumi_data}
-	ann_Il_L<<-annotation(lumi_data)
-	 }),silent=TRUE)
-	if(length(new_lumi_data)==0)gmessage("Could not load this type of file..!\nTry Series_matrix or Online_Data methods",title="Loading error",icon="error")
-	 }
-	if(length(lumi_data)!=0){
-		delete(g1,g1_1)
-		l$Illumina_Lumi<<-list()
-		g1_1<<-ggroup(container=g1)
-		tr<<-gtree(offspring=tree,container=g1_1)
-		size(tr)<-c(300,400)
-		if(length(new_lumi_data)!=0)
-		{
-			if(gconfirm("Do you want to pre-process and analyze automatically",icon="question")==TRUE)illlumi()
-			}
-		}
+	svalue(sb)<-"				              Please wait .."
+	code<-system.file("extdata","illlumi.R",package="maGUI")
+	source(code)
 	svalue(sb)<-"Done"
-	setwd(cur_dir)
 }
 )
 #mbl$File$Load$Nimblegen$handler=function(h,...)
 mbl$File$Load$Nimblegen=gaction(label="Nimblegen",handler=function(h,...)
 {
-	choose_folder()
-	folder_N<<-folderchoose
-	folderchoose=NULL
-	new_data.matrix_Nimblegen<<-NULL
-	if(folder_N==""){
-		folder_Ag2<<-NULL
-		} else { try(({
-	setwd(folder_N)
-	svalue(sb)<-"				Please wait while loading.."
-	pair2xys(list.files(pattern='\\.pair$'))
-	ndf<-list.files(pattern=".ndf")
-	seed<-new("NgsExpressionPDInfoPkgSeed",ndfFile=ndf,xysFile=list.files(pattern='xys$')[1])
-	ndf2=gsub(".ndf","",ndf)
-	ndf3=gsub("_",".",ndf2)
-	pkg=paste("pd",ndf3,sep=".")
-	pkg2<-tolower(pkg)
-	if(length(dir(pkg2))==0)makePdInfoPackage(seed,destDir=".")	
-	install.packages(pkg2,type='source',repos=NULL)
-	pkg3<-pkg2
-	xys=list.xysfiles()
-	new_rawData<<-read.xysfiles(xys,pkgname=pkg3)
-	if(length(new_rawData)!=0)rawData<<-new_rawData
-	z<-annotation(rawData)
-	z1<-strsplit(z,"\\.")
-	zz<-z1[[1]][2]
-	ann_N<<-toupper(zz)
-	try(
-	({
-		res<-rma(rawData)
-		new_data.matrix_Nimblegen<<-exprs(res)
-	}),silent=TRUE)
-	if(length(new_data.matrix_Nimblegen)==0)
-	{
-		new_data.matrix_Nimblegen<<-exprs(rawData)
-	}
-	if(length(new_data.matrix_Nimblegen)!=0){data.matrix_Nimblegen<<-new_data.matrix_Nimblegen}
-	 }),silent=TRUE)
-	if(length(new_data.matrix_Nimblegen)==0)gmessage("Could not load this type of data..!\nTry Series_matrix or Online_Data methods",title="Loading error",icon="error")
-	 }
-	if(length(data.matrix_Nimblegen)!=0){
-		delete(g1,g1_1)
-		l$Nimblegen<<-list()
-		g1_1<<-ggroup(container=g1)
-		tr<<-gtree(offspring=tree,container=g1_1)
-		size(tr)<-c(300,400)
-		if(length(new_data.matrix_Nimblegen)!=0)
-		{
-			if(gconfirm("Do you want to pre-process and analyze automatically",icon="question")==TRUE)nimblg()
-			}
-		}
+	svalue(sb)<-"				              Please wait .."
+	code<-system.file("extdata","nimblg.R",package="maGUI")
+	source(code)
 	svalue(sb)<-"Done"
-	setwd(cur_dir)
 }
 )
 #mbl$File$Load$Series_Matrix$handler=function(h,...)
 mbl$File$Load$Series_Matrix=gaction(label="Series_Matrix",handler=function(h,...)
 {
-	gmessage("Select Platform Soft file",title="Loading",icon="info")
-	choose_file()
-	file_soft<<-filechoose
-	if(file_soft==""){
-		file_soft<<-NULL
-		} else { try(({
-	folder_S<<-dirname(file_soft)
-	setwd(folder_S)	
-	svalue(sb)<-"				Please wait while loading.."
-	a2=readLines(file_soft)
-	b2=length(a2)
-	begin2<-which(gsub("\t","",a2)=="!platform_table_begin")
-	end2<-which(gsub("\t","",a2)=="!platform_table_end")-1
-	size2=end2-begin2-1
-	new_y<<-NULL
-	new_y<<-read.table(file_soft,skip=begin2,nrows=size2,header=TRUE,sep="\t",row.names=NULL)
-	if(length(new_y)!=0){y<<-new_y}
-	if(length(new_y)==0)gmessage("Could not load this type of file..!",title="Loading error",icon="error")
-	}),silent=TRUE)
-	}
-	
-	gmessage("Select Series Matrix file",title="Loading",icon="info")
-	choose_file()
-	file_series_mat<<-filechoose
-	filechoose=NULL
-	if(file_series_mat==""){
-		file_series_mat<<-NULL
-		} else { try(({
-	directory1<-dirname(file_series_mat)
-	setwd(directory1)
-	new_data.matrix<<-NULL;
-	svalue(sb)<-"				Please wait while loading.."
-	a=readLines(file_series_mat)
-	b=length(a)
-	begin<-which(gsub("\t","",a)=="!series_matrix_table_begin")
-	end<-which(gsub("\t","",a)=="series_matrix_ends!")-1
-	size=end-begin-1
-	x=read.table(file_series_mat,skip=begin,nrows=size,header=TRUE,sep="\t",row.names=NULL)
-	row.names(x)=x[,1]
-	x=x[,-1]
-	new_gse<-NULL
-	new_gse<-new("ExpressionSet",exprs=as.matrix(x))
-	if(length(new_gse)!=0){
-	gse<-new_gse
-	ann_S<<-annotation(gse)
-	}
-	table=exprs(gse)
-	orf_ids<-cbind(y$ID,as.character(y$ORF))
-	table2=table
-	for(i in 1:length(orf_ids[,1]))
-	{
-		for(j in 1:length(orf_ids[,1]))
-		{
-			if(rownames(table2)[i]==orf_ids[j,1])
-			{
-				rownames(table2)[i]<-orf_ids[j,2]
-				break
-			}
-		}
-	}	
-	table3<-table2[-(which(row.names(table2)=="")),]
-	new_data.matrix<<-table3
-	data.matrix_series<<-table3
-	if(length(new_data.matrix)!=0){data.matrix_series<<-new_data.matrix}
-	if(length(new_data.matrix)==0)gmessage("Could not load this type of file..!",title="Loading error",icon="error")
-	  }),silent=TRUE)
-	}
-	if(length(data.matrix_series)!=0){
-		delete(g1,g1_1)
-		l$Series_Matrix<<-list()
-		g1_1<<-ggroup(container=g1)
-		tr<<-gtree(offspring=tree,container=g1_1)
-		size(tr)<-c(300,400)
-		if(length(data.matrix_series)!=0)
-		{
-		if(gconfirm("Do you want to pre-process and analyze automatically",icon="question")==TRUE)
-		{
-			svalue(sb)<-"				Please wait while log transforming.."
-			Med<-median(data.matrix_series,na.rm=TRUE)
-			if(Med>16)
-			{
-				data.matrixLog<<-log2(data.matrix_series)
-				} else {
-				data.matrixLog<<-data.matrix_series
-				}
-			rm(Med)
-			svalue(sb)<-"Done"
-	
-			svalue(sb)<-"				Please wait while imputing.."
-			na.length<<-length(which(is.na(data.matrixLog)==TRUE))
-			if(na.length > 0)data.matrixImp<<-impute.knn(data.matrixLog,k=10,rowmax=0.5,colmax=0.3)$data
-			if(na.length <= 0)data.matrixImp<<-data.matrixLog
-			svalue(sb)<-"Done"
-			dmsm()
-		}
-		}
-	}
+	svalue(sb)<-"				              Please wait .."
+	code<-system.file("extdata","dmsm.R",package="maGUI")
+	source(code)
 	svalue(sb)<-"Done"
-	setwd(cur_dir)
 }
 )
 #mbl$File$Load$Get_Data_Online$handler=function(h,...)
 mbl$File$Load$Get_Data_Online=gaction(label="Get_Data_Online",handler=function(h,...)
 {	
-	ginput("Enter GSE Name",icon="question",handler=function(h,...)gse_no<<-h$input)
-	if(length(grep("GSE",gse_no))!=0)
-	{
-		svalue(sb)<-"				Please wait while loading.."
-		new_data.matrix_online<<-NULL
-		try(({
-		err<-try(new_gse<-getGEO(gse_no,GSEMatrix=TRUE,destdir=cur_dir)[[1]],silent=TRUE)
-		if(length(new_gse)!=0){
-		gse<-new_gse
-		ann_O<<-annotation(gse)
-		}
-		ORF<-featureData(gse)@data$ORF
-		use_probe<-which(is.na(ORF)==F & match(ORF,"",nomatch=0)==0)
-		new_data.matrix_online<<-exprs(gse)[use_probe,]
-		data.matrix_online<<-exprs(gse)[use_probe,]
-		rownames(new_data.matrix_online)<<-ORF[use_probe]
-		if(length(new_data.matrix_online)!=0){data.matrix_online<<-new_data.matrix_online}
-		rm(ORF,use_probe)
-	 	}),silent=TRUE)
-		if(length(new_data.matrix_online)==0)gmessage("Could not load this type of data..!",title="Loading error",icon="error")
-		svalue(sb)<-"Done"
-	 }
-	if(length(data.matrix_online)!=0){
-		delete(g1,g1_1)
-		l$Online_Data<<-list()
-		g1_1<<-ggroup(container=g1)
-		tr<<-gtree(offspring=tree,container=g1_1)
-		size(tr)<-c(300,400)
-		if(length(new_data.matrix_online)!=0)
-		{
-		if(gconfirm("Do you want to pre-process and analyze automatically",icon="question")==TRUE)
-		{
-			svalue(sb)<-"				Please wait while log transforming.."
-			Med<-median(data.matrix_online,na.rm=TRUE)
-			if(Med>16)
-			{
-				data.matrix_onlineLog<<-log2(data.matrix_online)
-				} else {
-					data.matrix_onlineLog<<-data.matrix_online
-					}
-			rm(Med)
-			svalue(sb)<-"Done"
-			
-			svalue(sb)<-"				Please wait while imputing.."
-			na.length<-length(which(is.na(data.matrix_onlineLog)==TRUE))
-			if(na.length > 0)data.matrix_onlineImp<<-impute.knn(data.matrix_onlineLog,k=10,rowmax=0.5,colmax=0.3)$data
-			if(na.length < 0)data.matrix_onlineImp<<-data.matrix_onlineLog
-			svalue(sb)<-"Done"
-			dmo()
-			}
-			}
-		}
+	svalue(sb)<-"				              Please wait .."
+	code<-system.file("extdata","dmo.R",package="maGUI")
+	source(code)
 	svalue(sb)<-"Done"
-	setwd(cur_dir)	
 }
 )
 #mbl$File$Save$handler=function(h,...)
@@ -1051,13 +726,13 @@ mbl$File$Save=gaction(label="Save",handler=function(h,...)
 		setwd(folder)
 		save.image(name)
 	}
-	setwd(cur_dir)	
+	on.exit(setwd(cur_dir))	
 }
 )
 #mbl$File$Quit$handler=function(h,...)
 mbl$File$Quit=gaction(label="Quit",handler=function(h,...)
 {
-	setwd(cur_dir)
+	on.exit(setwd(cur_dir))
 	if(length(f_oo)!=0)
 	{
 		gmessage("\n\nPlease press Alt+F4 to quit","Close",icon="info")
@@ -1082,7 +757,7 @@ mbl$Preprocessing$Log_Transformation$Series_Matrix=gaction(label="Series_Matrix"
 			}
 		
 	svalue(sb)<-"Done"
-	setwd(cur_dir)	
+	on.exit(setwd(cur_dir))	
 }
 )
 #mbl$Preprocessing$Log_Transformation$Online_Data$handler=function(h,...)
@@ -1098,7 +773,7 @@ mbl$Preprocessing$Log_Transformation$Online_Data=gaction(label="Online_Data",han
 			}
 			
 	svalue(sb)<-"Done"
-	setwd(cur_dir)	
+	on.exit(setwd(cur_dir))	
 }
 )
 #mbl$Preprocessing$KNN_Imputation$Series_Matrix$handler=function(h,...)
@@ -1111,37 +786,37 @@ mbl$Preprocessing$KNN_Imputation$Series_Matrix=gaction(label="Series_Matrix",han
 		na.length<-length(which(is.na(data.matrixLog)==T))
 	}
 	if(na.length>0){
-		w_imp<-gwindow("Radio example",width=300,height=200,fill="x")
+		w_imp<-gwindow("Radio example",width=300,height=200)
 		x1_imp=10;x2_imp=0.5;x3_imp=0.8
-		gp_imp<-ggroup(fill="y",spacing=5,use.scrollwindow=FALSE,container=w_imp)
+		gp_imp<-ggroup(horizontal=FALSE,spacing=5,use.scrollwindow=FALSE,container=w_imp)
 		glabel("KNN",container=gp_imp,anchor=c(-1,1))
-		r1_imp<-gradio(c(2,5,10,50),selected=3,fill="y",
+		r1_imp<-gradio(c(2,5,10,50),selected=3,horizontal=FALSE,
 			handler=function(h,...){
 			x<-svalue(h$obj)
 			x1_imp<<-x
 			},container=gp_imp)
-		gp2_imp<-ggroup(fill="y",spacing=5,use.scrollwindow=FALSE,container=w_imp)
+		gp2_imp<-ggroup(horizontal=FALSE,spacing=5,use.scrollwindow=FALSE,container=w_imp)
 		glabel("Row Max",container=gp2_imp,anchor=c(-1,1))
-		r2_imp<-gradio(c(0.3,0.5,0.8),selected=2,fill="y",
+		r2_imp<-gradio(c(0.3,0.5,0.8),selected=2,horizontal=FALSE,
 			handler=function(h,...){
 			x<-svalue(h$obj)
 			x2_imp<<-x
 			},container=gp2_imp)
-		gp3_imp<-ggroup(fill="y",spacing=5,use.scrollwindow=FALSE,container=w_imp)
+		gp3_imp<-ggroup(horizontal=FALSE,spacing=5,use.scrollwindow=FALSE,container=w_imp)
 		glabel("Col Max",container=gp3_imp,anchor=c(-1,1))
-		r3_imp<-gradio(c(0.3,0.5,0.8),selected=3,fill="y",
+		r3_imp<-gradio(c(0.3,0.5,0.8),selected=3,horizontal=FALSE,
 			handler=function(h,...){
 			x<-svalue(h$obj)
 			x3_imp<<-x
 			},container=gp3_imp)
 		addSpring(gp3_imp)
 		addSpace(gp3_imp,50)
-		y_imp<-gbutton("OK",border=TRUE,handler=function(h,...){
+		y_imp<-gbutton("OK",handler=function(h,...){
 			dispose(w_imp)
 			svalue(sb)<-"				Please wait while imputing.."
 			data.matrixImp<<-impute.knn(data.matrixLog,k=x1_imp,rowmax=x2_imp,colmax=x3_imp)$data
 			svalue(sb)<-"Done"
-			setwd(cur_dir)	
+			on.exit(setwd(cur_dir))	
 			},container=gp3_imp)
 		size(y_imp)=c(10,30)
 		}
@@ -1156,37 +831,37 @@ mbl$Preprocessing$KNN_Imputation$Online_Data=gaction(label="Online_Data",handler
 		na.length<-length(which(is.na(data.matrix_online)==T))
 	}
 	if(na.length>0){
-		w_imp<-gwindow("Radio example",width=300,height=200,fill="x")
+		w_imp<-gwindow("Radio example",width=300,height=200)
 		x1_imp=10;x2_imp=0.5;x3_imp=0.8
-		gp_imp<-ggroup(fill="y",spacing=5,use.scrollwindow=FALSE,container=w_imp)
+		gp_imp<-ggroup(horizontal=FALSE,spacing=5,use.scrollwindow=FALSE,container=w_imp)
 		glabel("KNN",container=gp_imp,anchor=c(-1,1))
-		r1_imp<-gradio(c(2,5,10,50),selected=3,fill="y",
+		r1_imp<-gradio(c(2,5,10,50),selected=3,horizontal=FALSE,
 			handler=function(h,...){
 			x<-svalue(h$obj)
 			x1_imp<<-x
 			},container=gp_imp)
-		gp2_imp<-ggroup(fill="y",spacing=5,use.scrollwindow=FALSE,container=w_imp)
+		gp2_imp<-ggroup(horizontal=FALSE,spacing=5,use.scrollwindow=FALSE,container=w_imp)
 		glabel("Row Max",container=gp2_imp,anchor=c(-1,1))
-		r2_imp<-gradio(c(0.3,0.5,0.8),selected=2,fill="y",
+		r2_imp<-gradio(c(0.3,0.5,0.8),selected=2,horizontal=FALSE,
 			handler=function(h,...){
 			x<-svalue(h$obj)
 			x2_imp<<-x
 			},container=gp2_imp)
-		gp3_imp<-ggroup(fill="y",spacing=5,use.scrollwindow=FALSE,container=w_imp)
+		gp3_imp<-ggroup(horizontal=FALSE,spacing=5,use.scrollwindow=FALSE,container=w_imp)
 		glabel("Col Max",container=gp3_imp,anchor=c(-1,1))
-		r3_imp<-gradio(c(0.3,0.5,0.8),selected=3,fill="y",
+		r3_imp<-gradio(c(0.3,0.5,0.8),selected=3,horizontal=FALSE,
 			handler=function(h,...){
 			x<-svalue(h$obj)
 			x3_imp<<-x
 			},container=gp3_imp)
 		addSpring(gp3_imp)
 		addSpace(gp3_imp,50)
-		y_imp<-gbutton("OK",border=TRUE,handler=function(h,...){
+		y_imp<-gbutton("OK",handler=function(h,...){
 			dispose(w_imp)
 			svalue(sb)<-"				Please wait while imputing.."
 			data.matrix_onlineImp<<-impute.knn(data.matrix_onlineLog,k=x1_imp,rowmax=x2_imp,colmax=x3_imp)$data
 			svalue(sb)<-"Done"
-			setwd(cur_dir)	
+			on.exit(setwd(cur_dir))	
 			},container=gp3_imp)
 		size(y_imp)=c(10,30)
 		}
@@ -1198,660 +873,461 @@ mbl$Preprocessing$KNN_Imputation$Online_Data=gaction(label="Online_Data",handler
 #mbl$Preprocessing$Normalization$Affymetrix$handler=function(h,...)
 mbl$Preprocessing$Normalization$Affymetrix=gaction(label="Affymetrix",handler=function(h,...)
 {
-	setwd(folder_Affy)	
-	svalue(sb)<-"				Please wait while Normalizing.."
-	dat2Affy<<-justRMA()
-	dat2Affy.m<<-exprs(dat2Affy)
-	dat2Affy.m<<-as.matrix(dat2Affy.m)
-	rownames(dat2Affy.m)<<-as.character(rownames(dat2Affy.m))
-	try(if(length(rownames(dat2Affy.m))==0)rownames(dat2Affy.m)<<-1:length(dat2Affy.m[,1]),silent=TRUE)
-	if(length(dat2Affy.m)==0)gmessage("Could not Normalize this type of data..!\n",title="Analysis",icon="error")
-	if(length(dat2Affy.m)!=0){	
-
-		delete(g1,g1_1)
-		l$Affymetrix$Normalization<<-list()
-		g1_1<<-ggroup(container=g1,visible=FALSE)
-		tr<<-gtree(offspring=tree,container=g1_1)
-		size(tr)<-c(300,400)
-		visible(g1_1)<-TRUE
-		}
-		display()
+	normAgOne<<-NULL;normAgTwo<<-NULL;normIl_B<<-NULL;normIl_L<<-NULL;normNimblg<<-NULL;normDmsm<<-NULL;normDmo<<-NULL;
+	normAffy<<-1
+	svalue(sb)<-"				              Please wait .."
+	code<-system.file("extdata","normlz.R",package="maGUI")
+	source(code)
 	svalue(sb)<-"Done"
-	setwd(cur_dir)	
+	on.exit(setwd(cur_dir))
 }
 )
 #mbl$Preprocessing$Normalization$Agilent$OneColor$handler=function(h,...)
 mbl$Preprocessing$Normalization$Agilent$OneColor=gaction(label="OneColor",handler=function(h,...)
 {	
-	setwd(folder_Ag1)	
-	norm_xx=NULL
-	norm_methods=c("none","scale","quantile","cyclicloess")
-	norm_w<<-gwindow("Methods",width=300,height=150)
-	norm_gp<-ggroup(container=norm_w,fill="y")
-	norm_x<-gtable(norm_methods,chosencol=1,container=norm_gp)
-	size(norm_x)=c(200,120)
-	norm_gp2<-ggroup(container=norm_gp,width=30,height=15,fill="x")
-	addHandlerClicked(norm_x,handler=function(h,...){
-		norm_x2<-svalue(h$obj)
-		norm_xx<<-norm_x2
-		}
-	)
-	addSpring(norm_gp2)
-	norm_y<-gbutton("CANCEL",border=TRUE,handler=function(h,...){
-		dispose(norm_w)
-		},container=norm_gp2,anchor=c(1,-1)
-	)
-	norm_y2<-gbutton("OK",border=TRUE,handler=function(h,...){
-		dispose(norm_w)
-		svalue(sb)<-"				Please wait while Normalizing.."
-		datAgOne2=NULL
-		try(datAgOne2<<-backgroundCorrect(datAgOne,"normexp"),silent=TRUE)
-		if(length(datAgOne2)==0)datAgOne2<-datAgOne
-		datAgOne2<-normalizeBetweenArrays(datAgOne2$R,method=norm_xx)
-		datAgOne2<-log(datAgOne2)
-		datAgOne2.m<<-datAgOne2
-		datAgOne2.m<<-as.matrix(datAgOne2.m)
-		rownames(datAgOne2.m)<<-as.character(rownames(datAgOne2.m))
-		try(if(length(rownames(datAgOne2.m))==0)rownames(datAgOne2.m)<<-1:length(datAgOne2.m[,1]),silent=TRUE)
-		if(length(datAgOne2.m)==0)gmessage("Could not Normalize this type of data..!\n",title="Analysis",icon="error")
-		if(length(datAgOne2.m)!=0){
-			delete(g1,g1_1)
-			l$Agilent_OneColor$Normalization<<-list()
-			g1_1<<-ggroup(container=g1)
-			tr<<-gtree(offspring=tree,container=g1_1)
-			size(tr)<-c(300,400)
-			}
-		display()
-		svalue(sb)<-"Done"
-		},container=norm_gp2,anchor=c(1,-1)
-	)
-	setwd(cur_dir)	
+	normAffy<<-NULL;normAgTwo<<-NULL;normIl_B<<-NULL;normIl_L<<-NULL;normNimblg<<-NULL;normDmsm<<-NULL;normDmo<<-NULL;
+	normAgOne<<-1
+	svalue(sb)<-"				              Please wait .."
+	code<-system.file("extdata","normlz.R",package="maGUI")
+	source(code)
+	svalue(sb)<-"Done"
+	on.exit(setwd(cur_dir))
 }
 )
 #mbl$Preprocessing$Normalization$Agilent$TwoColor$handler=function(h,...)
 mbl$Preprocessing$Normalization$Agilent$TwoColor=gaction(label="TwoColor",handler=function(h,...)
 {
-	setwd(folder_Ag2)	
-	norm_xx=NULL
-	norm_methods=c("none","median","loess","printtiploess","composite","control","robustspline")
-	norm_w<-gwindow("Methods",width=300,height=300)
-	norm_gp<-ggroup(container=norm_w,fill="y")
-	norm_x<-gtable(norm_methods,chosencol=1,container=norm_gp)
-	size(norm_x)=c(200,250)
-	norm_gp2<-ggroup(container=norm_gp,width=30,height=15,fill="x")
-	addHandlerClicked(norm_x,handler=function(h,...){
-		norm_x2<-svalue(h$obj)
-		norm_xx<<-norm_x2
-		}
-	)
-	addSpring(norm_gp2)
-	norm_y<-gbutton("CANCEL",border=TRUE,handler=function(h,...){
-		dispose(norm_w)
-		},container=norm_gp2,anchor=c(1,-1)
-	)
-	norm_y2<-gbutton("OK",border=TRUE,handler=function(h,...){
-		dispose(norm_w)
-		svalue(sb)<-"				Please wait while Normalizing.."
-		datAgTwo2<<-normalizeWithinArrays(datAgTwo,method=norm_xx,"normexp")
-		datAgTwo2.m<<-datAgTwo2$M
-		rownames(datAgTwo2.m)<<-datAgTwo2$genes$ProbeName
-		datAgTwo2.m<<-as.matrix(datAgTwo2.m)
-		rownames(datAgTwo2.m)<<-as.character(rownames(datAgTwo2.m))
-		try(if(length(rownames(datAgTwo2.m))==0)rownames(datAgTwo2.m)<<-1:length(datAgTwo2.m[,1]),silent=TRUE)
-		if(length(datAgTwo2.m)==0)gmessage("Could not Normalize this type of data..!\n",title="Analysis",icon="error")
-		if(length(datAgTwo2.m)!=0){
-			delete(g1,g1_1)
-			l$Agilent_TwoColor$Normalization<<-list()
-			g1_1<<-ggroup(container=g1)
-			tr<<-gtree(offspring=tree,container=g1_1)
-			size(tr)<-c(300,400)
-			}
-		display()
-		svalue(sb)<-"Done"
-		},container=norm_gp2,anchor=c(1,-1)
-	)
-	setwd(cur_dir)	
+	normAffy<<-NULL;normAgOne<<-NULL;normIl_B<<-NULL;normIl_L<<-NULL;normNimblg<<-NULL;normDmsm<<-NULL;normDmo<<-NULL;
+	normAgTwo<<-1
+	svalue(sb)<-"				              Please wait .."
+	code<-system.file("extdata","normlz.R",package="maGUI")
+	source(code)
+	svalue(sb)<-"Done"
+	on.exit(setwd(cur_dir))
 }
 )
 #mbl$Preprocessing$Normalization$Illumina$BeadArray$handler=function(h,...)
 mbl$Preprocessing$Normalization$Illumina$BeadArray=gaction(label="BeadArray",handler=function(h,...)
 {
-	setwd(folder_Il_B)	
-	norm_xx=NULL
-	norm_methods=c("quantile","qspline","vsn","rankInvariant","median","none","nesq","rsn")
-	norm_w<-gwindow("Methods",width=300,height=200)
-	norm_gp<-ggroup(container=norm_w,fill="y")
-	norm_x<-gtable(norm_methods,chosencol=1,container=norm_gp)
-	size(norm_x)=c(200,160)
-	norm_gp2<-ggroup(container=norm_gp,width=30,height=15,fill="x")
-	addHandlerClicked(norm_x,handler=function(h,...){
-		norm_x2<-svalue(h$obj)
-		norm_xx<<-norm_x2
-		}
-	)
-	addSpring(norm_gp2)
-	norm_y<-gbutton("CANCEL",border=TRUE,handler=function(h,...){
-		dispose(norm_w)
-		},container=norm_gp2,anchor=c(1,-1)
-	)
-	norm_y2<-gbutton("OK",border=TRUE,handler=function(h,...){
-		dispose(norm_w)
-		svalue(sb)<-"				Please wait while Normalizing.."
-		datIllBA2<-normaliseIllumina(datIllBA,method=norm_xx)
-		datIllBA2.m<-exprs(datIllBA2)
-		datIllBA2.m2<<-log2(datIllBA2.m)
-		datIllBA2.m2<<-as.matrix(datIllBA2.m2)
-		rownames(datIllBA2.m2)<<-as.character(rownames(datIllBA2.m2))
-		try(if(length(rownames(datIllBA2.m2))==0)rownames(datIllBA2.m2)<<-1:length(datIllBA2.m2[,1]),silent=TRUE)
-		if(length(datIllBA2.m)==0)gmessage("Could not Normalize this type of data..!\n",title="Analysis",icon="error")
-		if(length(datIllBA2.m)!=0){
-			delete(g1,g1_1)
-			l$Illumina_Beadarray$Normalization<<-list()
-			g1_1<<-ggroup(container=g1)
-			tr<<-gtree(offspring=tree,container=g1_1)
-			size(tr)<-c(300,400)
-			}
-		display()
-		svalue(sb)<-"Done"
-		},container=norm_gp2,anchor=c(1,-1)
-	)
-	setwd(cur_dir)	
+	normAffy<<-NULL;normAgOne<<-NULL;normAgTwo<<-NULL;normIl_L<<-NULL;normNimblg<<-NULL;normDmsm<<-NULL;normDmo<<-NULL;
+	normIl_B<<-1
+	svalue(sb)<-"				              Please wait .."
+	code<-system.file("extdata","normlz.R",package="maGUI")
+	source(code)
+	svalue(sb)<-"Done"
+	on.exit(setwd(cur_dir))
 }
 )
 #mbl$Preprocessing$Normalization$Illumina$Lumi$handler=function(h,...)
 mbl$Preprocessing$Normalization$Illumina$Lumi=gaction(label="Lumi",handler=function(h,...)
 {
-	setwd(folder_Il_L)	
-	svalue(sb)<-"				Please wait while Normalizing.."
-	lumi_NQ<<-lumiExpresso(lumi_data,QC.evaluation=TRUE)
-	summary(lumi_NQ,'QC')
-	lumi_NQ.m<<-lumi_NQ
-	lumi_NQ.m<<-as.matrix(lumi_NQ.m)
-	rownames(lumi_NQ.m)<<-as.character(rownames(lumi_NQ.m))
-	try(if(length(rownames(lumi_NQ.m))==0)rownames(lumi_NQ.m)<<-1:length(lumi_NQ.m[,1]),silent=TRUE)
-	if(length(lumi_NQ.m)==0)gmessage("Could not Normalize this type of data..!\n",title="Analysis",icon="error")
-	if(length(lumi_NQ.m)!=0){
-		delete(g1,g1_1)
-		l$Illumina_Lumi$Normalization<<-list()
-		g1_1<<-ggroup(container=g1)
-		tr<<-gtree(offspring=tree,container=g1_1)
-		size(tr)<-c(300,400)
-		}
-	display()
+	normAffy<<-NULL;normAgOne<<-NULL;normAgTwo<<-NULL;normIl_B<<-NULL;normNimblg<<-NULL;normDmsm<<-NULL;normDmo<<-NULL;
+	normIl_L<<-1
+	svalue(sb)<-"				              Please wait .."
+	code<-system.file("extdata","normlz.R",package="maGUI")
+	source(code)
 	svalue(sb)<-"Done"
-	setwd(cur_dir)	
+	on.exit(setwd(cur_dir))
 }
 )
 #mbl$Preprocessing$Normalization$Nimblegen$handler=function(h,...)
 mbl$Preprocessing$Normalization$Nimblegen=gaction(label="Nimblegen",handler=function(h,...)
 {
-	setwd(folder_N)	
-	norm_xx=NULL
-	norm_methods=c("none","scale","quantile","cyclicloess")
-	norm_w<-gwindow("Methods",width=300,height=150)
-	norm_gp<-ggroup(container=norm_w,fill="y")
-	norm_x<-gtable(norm_methods,chosencol=1,container=norm_gp)
-	size(norm_x)=c(200,120)
-	norm_gp2<-ggroup(container=norm_gp,width=30,height=15,fill="x")
-	addHandlerClicked(norm_x,handler=function(h,...){
-		norm_x2<-svalue(h$obj)
-		norm_xx<<-norm_x2
-		}
-	)
-	addSpring(norm_gp2)
-	norm_y<-gbutton("CANCEL",border=TRUE,handler=function(h,...){
-		dispose(norm_w)
-		},container=norm_gp2,anchor=c(1,-1)
-	)
-	norm_y2<-gbutton("OK",border=TRUE,handler=function(h,...){
-		dispose(norm_w)
-		svalue(sb)<-"				Please wait while Normalizing.."
-		data.matrix_Nimblegen2<<-normalizeBetweenArrays(data.matrix_Nimblegen,method=norm_xx)
-		data.matrix_Nimblegen2.m<<-data.matrix_Nimblegen2
-		data.matrix_Nimblegen2.m<<-as.matrix(data.matrix_Nimblegen2.m)
-		rownames(data.matrix_Nimblegen2.m)<<-as.character(rownames(data.matrix_Nimblegen2.m))
-		try(if(length(rownames(data.matrix_Nimblegen2.m))==0)rownames(data.matrix_Nimblegen2.m)<<-1:length(data.matrix_Nimblegen2.m[,1]),silent=TRUE)
-		if(length(data.matrix_Nimblegen2.m)==0)gmessage("Could not Normalize this type of data..!\n",title="Analysis",icon="error")
-		if(length(data.matrix_Nimblegen2.m)!=0){
-			delete(g1,g1_1)
-			l$Nimblegen$Normalization<<-list()
-			g1_1<<-ggroup(container=g1)
-			tr<<-gtree(offspring=tree,container=g1_1)
-			size(tr)<-c(300,400)
-			}
-		display()
-		svalue(sb)<-"Done"
-		},container=norm_gp2,anchor=c(1,-1)
-	)
-	setwd(cur_dir)	
+	normAffy<<-NULL;normAgOne<<-NULL;normAgTwo<<-NULL;normIl_B<<-NULL;normIl_L<<-NULL;normDmsm<<-NULL;normDmo<<-NULL;
+	normNimblg<<-1
+	svalue(sb)<-"				              Please wait .."
+	code<-system.file("extdata","normlz.R",package="maGUI")
+	source(code)
+	svalue(sb)<-"Done"
+	on.exit(setwd(cur_dir))
 }
 )
 #mbl$Preprocessing$Normalization$Series_Matrix$handler=function(h,...)
 mbl$Preprocessing$Normalization$Series_Matrix=gaction(label="Series_Matrix",handler=function(h,...)
 {
-	setwd(folder_S)	
-	norm_xx=NULL
-	norm_methods=c("none","scale","quantile","cyclicloess")
-	norm_w<-gwindow("Methods",width=300,height=150)
-	norm_gp<-ggroup(container=norm_w,fill="y")
-	norm_x<-gtable(norm_methods,chosencol=1,container=norm_gp)
-	size(norm_x)=c(200,120)
-	norm_gp2<-ggroup(container=norm_gp,width=30,height=15,fill="x")
-	addHandlerClicked(norm_x,handler=function(h,...){
-		norm_x2<-svalue(h$obj)
-		norm_xx<<-norm_x2
-		}
-	)
-	addSpring(norm_gp2)
-	norm_y<-gbutton("CANCEL",border=TRUE,handler=function(h,...){
-		dispose(norm_w)
-		},container=norm_gp2,anchor=c(1,-1)
-	)
-	norm_y2<-gbutton("OK",border=TRUE,handler=function(h,...){
-		dispose(norm_w)
-		svalue(sb)<-"				Please wait while Normalizing.."
-		data.matrixNorm<-normalizeBetweenArrays(data.matrixImp,method=norm_xx)
-		tmp<-aggregate(data.matrixNorm,list(rownames(data.matrixNorm)),median)
-		data.matrixNorm<<-as.matrix(tmp[,-1])
-		rownames(data.matrixNorm)<<-tmp[,1]
-		data.matrixNorm.m<<-data.matrixNorm
-		data.matrixNorm.m<<-as.matrix(data.matrixNorm.m)
-		try(if(length(rownames(data.matrixNorm.m))==0)rownames(data.matrixNorm.m)<<-1:length(data.matrixNorm.m[,1]),silent=TRUE)
-		if(length(data.matrixNorm.m)==0)gmessage("Could not Normalize this type of data..!\n",title="Analysis",icon="error")
-		if(length(data.matrixNorm.m)!=0){
-			delete(g1,g1_1)
-			l$Series_Matrix$Normalization<<-list()
-			g1_1<<-ggroup(container=g1)
-			tr<<-gtree(offspring=tree,container=g1_1)
-			size(tr)<-c(300,400)
-			}
-		display()
-		svalue(sb)<-"Done"
-		},container=norm_gp2,anchor=c(1,-1)
-	)
-	setwd(cur_dir)	
+	normAffy<<-NULL;normAgOne<<-NULL;normAgTwo<<-NULL;normIl_B<<-NULL;normIl_L<<-NULL;normNimblg<<-NULL;normDmo<<-NULL;
+	normDmsm<<-1
+	svalue(sb)<-"				              Please wait .."
+	code<-system.file("extdata","normlz.R",package="maGUI")
+	source(code)
+	svalue(sb)<-"Done"
+	on.exit(setwd(cur_dir))
 }
 )
 #mbl$Preprocessing$Normalization$Online_Data$handler=function(h,...)
 mbl$Preprocessing$Normalization$Online_Data=gaction(label="Online_Data",handler=function(h,...)
 {
-	norm_xx=NULL
-	norm_methods=c("none","scale","quantile","cyclicloess")
-	norm_w<-gwindow("Methods",width=300,height=150)
-	norm_gp<-ggroup(container=norm_w,fill="y")
-	norm_x<-gtable(norm_methods,chosencol=1,container=norm_gp)
-	size(norm_x)=c(200,120)
-	norm_gp2<-ggroup(container=norm_gp,width=30,height=15,fill="x")
-	addHandlerClicked(norm_x,handler=function(h,...){
-		norm_x2<-svalue(h$obj)
-		norm_xx<<-norm_x2
-		}
-	)
-	addSpring(norm_gp2)
-	norm_y<-gbutton("CANCEL",border=TRUE,handler=function(h,...){
-		dispose(norm_w)
-		},container=norm_gp2,anchor=c(1,-1)
-	)
-	norm_y2<-gbutton("OK",border=TRUE,handler=function(h,...){
-		dispose(norm_w)
-		svalue(sb)<-"				Please wait while Normalizing.."
-		data.matrix_onlineNorm<-normalizeBetweenArrays(data.matrix_onlineImp,method=norm_xx)
-		tmp<-aggregate(data.matrix_onlineNorm,list(rownames(data.matrix_onlineNorm)),median)
-		data.matrix_onlineNorm<-as.matrix(tmp[,-1])
-		rownames(data.matrix_onlineNorm)<<-tmp[,1]
-		data.matrix_onlineNorm.m<<-data.matrix_onlineNorm
-		data.matrix_onlineNorm.m<<-as.matrix(data.matrix_onlineNorm.m)
-		rownames(data.matrix_onlineNorm.m)<<-as.character(rownames(data.matrix_onlineNorm.m))
-		try(if(length(rownames(data.matrix_onlineNorm.m))==0)rownames(data.matrix_onlineNorm.m)<<-1:length(data.matrix_onlineNorm.m[,1]),silent=TRUE)
-		if(length(data.matrix_onlineNorm.m)==0)gmessage("Could not Normalize this type of data..!\n",title="Analysis",icon="error")
-		if(length(data.matrix_onlineNorm.m)!=0){
-			delete(g1,g1_1)
-			l$Online_Data$Normalization<<-list()
-			g1_1<<-ggroup(container=g1)
-			tr<<-gtree(offspring=tree,container=g1_1)
-			size(tr)<-c(300,400)
-			}
-		display()
-		svalue(sb)<-"Done"
-			},container=norm_gp2,anchor=c(1,-1)
-	)
-	setwd(cur_dir)	
+	normAffy<<-NULL;normAgOne<<-NULL;normAgTwo<<-NULL;normIl_B<<-NULL;normIl_L<<-NULL;normNimblg<<-NULL;normDmsm<<-NULL;
+	normDmo<<-1
+	svalue(sb)<-"				              Please wait .."
+	code<-system.file("extdata","normlz.R",package="maGUI")
+	source(code)
+	svalue(sb)<-"Done"
+	on.exit(setwd(cur_dir))
 }
 )
 
 #mbl$Preprocessing$Quality_Control$Affymetrix$handler=function(h,...)
 mbl$Preprocessing$Quality_Control$Affymetrix=gaction(label="Affymetrix",handler=function(h,...)
 {
-	setwd(folder_Affy)	
-	svalue(sb)<-"				Please wait while QC check.."
-	err<-try(({
-	aqc<<-qc(datAffy)
-	plot(aqc)
-	}),silent=TRUE)
-	if(length(grep("Error",err))!=0)plot(dat2Affy.m)
-	if(length(dat2Affy.m)!=0){
-		delete(g1,g1_1)
-		l$Affymetrix$QC_Plot<<-list()
-		g1_1<<-ggroup(container=g1)
-		tr<<-gtree(offspring=tree,container=g1_1)
-		size(tr)<-c(300,400)
-		}
-		display()
+	qcAgOne<<-NULL;qcAgTwo<<-NULL;qcIl_B<<-NULL;qcIl_L<<-NULL;qcNimblg<<-NULL;qcDmsm<<-NULL;qcDmo<<-NULL;
+	qcAffy<<-1
+	svalue(sb)<-"				              Please wait .."
+	code<-system.file("extdata","qlchk.R",package="maGUI")
+	source(code)
 	svalue(sb)<-"Done"
-	setwd(cur_dir)	
+	on.exit(setwd(cur_dir))	
 }
 )
 #mbl$Preprocessing$Quality_Control$Agilent$OneColor$handler=function(h,...)
 mbl$Preprocessing$Quality_Control$Agilent$OneColor=gaction(label="OneColor",handler=function(h,...)
 {
-	setwd(folder_Ag1)	
-	svalue(sb)<-"				Please wait while QC check.."
-	boxplot(datAgOne2.m)
-	if(length(datAgOne2.m)!=0){
-		delete(g1,g1_1)
-		l$Agilent_OneColor$QC_Plot<<-list()
-		g1_1<<-ggroup(container=g1)
-		tr<<-gtree(offspring=tree,container=g1_1)
-		size(tr)<-c(300,400)
-		}
-		display()	
+	qcAffy<<-NULL;qcAgTwo<<-NULL;qcIl_B<<-NULL;qcIl_L<<-NULL;qcNimblg<<-NULL;qcDmsm<<-NULL;qcDmo<<-NULL;
+	qcAgOne<<-1
+	svalue(sb)<-"				              Please wait .."
+	code<-system.file("extdata","qlchk.R",package="maGUI")
+	source(code)
 	svalue(sb)<-"Done"
-	setwd(cur_dir)	
+	on.exit(setwd(cur_dir))	
 }
 )
 #mbl$Preprocessing$Quality_Control$Agilent$TwoColor$handler=function(h,...)
 mbl$Preprocessing$Quality_Control$Agilent$TwoColor=gaction(label="TwoColor",handler=function(h,...)
 {
-	setwd(folder_Ag2)	
-	svalue(sb)<-"				Please wait while QC check.."
-	boxplot(datAgTwo2.m)
-	if(length(datAgTwo2.m)!=0){
-		delete(g1,g1_1)
-		l$Agilent_TwoColor$QC_Plot<<-list()
-		g1_1<<-ggroup(container=g1)
-		tr<<-gtree(offspring=tree,container=g1_1)
-		size(tr)<-c(300,400)
-		}
-		display()	
+	qcAffy<<-NULL;qcAgOne<<-NULL;qcIl_B<<-NULL;qcIl_L<<-NULL;qcNimblg<<-NULL;qcDmsm<<-NULL;qcDmo<<-NULL;
+	qcAgTwo<<-1
+	svalue(sb)<-"				              Please wait .."
+	code<-system.file("extdata","qlchk.R",package="maGUI")
+	source(code)
 	svalue(sb)<-"Done"
-	setwd(cur_dir)	
+	on.exit(setwd(cur_dir))
 }
 )
 #mbl$Preprocessing$Quality_Control$Illumina$BeadArray$handler=function(h,...)
 mbl$Preprocessing$Quality_Control$Illumina$BeadArray=gaction(label="BeadArray",handler=function(h,...)
 {
-	setwd(folder_Il_B)	
-	svalue(sb)<-"				Please wait while QC check.."
-	boxplot(datIllBA2.m2)
-	if(length(datIllBA2.m2)!=0){
-		delete(g1,g1_1)
-		l$Illumina_Beadarray$QC_Plot<<-list()
-		g1_1<<-ggroup(container=g1)
-		tr<<-gtree(offspring=tree,container=g1_1)
-		size(tr)<-c(300,400)
-		}
-		display()	
+	qcAffy<<-NULL;qcAgOne<<-NULL;qcAgTwo<<-NULL;qcIl_L<<-NULL;qcNimblg<<-NULL;qcDmsm<<-NULL;qcDmo<<-NULL;
+	qcIl_B<<-1
+	svalue(sb)<-"				              Please wait .."
+	code<-system.file("extdata","qlchk.R",package="maGUI")
+	source(code)
 	svalue(sb)<-"Done"
-	setwd(cur_dir)	
+	on.exit(setwd(cur_dir))
 }
 )
 #mbl$Preprocessing$Quality_Control$Illumina$Lumi$handler=function(h,...)
 mbl$Preprocessing$Quality_Control$Illumina$Lumi=gaction(label="Lumi",handler=function(h,...)
 {
-	setwd(folder_Il_L)	
-	svalue(sb)<-"				Please wait while QC check.."
-	plot(lumi_NQ.m,what="boxplot")
-	if(length(lumi_NQ.m)!=0){
-		delete(g1,g1_1)
-		l$Illumina_Lumi$QC_Plot<<-list()
-		g1_1<<-ggroup(container=g1)
-		tr<<-gtree(offspring=tree,container=g1_1)
-		size(tr)<-c(300,400)
-		}
-		display()	
+	qcAffy<<-NULL;qcAgOne<<-NULL;qcAgTwo<<-NULL;qcIl_B<<-NULL;qcNimblg<<-NULL;qcDmsm<<-NULL;qcDmo<<-NULL;
+	qcIl_L<<-1
+	svalue(sb)<-"				              Please wait .."
+	code<-system.file("extdata","qlchk.R",package="maGUI")
+	source(code)
 	svalue(sb)<-"Done"
-	setwd(cur_dir)	
+	on.exit(setwd(cur_dir))
 }
 )
 #mbl$Preprocessing$Quality_Control$Nimblegen$handler=function(h,...)
 mbl$Preprocessing$Quality_Control$Nimblegen=gaction(label="Nimblegen",handler=function(h,...)
 {
-	setwd(folder_N)	
-	svalue(sb)<-"				Please wait while QC check.."
-	boxplot(data.matrix_Nimblegen2.m)
-	if(length(data.matrix_Nimblegen2.m)!=0){
-		delete(g1,g1_1)
-		l$Nimblegen$QC_Plot<<-list()
-		g1_1<<-ggroup(container=g1)
-		tr<<-gtree(offspring=tree,container=g1_1)
-		size(tr)<-c(300,400)
-		}
-		display()	
+	qcAffy<<-NULL;qcAgOne<<-NULL;qcAgTwo<<-NULL;qcIl_B<<-NULL;qcIl_L<<-NULL;qcDmsm<<-NULL;qcDmo<<-NULL;
+	qcNimblg<<-1
+	svalue(sb)<-"				              Please wait .."
+	code<-system.file("extdata","qlchk.R",package="maGUI")
+	source(code)
 	svalue(sb)<-"Done"
-	setwd(cur_dir)	
+	on.exit(setwd(cur_dir))
 }
 )
 #mbl$Preprocessing$Quality_Control$Series_Matrix$handler=function(h,...)
 mbl$Preprocessing$Quality_Control$Series_Matrix=gaction(label="Series_Matrix",handler=function(h,...)
 {
-	setwd(folder_S)	
-	svalue(sb)<-"				Please wait while QC check.."
-	boxplot(data.matrixNorm.m)
-	if(length(data.matrixNorm.m)!=0){
-		delete(g1,g1_1)
-		l$Series_Matrix$QC_Plot<<-list()
-		g1_1<<-ggroup(container=g1)
-		tr<<-gtree(offspring=tree,container=g1_1)
-		size(tr)<-c(300,400)
-		}
-		display()	
+	qcAffy<<-NULL;qcAgOne<<-NULL;qcAgTwo<<-NULL;qcIl_B<<-NULL;qcIl_L<<-NULL;qcNimblg<<-NULL;qcDmo<<-NULL;
+	qcDmsm<<-1
+	svalue(sb)<-"				              Please wait .."
+	code<-system.file("extdata","qlchk.R",package="maGUI")
+	source(code)
 	svalue(sb)<-"Done"
-	setwd(cur_dir)	
+	on.exit(setwd(cur_dir))
 }
 )
 #mbl$Preprocessing$Quality_Control$Online_Data$handler=function(h,...)
 mbl$Preprocessing$Quality_Control$Online_Data=gaction(label="Online_Data",handler=function(h,...)
 {
-	svalue(sb)<-"				Please wait while QC check.."
-	boxplot(data.matrix_onlineNorm.m)
-	if(length(data.matrix_onlineNorm.m)!=0){
-		delete(g1,g1_1)
-		l$Online_Data$QC_Plot<<-list()
-		g1_1<<-ggroup(container=g1)
-		tr<<-gtree(offspring=tree,container=g1_1)
-		size(tr)<-c(300,400)
-		}
-		display()	
+	qcAffy<<-NULL;qcAgOne<<-NULL;qcAgTwo<<-NULL;qcIl_B<<-NULL;qcIl_L<<-NULL;qcNimblg<<-NULL;qcDmsm<<-NULL;
+	qcDmo<<-1
+	svalue(sb)<-"				              Please wait .."
+	code<-system.file("extdata","qlchk.R",package="maGUI")
+	source(code)
 	svalue(sb)<-"Done"
-	setwd(cur_dir)	
-}
+	on.exit(setwd(cur_dir))}
 )
 #mbl$Analysis$Filtering_and_Statistical_Analysis$Specific$handler=function(h,...)
 mbl$Analysis$Filtering_and_Statistical_Analysis$Specific=gaction(label="Specific",handler=function(h,...)
 {
-	filter_sp()
-	setwd(cur_dir)	
+	svalue(sb)<-"				              Please wait .."
+	code<-system.file("extdata","filter_sp2.R",package="maGUI")
+	source(code)
+	code<-system.file("extdata","filter_sp.R",package="maGUI")
+	source(code)
+	svalue(sb)<-"Done"
+	on.exit(setwd(cur_dir))	
 }
 )
 #mbl$Analysis$Filtering_and_Statistical_Analysis$UnSpecific$handler=function(h,...)
 mbl$Analysis$Filtering_and_Statistical_Analysis$UnSpecific=gaction(label="UnSpecific",handler=function(h,...)
 {
-	filter_unsp()
-	setwd(cur_dir)	
+	svalue(sb)<-"				              Please wait .."
+	code<-system.file("extdata","filter_unsp.R",package="maGUI")
+	source(code)
+	svalue(sb)<-"Done"
+	on.exit(setwd(cur_dir))	
 }
 )
 #mbl$Analysis$Differential_Gene_Expressions$handler=function(h,...)
 mbl$Analysis$Differential_Gene_Expressions=gaction(label="Differential_Gene_Expressions",handler=function(h,...)
 {
-	dge()
-	setwd(cur_dir)	
+	svalue(sb)<-"				              Please wait .."
+	code<-system.file("extdata","dge.R",package="maGUI")
+	source(code)
+	svalue(sb)<-"Done"
+	on.exit(setwd(cur_dir))	
 }
 )
 #mbl$Analysis$Principal_Component_Analysis_Unsupervized$handler=function(h,...)
 mbl$Analysis$Principal_Component_Analysis_Unsupervized=gaction(label="Principal_Component_Analysis_Unsupervized",handler=function(h,...)
 {
-	pca()
-	setwd(cur_dir)	
+	svalue(sb)<-"				              Please wait .."
+	code<-system.file("extdata","pca.R",package="maGUI")
+	source(code)
+	svalue(sb)<-"Done"
+	on.exit(setwd(cur_dir))	
 }
 )
 #mbl$Analysis$Clustering_and_Visualization_Unsupervized$handler=function(h,...)
 mbl$Analysis$Clustering_and_Visualization_Unsupervized=gaction(label="Clustering_and_Visualization_Unsupervized",handler=function(h,...)
 {
-	clust()
-	setwd(cur_dir)	
+	svalue(sb)<-"				              Please wait .."
+	code<-system.file("extdata","cluster.R",package="maGUI")
+	source(code)
+	svalue(sb)<-"Done"
+	on.exit(setwd(cur_dir))	
 }
 )
 #mbl$Analysis$Classification_and_Visualization_Supervized$handler=function(h,...)
 mbl$Analysis$Classification_and_Visualization_Supervized=gaction(label="Classification_and_Visualization_Supervized",handler=function(h,...)
 {
-	clas()
-	setwd(cur_dir)	
+	svalue(sb)<-"				              Please wait .."
+	code<-system.file("extdata","class.R",package="maGUI")
+	source(code)
+	svalue(sb)<-"Done"
+	on.exit(setwd(cur_dir))	
 }
 )
 #mbl$Miscellaneous$Gene_Set_Enrichment_Analysis$GO_Biological_Process$handler=function(h,...)
 mbl$Miscellaneous$Gene_Set_Enrichment_Analysis$GO_Biological_Process=gaction(label="GO_Biological_Process",handler=function(h,...)
 {
-	gsea_goBP()
-	setwd(cur_dir)	
+	svalue(sb)<-"				              Please wait .."
+	code<-system.file("extdata","gsea_goBP.R",package="maGUI")
+	source(code)
+	svalue(sb)<-"Done"
+	on.exit(setwd(cur_dir))	
 }
 )
 #mbl$Miscellaneous$Gene_Set_Enrichment_Analysis$GO_Molecular_Function$handler=function(h,...)
 mbl$Miscellaneous$Gene_Set_Enrichment_Analysis$GO_Molecular_Function=gaction(label="GO_Molecular_Function",handler=function(h,...)
 {
-	gsea_goMF()
-	setwd(cur_dir)	
+	svalue(sb)<-"				              Please wait .."
+	code<-system.file("extdata","gsea_goMF.R",package="maGUI")
+	source(code)
+	svalue(sb)<-"Done"
+	on.exit(setwd(cur_dir))	
 }
 )
 #mbl$Miscellaneous$Gene_Set_Enrichment_Analysis$GO_Cellular_Component$handler=function(h,...)
 mbl$Miscellaneous$Gene_Set_Enrichment_Analysis$GO_Cellular_Component=gaction(label="GO_Cellular_Component",handler=function(h,...)
 {
-	gsea_goCC()
-	setwd(cur_dir)	
+	svalue(sb)<-"				              Please wait .."
+	code<-system.file("extdata","gsea_goCC.R",package="maGUI")
+	source(code)
+	svalue(sb)<-"Done"
+	on.exit(setwd(cur_dir))	
 }
 )
 #mbl$Miscellaneous$Gene_Set_Enrichment_Analysis$KEGG_Pathways$handler=function(h,...)
 mbl$Miscellaneous$Gene_Set_Enrichment_Analysis$KEGG_Pathways=gaction(label="KEGG_Pathways",handler=function(h,...)
 {
-	gsea_kegg()
-	setwd(cur_dir)	
+	svalue(sb)<-"				              Please wait .."
+	code<-system.file("extdata","gsea_kegg.R",package="maGUI")
+	source(code)
+	svalue(sb)<-"Done"
+	on.exit(setwd(cur_dir))	
 }
 )
 #mbl$Miscellaneous$Gene_Set_Test_Analysis$GO_Biological_Process$handler=function(h,...)
 mbl$Miscellaneous$Gene_Set_Test_Analysis$GO_Biological_Process=gaction(label="GO_Biological_Process",handler=function(h,...)
 {
-	gsta_goBP()
-	setwd(cur_dir)	
+	svalue(sb)<-"				              Please wait .."
+	code<-system.file("extdata","gsta_goBP.R",package="maGUI")
+	source(code)
+	svalue(sb)<-"Done"
+	on.exit(setwd(cur_dir))	
 }
 )
 #mbl$Miscellaneous$Gene_Set_Test_Analysis$GO_Molecular_Function$handler=function(h,...)
 mbl$Miscellaneous$Gene_Set_Test_Analysis$GO_Molecular_Function=gaction(label="GO_Molecular_Function",handler=function(h,...)
 {
-	gsta_goMF()
-	setwd(cur_dir)	
+	svalue(sb)<-"				              Please wait .."
+	code<-system.file("extdata","gsta_goMF.R",package="maGUI")
+	source(code)
+	svalue(sb)<-"Done"
+	on.exit(setwd(cur_dir))	
 }
 )
 #mbl$Miscellaneous$Gene_Set_Test_Analysis$GO_Cellular_Component$handler=function(h,...)
 mbl$Miscellaneous$Gene_Set_Test_Analysis$GO_Cellular_Component=gaction(label="GO_Cellular_Component",handler=function(h,...)
 {
-	gsta_goCC()
-	setwd(cur_dir)	
+	svalue(sb)<-"				              Please wait .."
+	code<-system.file("extdata","gsta_goCC.R",package="maGUI")
+	source(code)
+	svalue(sb)<-"Done"
+	on.exit(setwd(cur_dir))	
 }
 )
 #mbl$Miscellaneous$Gene_Set_Test_Analysis$KEGG_Pathways$handler=function(h,...)
 mbl$Miscellaneous$Gene_Set_Test_Analysis$KEGG_Pathways=gaction(label="KEGG_Pathways",handler=function(h,...)
 {
-	gsta_kegg()
-	setwd(cur_dir)	
+	svalue(sb)<-"				              Please wait .."
+	code<-system.file("extdata","gsta_kegg.R",package="maGUI")
+	source(code)
+	svalue(sb)<-"Done"
+	on.exit(setwd(cur_dir))	
 }
 )
 #mbl$Miscellaneous$Identifier_Symbol$handler=function(h,...)
 mbl$Miscellaneous$Identifier_Symbol=gaction(label="Identifier_Symbol",handler=function(h,...)
 {
-	symbol()
-	setwd(cur_dir)
+	svalue(sb)<-"				              Please wait .."
+	code<-system.file("extdata","symbol.R",package="maGUI")
+	source(code)
+	svalue(sb)<-"Done"
+	on.exit(setwd(cur_dir))
 }
 )
 #mbl$Miscellaneous$Graphs$GSEA_GO_Biological_Process$handler=function(h,...)
 mbl$Miscellaneous$Graphs$GSEA_GO_Biological_Process=gaction(label="GSEA_GO_Biological_Process",handler=function(h,...)
 {
-	graph_gsea_goBP()
-	setwd(cur_dir)	
+	svalue(sb)<-"				              Please wait .."
+	code<-system.file("extdata","graph_gsea_goBP.R",package="maGUI")
+	source(code)
+	svalue(sb)<-"Done"
+	on.exit(setwd(cur_dir))	
 }
 )
 #mbl$Miscellaneous$Graphs$GSEA_GO_Molecular_Function$handler=function(h,...)
 mbl$Miscellaneous$Graphs$GSEA_GO_Molecular_Function=gaction(label="GSEA_GO_Molecular_Function",handler=function(h,...)
 {
-	graph_gsea_goMF()
-	setwd(cur_dir)	
+	svalue(sb)<-"				              Please wait .."
+	code<-system.file("extdata","graph_gsea_goMF.R",package="maGUI")
+	source(code)
+	svalue(sb)<-"Done"
+	on.exit(setwd(cur_dir))	
 }
 )
 #mbl$Miscellaneous$Graphs$GSEA_GO_Cellular_Component$handler=function(h,...)
 mbl$Miscellaneous$Graphs$GSEA_GO_Cellular_Component=gaction(label="GSEA_GO_Cellular_Component",handler=function(h,...)
 {
-	graph_gsea_goCC()
-	setwd(cur_dir)	
+	svalue(sb)<-"				              Please wait .."
+	code<-system.file("extdata","graph_gsea_goCC.R",package="maGUI")
+	source(code)
+	svalue(sb)<-"Done"
+	on.exit(setwd(cur_dir))	
 }
 )
 #mbl$Miscellaneous$Graphs$GSEA_KEGG_Pathways$handler=function(h,...)
 mbl$Miscellaneous$Graphs$GSEA_KEGG_Pathways=gaction(label="GSEA_KEGG_Pathways",handler=function(h,...)
 {
-	graph_gsea_kegg()
-	setwd(cur_dir)	
+	svalue(sb)<-"				              Please wait .."
+	code<-system.file("extdata","graph_gsea_kegg.R",package="maGUI")
+	source(code)
+	svalue(sb)<-"Done"
+	on.exit(setwd(cur_dir))	
 }
 )
 #mbl$Miscellaneous$Graphs$GSTA_GO_Biological_Process$handler=function(h,...)
 mbl$Miscellaneous$Graphs$GSTA_GO_Biological_Process=gaction(label="GSTA_GO_Biological_Process",handler=function(h,...)
 {
-	graph_gsta_goBP()
-	setwd(cur_dir)	
+	svalue(sb)<-"				              Please wait .."
+	code<-system.file("extdata","graph_gsta_goBP.R",package="maGUI")
+	source(code)
+	svalue(sb)<-"Done"
+	on.exit(setwd(cur_dir))	
 }
 )
 #mbl$Miscellaneous$Graphs$GSTA_GO_Molecular_Function$handler=function(h,...)
 mbl$Miscellaneous$Graphs$GSTA_GO_Molecular_Function=gaction(label="GSTA_GO_Molecular_Function",handler=function(h,...)
 {
-	graph_gsta_goMF()
-	setwd(cur_dir)	
+	svalue(sb)<-"				              Please wait .."
+	code<-system.file("extdata","graph_gsta_goMF.R",package="maGUI")
+	source(code)
+	svalue(sb)<-"Done"
+	on.exit(setwd(cur_dir))	
 }
 )
 #mbl$Miscellaneous$Graphs$GSTA_GO_Cellular_Component$handler=function(h,...)
 mbl$Miscellaneous$Graphs$GSTA_GO_Cellular_Component=gaction(label="GSTA_GO_Cellular_Component",handler=function(h,...)
 {
-	graph_gsta_goCC()
-	setwd(cur_dir)	
+	svalue(sb)<-"				              Please wait .."
+	code<-system.file("extdata","graph_gsta_goCC.R",package="maGUI")
+	source(code)
+	svalue(sb)<-"Done"
+	on.exit(setwd(cur_dir))	
 }
 )
 #mbl$Miscellaneous$Graphs$GSTA_KEGG_Pathways$handler=function(h,...)
 mbl$Miscellaneous$Graphs$GSTA_KEGG_Pathways=gaction(label="GSTA_KEGG_Pathways",handler=function(h,...)
 {
-	graph_gsta_kegg()
-	setwd(cur_dir)	
+	svalue(sb)<-"				              Please wait .."
+	code<-system.file("extdata","graph_gsta_kegg.R",package="maGUI")
+	source(code)
+	svalue(sb)<-"Done"
+	on.exit(setwd(cur_dir))	
 }
 )
 #mbl$Miscellaneous$Coexpression_Network$handler=function(h,...)
 mbl$Miscellaneous$Coexpression_Network=gaction(label="Coexpression_Network",handler=function(h,...)
 {
-	ntwk()
-	setwd(cur_dir)	
+	svalue(sb)<-"				              Please wait .."
+	code<-system.file("extdata","ntwk.R",package="maGUI")
+	source(code)
+	svalue(sb)<-"Done"
+	on.exit(setwd(cur_dir))	
 }
 )
 #mbl$Miscellaneous$Sample_Size_Estimation$handler=function(h,...)
 mbl$Miscellaneous$Sample_Size_Estimation=gaction(label="Sample_Size_Estimation",handler=function(h,...)
 {
-	sse()
-	setwd(cur_dir)	
+	svalue(sb)<-"				              Please wait .."
+	code<-system.file("extdata","sse.R",package="maGUI")
+	source(code)
+	svalue(sb)<-"Done"
+	on.exit(setwd(cur_dir))	
 }
 )
 #mbl$Miscellaneous$PPIs_Prediction$handler=function(h,...)
 mbl$Miscellaneous$PPIs_Prediction=gaction(label="PPIs_Prediction",handler=function(h,...)
 {
-	ppis()
-	setwd(cur_dir)
+	svalue(sb)<-"				              Please wait .."
+	code<-system.file("extdata","ppis.R",package="maGUI")
+	source(code)
+	svalue(sb)<-"Done"
+	on.exit(setwd(cur_dir))
 }
 )
 #mbl$View$Normalized_Data$Affymetrix$handler=function(h,...)
 mbl$View$Normalized_Data$Affymetrix=gaction(label="Affymetrix",handler=function(h,...)
 {
-	view_w<-gwindow("Normalized_Data_Affymetrix",visible=FALSE,height=400,width=600)
+	view_w<-gwindow("Normalized_Data_Affymetrix",visible=FALSE,height=480,width=650)
 	gtable(dat2Affy.m,container=view_w)
 	visible(view_w)<-TRUE
 }
@@ -1859,7 +1335,7 @@ mbl$View$Normalized_Data$Affymetrix=gaction(label="Affymetrix",handler=function(
 #mbl$View$Normalized_Data$Agilent_OneColor$handler=function(h,...)
 mbl$View$Normalized_Data$Agilent_OneColor=gaction(label="Agilent_OneColor",handler=function(h,...)
 {
-	view_w<-gwindow("Normalized_Data_Agilent_OneColor",visible=FALSE,height=400,width=600)
+	view_w<-gwindow("Normalized_Data_Agilent_OneColor",visible=FALSE,height=480,width=650)
 	gtable(datAgOne2.m,container=view_w)
 	visible(view_w)<-TRUE
 }
@@ -1867,7 +1343,7 @@ mbl$View$Normalized_Data$Agilent_OneColor=gaction(label="Agilent_OneColor",handl
 #mbl$View$Normalized_Data$Agilent_TwoColor$handler=function(h,...)
 mbl$View$Normalized_Data$Agilent_TwoColor=gaction(label="Agilent_TwoColor",handler=function(h,...)
 {
-	view_w<-gwindow("Normalized_Data_Agilent_TwoColor",visible=FALSE,height=400,width=600)
+	view_w<-gwindow("Normalized_Data_Agilent_TwoColor",visible=FALSE,height=480,width=650)
 	gtable(datAgTwo2.m,container=view_w)
 	visible(view_w)<-TRUE
 }
@@ -1875,7 +1351,7 @@ mbl$View$Normalized_Data$Agilent_TwoColor=gaction(label="Agilent_TwoColor",handl
 #mbl$View$Normalized_Data$Illumina_Beadarray$handler=function(h,...)
 mbl$View$Normalized_Data$Illumina_Beadarray=gaction(label="Illumina_Beadarray",handler=function(h,...)
 {
-	view_w<-gwindow("Normalized_Data_Illumina_Beadarray",visible=FALSE,height=400,width=600)
+	view_w<-gwindow("Normalized_Data_Illumina_Beadarray",visible=FALSE,height=480,width=650)
 	gtable(datIllBA2.m2,container=view_w)
 	visible(view_w)<-TRUE
 }
@@ -1883,7 +1359,7 @@ mbl$View$Normalized_Data$Illumina_Beadarray=gaction(label="Illumina_Beadarray",h
 #mbl$View$Normalized_Data$Illumina_Lumi$handler=function(h,...)
 mbl$View$Normalized_Data$Illumina_Lumi=gaction(label="Illumina_Lumi",handler=function(h,...)
 {
-	view_w<-gwindow("Normalized_Data_Illumina_Lumi",visible=FALSE,height=400,width=600)
+	view_w<-gwindow("Normalized_Data_Illumina_Lumi",visible=FALSE,height=480,width=650)
 	gtable(lumi_NQ.m,container=view_w)
 	visible(view_w)<-TRUE
 }
@@ -1891,7 +1367,7 @@ mbl$View$Normalized_Data$Illumina_Lumi=gaction(label="Illumina_Lumi",handler=fun
 #mbl$View$Normalized_Data$Nimblegen$handler=function(h,...)
 mbl$View$Normalized_Data$Nimblegen=gaction(label="Nimblegen",handler=function(h,...)
 {	
-	view_w<-gwindow("Normalized_Data_Nimblegen",visible=FALSE,height=400,width=600)
+	view_w<-gwindow("Normalized_Data_Nimblegen",visible=FALSE,height=480,width=650)
 	gtable(data.matrix_Nimblegen2.m,container=view_w)
 	visible(view_w)<-TRUE
 }
@@ -1899,7 +1375,7 @@ mbl$View$Normalized_Data$Nimblegen=gaction(label="Nimblegen",handler=function(h,
 #mbl$View$Normalized_Data$Series_Matrix$handler=function(h,...)
 mbl$View$Normalized_Data$Series_Matrix=gaction(label="Series_Matrix",handler=function(h,...)
 {
-	view_w<-gwindow("Normalized_Data_Series_Matrix",visible=FALSE,height=400,width=600)
+	view_w<-gwindow("Normalized_Data_Series_Matrix",visible=FALSE,height=480,width=650)
 	gtable(data.matrixNorm.m,container=view_w)
 	visible(view_w)<-TRUE
 }
@@ -1907,7 +1383,7 @@ mbl$View$Normalized_Data$Series_Matrix=gaction(label="Series_Matrix",handler=fun
 #mbl$View$Normalized_Data$Online_Data$handler=function(h,...)
 mbl$View$Normalized_Data$Online_Data=gaction(label="Online_Data",handler=function(h,...)
 {
-	view_w<-gwindow("Normalized_Data_Series_Matrix",visible=FALSE,height=400,width=600)
+	view_w<-gwindow("Normalized_Data_Series_Matrix",visible=FALSE,height=480,width=650)
 	gtable(data.matrix_onlineNorm.m,container=view_w)
 	visible(view_w)<-TRUE
 }
@@ -1968,7 +1444,7 @@ mbl$View$QC_Data$Online_Data=gaction(label="Online_Data",handler=function(h,...)
 #mbl$View$Filtered_Data$Affymetrix$handler=function(h,...)
 mbl$View$Filtered_Data$Affymetrix=gaction(label="Affymetrix",handler=function(h,...)
 {
-	view_w<-gwindow("Filtered_Data_Affymetrix",visible=FALSE,height=400,width=600)
+	view_w<-gwindow("Filtered_Data_Affymetrix",visible=FALSE,height=480,width=650)
 	ps1<-as.data.frame(dat2Affy.f)	
 	gtable(ps1,container=view_w)
 	visible(view_w)<-TRUE
@@ -1977,7 +1453,7 @@ mbl$View$Filtered_Data$Affymetrix=gaction(label="Affymetrix",handler=function(h,
 #mbl$View$Filtered_Data$Agilent_OneColor$handler=function(h,...)
 mbl$View$Filtered_Data$Agilent_OneColor=gaction(label="Agilent_OneColor",handler=function(h,...)
 {
-	view_w<-gwindow("Filtered_Data_Agilent_OneColor",visible=FALSE,height=400,width=600)
+	view_w<-gwindow("Filtered_Data_Agilent_OneColor",visible=FALSE,height=480,width=650)
 	ps1<-as.data.frame(datAgOne2.f)	
 	gtable(ps1,container=view_w)
 	visible(view_w)<-TRUE
@@ -1986,7 +1462,7 @@ mbl$View$Filtered_Data$Agilent_OneColor=gaction(label="Agilent_OneColor",handler
 #mbl$View$Filtered_Data$Agilent_TwoColor$handler=function(h,...)
 mbl$View$Filtered_Data$Agilent_TwoColor=gaction(label="Agilent_TwoColor",handler=function(h,...)
 {
-	view_w<-gwindow("Filtered_Data_Agilent_TwoColor",visible=FALSE,height=400,width=600)
+	view_w<-gwindow("Filtered_Data_Agilent_TwoColor",visible=FALSE,height=480,width=650)
 	ps1<-as.data.frame(datAgTwo2.f)	
 	gtable(ps1,container=view_w)
 	visible(view_w)<-TRUE
@@ -1995,7 +1471,7 @@ mbl$View$Filtered_Data$Agilent_TwoColor=gaction(label="Agilent_TwoColor",handler
 #mbl$View$Filtered_Data$Illumina_Beadarray$handler=function(h,...)
 mbl$View$Filtered_Data$Illumina_Beadarray=gaction(label="Illumina_Beadarray",handler=function(h,...)
 {
-	view_w<-gwindow("Filtered_Data_Illumina_Beadarray",visible=FALSE,height=400,width=600)
+	view_w<-gwindow("Filtered_Data_Illumina_Beadarray",visible=FALSE,height=480,width=650)
 	ps1<-as.data.frame(datIllBA2.f)	
 	gtable(ps1,container=view_w)
 	visible(view_w)<-TRUE
@@ -2004,7 +1480,7 @@ mbl$View$Filtered_Data$Illumina_Beadarray=gaction(label="Illumina_Beadarray",han
 #mbl$View$Filtered_Data$Illumina_Lumi$handler=function(h,...)
 mbl$View$Filtered_Data$Illumina_Lumi=gaction(label="Illumina_Lumi",handler=function(h,...)
 {
-	view_w<-gwindow("Filtered_Data_Illumina_Lumi",visible=FALSE,height=400,width=600)
+	view_w<-gwindow("Filtered_Data_Illumina_Lumi",visible=FALSE,height=480,width=650)
 	ps1<-as.data.frame(lumi_NQ.f)	
 	gtable(ps1,container=view_w)
 	visible(view_w)<-TRUE
@@ -2013,7 +1489,7 @@ mbl$View$Filtered_Data$Illumina_Lumi=gaction(label="Illumina_Lumi",handler=funct
 #mbl$View$Filtered_Data$Nimblegen$handler=function(h,...)
 mbl$View$Filtered_Data$Nimblegen=gaction(label="Nimblegen",handler=function(h,...)
 {
-	view_w<-gwindow("Filtered_Data_Nimblegen",visible=FALSE,height=400,width=600)
+	view_w<-gwindow("Filtered_Data_Nimblegen",visible=FALSE,height=480,width=650)
 	ps1<-as.data.frame(data.matrix_Nimblegen2.f)	
 	gtable(ps1,container=view_w)
 	visible(view_w)<-TRUE
@@ -2022,7 +1498,7 @@ mbl$View$Filtered_Data$Nimblegen=gaction(label="Nimblegen",handler=function(h,..
 #mbl$View$Filtered_Data$Series_Matrix$handler=function(h,...)
 mbl$View$Filtered_Data$Series_Matrix=gaction(label="Series_Matrix",handler=function(h,...)
 {
-	view_w<-gwindow("Filtered_Data_Series_Matrix",visible=FALSE,height=400,width=600)
+	view_w<-gwindow("Filtered_Data_Series_Matrix",visible=FALSE,height=480,width=650)
 	ps1<-as.data.frame(data.matrixNorm.f)	
 	gtable(ps1,container=view_w)
 	visible(view_w)<-TRUE
@@ -2031,7 +1507,7 @@ mbl$View$Filtered_Data$Series_Matrix=gaction(label="Series_Matrix",handler=funct
 #mbl$View$Filtered_Data$Online_Data$handler=function(h,...)
 mbl$View$Filtered_Data$Online_Data=gaction(label="Online_Data",handler=function(h,...)
 {
-	view_w<-gwindow("Filtered_Data_Online_Data",visible=FALSE,height=400,width=600)
+	view_w<-gwindow("Filtered_Data_Online_Data",visible=FALSE,height=480,width=650)
 	ps1<-as.data.frame(data.matrix_onlineNorm.f)	
 	gtable(ps1,container=view_w)
 	visible(view_w)<-TRUE
@@ -2041,7 +1517,7 @@ mbl$View$Filtered_Data$Online_Data=gaction(label="Online_Data",handler=function(
 #mbl$View$Stat_Significant_Data$Affymetrix$handler=function(h,...)
 mbl$View$Stat_Significant_Data$Affymetrix=gaction(label="Affymetrix",handler=function(h,...)
 {
-	view_w<-gwindow("Stat_Significant_Data_Affymetrix",visible=FALSE,height=400,width=600)
+	view_w<-gwindow("Stat_Significant_Data_Affymetrix",visible=FALSE,height=480,width=650)
 	gtable(dat2Affy.s,container=view_w)
 	visible(view_w)<-TRUE
 }
@@ -2049,7 +1525,7 @@ mbl$View$Stat_Significant_Data$Affymetrix=gaction(label="Affymetrix",handler=fun
 #mbl$View$Stat_Significant_Data$Agilent_OneColor$handler=function(h,...)
 mbl$View$Stat_Significant_Data$Agilent_OneColor=gaction(label="Agilent_OneColor",handler=function(h,...)
 {
-	view_w<-gwindow("Stat_Significant_Data_Agilent_OneColor",visible=FALSE,height=400,width=600)
+	view_w<-gwindow("Stat_Significant_Data_Agilent_OneColor",visible=FALSE,height=480,width=650)
 	gtable(datAgOne2.s,container=view_w)
 	visible(view_w)<-TRUE
 }
@@ -2057,7 +1533,7 @@ mbl$View$Stat_Significant_Data$Agilent_OneColor=gaction(label="Agilent_OneColor"
 #mbl$View$Stat_Significant_Data$Agilent_TwoColor$handler=function(h,...)
 mbl$View$Stat_Significant_Data$Agilent_TwoColor=gaction(label="Agilent_TwoColor",handler=function(h,...)
 {
-	view_w<-gwindow("Stat_Significant_Data_Agilent_TwoColor",visible=FALSE,height=400,width=600)
+	view_w<-gwindow("Stat_Significant_Data_Agilent_TwoColor",visible=FALSE,height=480,width=650)
 	gtable(datAgTwo2.s,container=view_w)
 	visible(view_w)<-TRUE
 }
@@ -2065,7 +1541,7 @@ mbl$View$Stat_Significant_Data$Agilent_TwoColor=gaction(label="Agilent_TwoColor"
 #mbl$View$Stat_Significant_Data$Illumina_Beadarray$handler=function(h,...)
 mbl$View$Stat_Significant_Data$Illumina_Beadarray=gaction(label="Illumina_Beadarray",handler=function(h,...)
 {
-	view_w<-gwindow("Stat_Significant_Data_Illumina_Beadarray",visible=FALSE,height=400,width=600)
+	view_w<-gwindow("Stat_Significant_Data_Illumina_Beadarray",visible=FALSE,height=480,width=650)
 	gtable(datIllBA2.s,container=view_w)
 	visible(view_w)<-TRUE
 }
@@ -2073,7 +1549,7 @@ mbl$View$Stat_Significant_Data$Illumina_Beadarray=gaction(label="Illumina_Beadar
 #mbl$View$Stat_Significant_Data$Illumina_Lumi$handler=function(h,...)
 mbl$View$Stat_Significant_Data$Illumina_Lumi=gaction(label="Illumina_Lumi",handler=function(h,...)
 {
-	view_w<-gwindow("Stat_Significant_Data_Illumina_Lumi",visible=FALSE,height=400,width=600)
+	view_w<-gwindow("Stat_Significant_Data_Illumina_Lumi",visible=FALSE,height=480,width=650)
 	gtable(lumi_NQ.s,container=view_w)
 	visible(view_w)<-TRUE
 }
@@ -2081,7 +1557,7 @@ mbl$View$Stat_Significant_Data$Illumina_Lumi=gaction(label="Illumina_Lumi",handl
 #mbl$View$Stat_Significant_Data$Nimblegen$handler=function(h,...)
 mbl$View$Stat_Significant_Data$Nimblegen=gaction(label="Nimblegen",handler=function(h,...)
 {
-	view_w<-gwindow("Stat_Significant_Data_Nimblegen",visible=FALSE,height=400,width=600)
+	view_w<-gwindow("Stat_Significant_Data_Nimblegen",visible=FALSE,height=480,width=650)
 	gtable(data.matrix_Nimblegen2.s,container=view_w)
 	visible(view_w)<-TRUE
 }
@@ -2089,7 +1565,7 @@ mbl$View$Stat_Significant_Data$Nimblegen=gaction(label="Nimblegen",handler=funct
 #mbl$View$Stat_Significant_Data$Series_Matrix$handler=function(h,...)
 mbl$View$Stat_Significant_Data$Series_Matrix=gaction(label="Series_Matrix",handler=function(h,...)
 {
-	view_w<-gwindow("Stat_Significant_Data_Series_Matrix",visible=FALSE,height=400,width=600)
+	view_w<-gwindow("Stat_Significant_Data_Series_Matrix",visible=FALSE,height=480,width=650)
 	gtable(data.matrixNorm.s,container=view_w)
 	visible(view_w)<-TRUE
 }
@@ -2097,7 +1573,7 @@ mbl$View$Stat_Significant_Data$Series_Matrix=gaction(label="Series_Matrix",handl
 #mbl$View$Stat_Significant_Data$Online_Data$handler=function(h,...)
 mbl$View$Stat_Significant_Data$Online_Data=gaction(label="Online_Data",handler=function(h,...)
 {
-	view_w<-gwindow("Stat_Significant_Data_Online_Data",visible=FALSE,height=400,width=600)
+	view_w<-gwindow("Stat_Significant_Data_Online_Data",visible=FALSE,height=480,width=650)
 	gtable(data.matrix_onlineNorm.s,container=view_w)
 	visible(view_w)<-TRUE
 }
@@ -2106,7 +1582,7 @@ mbl$View$Stat_Significant_Data$Online_Data=gaction(label="Online_Data",handler=f
 #mbl$View$DGE_Data$Affymetrix$handler=function(h,...)
 mbl$View$DGE_Data$Affymetrix=gaction(label="Affymetrix",handler=function(h,...)
 {
-	view_w<-gwindow("DGE_Data_Affymetrix",visible=FALSE,height=400,width=600)
+	view_w<-gwindow("DGE_Data_Affymetrix",visible=FALSE,height=480,width=650)
 	gtable(DE_Affy,container=view_w)
 	visible(view_w)<-TRUE
 }
@@ -2114,7 +1590,7 @@ mbl$View$DGE_Data$Affymetrix=gaction(label="Affymetrix",handler=function(h,...)
 #mbl$View$DGE_Data$Agilent_OneColor$handler=function(h,...)
 mbl$View$DGE_Data$Agilent_OneColor=gaction(label="Agilent_OneColor",handler=function(h,...)
 {
-	view_w<-gwindow("DGE_Data_Agilent_OneColor",visible=FALSE,height=400,width=600)
+	view_w<-gwindow("DGE_Data_Agilent_OneColor",visible=FALSE,height=480,width=650)
 	gtable(DE_Ag1,container=view_w)
 	visible(view_w)<-TRUE
 }
@@ -2122,7 +1598,7 @@ mbl$View$DGE_Data$Agilent_OneColor=gaction(label="Agilent_OneColor",handler=func
 #mbl$View$DGE_Data$Agilent_TwoColor$handler=function(h,...)
 mbl$View$DGE_Data$Agilent_TwoColor=gaction(label="Agilent_TwoColor",handler=function(h,...)
 {
-	view_w<-gwindow("DGE_Data_Agilent_TwoColor",visible=FALSE,height=400,width=600)
+	view_w<-gwindow("DGE_Data_Agilent_TwoColor",visible=FALSE,height=480,width=650)
 	gtable(DE_Ag2,container=view_w)
 	visible(view_w)<-TRUE
 }
@@ -2130,7 +1606,7 @@ mbl$View$DGE_Data$Agilent_TwoColor=gaction(label="Agilent_TwoColor",handler=func
 #mbl$View$DGE_Data$Illumina_Beadarray$handler=function(h,...)
 mbl$View$DGE_Data$Illumina_Beadarray=gaction(label="Illumina_Beadarray",handler=function(h,...)
 {
-	view_w<-gwindow("DGE_Data_Illumina_Beadarray",visible=FALSE,height=400,width=600)
+	view_w<-gwindow("DGE_Data_Illumina_Beadarray",visible=FALSE,height=480,width=650)
 	gtable(DE_Il_B,container=view_w)
 	visible(view_w)<-TRUE
 }
@@ -2138,7 +1614,7 @@ mbl$View$DGE_Data$Illumina_Beadarray=gaction(label="Illumina_Beadarray",handler=
 #mbl$View$DGE_Data$Illumina_Lumi$handler=function(h,...)
 mbl$View$DGE_Data$Illumina_Lumi=gaction(label="Illumina_Lumi",handler=function(h,...)
 {
-	view_w<-gwindow("DGE_Data_Illumina_Lumi",visible=FALSE,height=400,width=600)
+	view_w<-gwindow("DGE_Data_Illumina_Lumi",visible=FALSE,height=480,width=650)
 	gtable(DE_Il_L,container=view_w)
 	visible(view_w)<-TRUE
 }
@@ -2146,7 +1622,7 @@ mbl$View$DGE_Data$Illumina_Lumi=gaction(label="Illumina_Lumi",handler=function(h
 #mbl$View$DGE_Data$Nimblegen$handler=function(h,...)
 mbl$View$DGE_Data$Nimblegen=gaction(label="Nimblegen",handler=function(h,...)
 {
-	view_w<-gwindow("DGE_Data_Nimblegen",visible=FALSE,height=400,width=600)
+	view_w<-gwindow("DGE_Data_Nimblegen",visible=FALSE,height=480,width=650)
 	gtable(DE_N,container=view_w)
 	visible(view_w)<-TRUE
 }
@@ -2154,7 +1630,7 @@ mbl$View$DGE_Data$Nimblegen=gaction(label="Nimblegen",handler=function(h,...)
 #mbl$View$DGE_Data$Series_Matrix$handler=function(h,...)
 mbl$View$DGE_Data$Series_Matrix=gaction(label="Series_Matrix",handler=function(h,...)
 {
-	view_w<-gwindow("DGE_Data_Series_Matrix",visible=FALSE,height=400,width=600)
+	view_w<-gwindow("DGE_Data_Series_Matrix",visible=FALSE,height=480,width=650)
 	gtable(DE_S,container=view_w)
 	visible(view_w)<-TRUE
 }
@@ -2162,7 +1638,7 @@ mbl$View$DGE_Data$Series_Matrix=gaction(label="Series_Matrix",handler=function(h
 #mbl$View$DGE_Data$Online_Data$handler=function(h,...)
 mbl$View$DGE_Data$Online_Data=gaction(label="Online_Data",handler=function(h,...)
 {
-	view_w<-gwindow("DGE_Data_Online_Data",visible=FALSE,height=400,width=600)
+	view_w<-gwindow("DGE_Data_Online_Data",visible=FALSE,height=480,width=650)
 	gtable(DE_O,container=view_w)
 	visible(view_w)<-TRUE
 }
@@ -2318,7 +1794,7 @@ mbl$View$Classification_Data$Online_Data=gaction(label="Online_Data",handler=fun
 #mbl$View$GSEA$GO_Biological_Process$Affymetrix$handler=function(h,...)
 mbl$View$GSEA$GO_Biological_Process$Affymetrix=gaction(label="Affymetrix",handler=function(h,...)
 {
-	view_w<-gwindow("GSEA GO Biological Process",visible=FALSE,height=400,width=600)
+	view_w<-gwindow("GSEA GO Biological Process",visible=FALSE,height=480,width=650)
 	gtable(GOresultBP_Affy,container=view_w)
 	visible(view_w)<-TRUE
 }
@@ -2326,7 +1802,7 @@ mbl$View$GSEA$GO_Biological_Process$Affymetrix=gaction(label="Affymetrix",handle
 #mbl$View$GSEA$GO_Biological_Process$Agilent_OneColor$handler=function(h,...)
 mbl$View$GSEA$GO_Biological_Process$Agilent_OneColor=gaction(label="Agilent_OneColor",handler=function(h,...)
 {	
-	view_w<-gwindow("GSEA GO Biological Process",visible=FALSE,height=400,width=600)
+	view_w<-gwindow("GSEA GO Biological Process",visible=FALSE,height=480,width=650)
 	gtable(GOresultBP_Ag1,container=view_w)
 	visible(view_w)<-TRUE
 }
@@ -2334,7 +1810,7 @@ mbl$View$GSEA$GO_Biological_Process$Agilent_OneColor=gaction(label="Agilent_OneC
 #mbl$View$GSEA$GO_Biological_Process$Agilent_TwoColor$handler=function(h,...)
 mbl$View$GSEA$GO_Biological_Process$Agilent_TwoColor=gaction(label="Agilent_TwoColor",handler=function(h,...)
 {
-	view_w<-gwindow("GSEA GO Biological Process",visible=FALSE,height=400,width=600)
+	view_w<-gwindow("GSEA GO Biological Process",visible=FALSE,height=480,width=650)
 	gtable(GOresultBP_Ag2,container=view_w)
 	visible(view_w)<-TRUE
 }
@@ -2342,7 +1818,7 @@ mbl$View$GSEA$GO_Biological_Process$Agilent_TwoColor=gaction(label="Agilent_TwoC
 #mbl$View$GSEA$GO_Biological_Process$Illumina_Beadarray$handler=function(h,...)
 mbl$View$GSEA$GO_Biological_Process$Illumina_Beadarray=gaction(label="Illumina_Beadarray",handler=function(h,...)
 {
-	view_w<-gwindow("GSEA GO Biological Process",visible=FALSE,height=400,width=600)
+	view_w<-gwindow("GSEA GO Biological Process",visible=FALSE,height=480,width=650)
 	gtable(GOresultBP_Il_B,container=view_w)
 	visible(view_w)<-TRUE
 }
@@ -2350,7 +1826,7 @@ mbl$View$GSEA$GO_Biological_Process$Illumina_Beadarray=gaction(label="Illumina_B
 #mbl$View$GSEA$GO_Biological_Process$Illumina_Lumi$handler=function(h,...)
 mbl$View$GSEA$GO_Biological_Process$Illumina_Lumi=gaction(label="Illumina_Lumi",handler=function(h,...)
 {
-	view_w<-gwindow("GSEA GO Biological Process",visible=FALSE,height=400,width=600)
+	view_w<-gwindow("GSEA GO Biological Process",visible=FALSE,height=480,width=650)
 	gtable(GOresultBP_Il_L,container=view_w)
 	visible(view_w)<-TRUE
 }
@@ -2358,7 +1834,7 @@ mbl$View$GSEA$GO_Biological_Process$Illumina_Lumi=gaction(label="Illumina_Lumi",
 #mbl$View$GSEA$GO_Biological_Process$Nimblegen$handler=function(h,...)
 mbl$View$GSEA$GO_Biological_Process$Nimblegen=gaction(label="Nimblegen",handler=function(h,...)
 {
-	view_w<-gwindow("GSEA GO Biological Process",visible=FALSE,height=400,width=600)
+	view_w<-gwindow("GSEA GO Biological Process",visible=FALSE,height=480,width=650)
 	gtable(GOresultBP_N,container=view_w)
 	visible(view_w)<-TRUE
 }
@@ -2366,7 +1842,7 @@ mbl$View$GSEA$GO_Biological_Process$Nimblegen=gaction(label="Nimblegen",handler=
 #mbl$View$GSEA$GO_Biological_Process$Series_Matrix$handler=function(h,...)
 mbl$View$GSEA$GO_Biological_Process$Series_Matrix=gaction(label="Series_Matrix",handler=function(h,...)
 {
-	view_w<-gwindow("GSEA GO Biological Process",visible=FALSE,height=400,width=600)
+	view_w<-gwindow("GSEA GO Biological Process",visible=FALSE,height=480,width=650)
 	gtable(GOresultBP_S,container=view_w)
 	visible(view_w)<-TRUE
 }
@@ -2374,7 +1850,7 @@ mbl$View$GSEA$GO_Biological_Process$Series_Matrix=gaction(label="Series_Matrix",
 #mbl$View$GSEA$GO_Biological_Process$Online_Data$handler=function(h,...)
 mbl$View$GSEA$GO_Biological_Process$Online_Data=gaction(label="Online_Data",handler=function(h,...)
 {
-	view_w<-gwindow("GSEA GO Biological Process",visible=FALSE,height=400,width=600)
+	view_w<-gwindow("GSEA GO Biological Process",visible=FALSE,height=480,width=650)
 	gtable(GOresultBP_O,container=view_w)
 	visible(view_w)<-TRUE
 }
@@ -2383,7 +1859,7 @@ mbl$View$GSEA$GO_Biological_Process$Online_Data=gaction(label="Online_Data",hand
 #mbl$View$GSEA$GO_Molecular_Function$Affymetrix$handler=function(h,...)
 mbl$View$GSEA$GO_Molecular_Function$Affymetrix=gaction(label="Affymetrix",handler=function(h,...)
 {
-	view_w<-gwindow("GSEA GO Molecular Function",visible=FALSE,height=400,width=600)
+	view_w<-gwindow("GSEA GO Molecular Function",visible=FALSE,height=480,width=650)
 	gtable(GOresultMF_Affy,container=view_w)
 	visible(view_w)<-TRUE
 }
@@ -2391,7 +1867,7 @@ mbl$View$GSEA$GO_Molecular_Function$Affymetrix=gaction(label="Affymetrix",handle
 #mbl$View$GSEA$GO_Molecular_Function$Agilent_OneColor$handler=function(h,...)
 mbl$View$GSEA$GO_Molecular_Function$Agilent_OneColor=gaction(label="Agilent_OneColor",handler=function(h,...)
 {	
-	view_w<-gwindow("GSEA GO Molecular Function",visible=FALSE,height=400,width=600)
+	view_w<-gwindow("GSEA GO Molecular Function",visible=FALSE,height=480,width=650)
 	gtable(GOresultMF_Ag1,container=view_w)
 	visible(view_w)<-TRUE
 }
@@ -2399,7 +1875,7 @@ mbl$View$GSEA$GO_Molecular_Function$Agilent_OneColor=gaction(label="Agilent_OneC
 #mbl$View$GSEA$GO_Molecular_Function$Agilent_TwoColor$handler=function(h,...)
 mbl$View$GSEA$GO_Molecular_Function$Agilent_TwoColor=gaction(label="Agilent_TwoColor",handler=function(h,...)
 {
-	view_w<-gwindow("GSEA GO Molecular Function",visible=FALSE,height=400,width=600)
+	view_w<-gwindow("GSEA GO Molecular Function",visible=FALSE,height=480,width=650)
 	gtable(GOresultMF_Ag2,container=view_w)
 	visible(view_w)<-TRUE
 }
@@ -2407,7 +1883,7 @@ mbl$View$GSEA$GO_Molecular_Function$Agilent_TwoColor=gaction(label="Agilent_TwoC
 #mbl$View$GSEA$GO_Molecular_Function$Illumina_Beadarray$handler=function(h,...)
 mbl$View$GSEA$GO_Molecular_Function$Illumina_Beadarray=gaction(label="Illumina_Beadarray",handler=function(h,...)
 {
-	view_w<-gwindow("GSEA GO Molecular Function",visible=FALSE,height=400,width=600)
+	view_w<-gwindow("GSEA GO Molecular Function",visible=FALSE,height=480,width=650)
 	gtable(GOresultMF_Il_B,container=view_w)
 	visible(view_w)<-TRUE
 }
@@ -2415,7 +1891,7 @@ mbl$View$GSEA$GO_Molecular_Function$Illumina_Beadarray=gaction(label="Illumina_B
 #mbl$View$GSEA$GO_Molecular_Function$Illumina_Lumi$handler=function(h,...)
 mbl$View$GSEA$GO_Molecular_Function$Illumina_Lumi=gaction(label="Illumina_Lumi",handler=function(h,...)
 {
-	view_w<-gwindow("GSEA GO Molecular Function",visible=FALSE,height=400,width=600)
+	view_w<-gwindow("GSEA GO Molecular Function",visible=FALSE,height=480,width=650)
 	gtable(GOresultMF_Il_L,container=view_w)
 	visible(view_w)<-TRUE
 }
@@ -2423,7 +1899,7 @@ mbl$View$GSEA$GO_Molecular_Function$Illumina_Lumi=gaction(label="Illumina_Lumi",
 #mbl$View$GSEA$GO_Molecular_Function$Nimblegen$handler=function(h,...)
 mbl$View$GSEA$GO_Molecular_Function$Nimblegen=gaction(label="Nimblegen",handler=function(h,...)
 {
-	view_w<-gwindow("GSEA GO Molecular Function",visible=FALSE,height=400,width=600)
+	view_w<-gwindow("GSEA GO Molecular Function",visible=FALSE,height=480,width=650)
 	gtable(GOresultMF_N,container=view_w)
 	visible(view_w)<-TRUE
 }
@@ -2431,7 +1907,7 @@ mbl$View$GSEA$GO_Molecular_Function$Nimblegen=gaction(label="Nimblegen",handler=
 #mbl$View$GSEA$GO_Molecular_Function$Series_Matrix$handler=function(h,...)
 mbl$View$GSEA$GO_Molecular_Function$Series_Matrix=gaction(label="Series_Matrix",handler=function(h,...)
 {
-	view_w<-gwindow("GSEA GO Molecular Function",visible=FALSE,height=400,width=600)
+	view_w<-gwindow("GSEA GO Molecular Function",visible=FALSE,height=480,width=650)
 	gtable(GOresultMF_S,container=view_w)
 	visible(view_w)<-TRUE
 }
@@ -2439,7 +1915,7 @@ mbl$View$GSEA$GO_Molecular_Function$Series_Matrix=gaction(label="Series_Matrix",
 #mbl$View$GSEA$GO_Molecular_Function$Online_Data$handler=function(h,...)
 mbl$View$GSEA$GO_Molecular_Function$Online_Data=gaction(label="Online_Data",handler=function(h,...)
 {
-	view_w<-gwindow("GSEA GO Molecular Function",visible=FALSE,height=400,width=600)
+	view_w<-gwindow("GSEA GO Molecular Function",visible=FALSE,height=480,width=650)
 	gtable(GOresultMF_O,container=view_w)
 	visible(view_w)<-TRUE
 }
@@ -2448,7 +1924,7 @@ mbl$View$GSEA$GO_Molecular_Function$Online_Data=gaction(label="Online_Data",hand
 #mbl$View$GSEA$GO_Cellular_Component$Affymetrix$handler=function(h,...)
 mbl$View$GSEA$GO_Cellular_Component$Affymetrix=gaction(label="Affymetrix",handler=function(h,...)
 {
-	view_w<-gwindow("GSEA GO Cellular Component",visible=FALSE,height=400,width=600)
+	view_w<-gwindow("GSEA GO Cellular Component",visible=FALSE,height=480,width=650)
 	gtable(GOresultCC_Affy,container=view_w)
 	visible(view_w)<-TRUE
 }
@@ -2456,7 +1932,7 @@ mbl$View$GSEA$GO_Cellular_Component$Affymetrix=gaction(label="Affymetrix",handle
 #mbl$View$GSEA$GO_Cellular_Component$Agilent_OneColor$handler=function(h,...)
 mbl$View$GSEA$GO_Cellular_Component$Agilent_OneColor=gaction(label="Agilent_OneColor",handler=function(h,...)
 {	
-	view_w<-gwindow("GSEA GO Cellular Component",visible=FALSE,height=400,width=600)
+	view_w<-gwindow("GSEA GO Cellular Component",visible=FALSE,height=480,width=650)
 	gtable(GOresultCC_Ag1,container=view_w)
 	visible(view_w)<-TRUE
 }
@@ -2464,7 +1940,7 @@ mbl$View$GSEA$GO_Cellular_Component$Agilent_OneColor=gaction(label="Agilent_OneC
 #mbl$View$GSEA$GO_Cellular_Component$Agilent_TwoColor$handler=function(h,...)
 mbl$View$GSEA$GO_Cellular_Component$Agilent_TwoColor=gaction(label="Agilent_TwoColor",handler=function(h,...)
 {
-	view_w<-gwindow("GSEA GO Cellular Component",visible=FALSE,height=400,width=600)
+	view_w<-gwindow("GSEA GO Cellular Component",visible=FALSE,height=480,width=650)
 	gtable(GOresultCC_Ag2,container=view_w)
 	visible(view_w)<-TRUE
 }
@@ -2472,7 +1948,7 @@ mbl$View$GSEA$GO_Cellular_Component$Agilent_TwoColor=gaction(label="Agilent_TwoC
 #mbl$View$GSEA$GO_Cellular_Component$Illumina_Beadarray$handler=function(h,...)
 mbl$View$GSEA$GO_Cellular_Component$Illumina_Beadarray=gaction(label="Illumina_Beadarray",handler=function(h,...)
 {
-	view_w<-gwindow("GSEA GO Cellular Component",visible=FALSE,height=400,width=600)
+	view_w<-gwindow("GSEA GO Cellular Component",visible=FALSE,height=480,width=650)
 	gtable(GOresultCC_Il_B,container=view_w)
 	visible(view_w)<-TRUE
 }
@@ -2480,7 +1956,7 @@ mbl$View$GSEA$GO_Cellular_Component$Illumina_Beadarray=gaction(label="Illumina_B
 #mbl$View$GSEA$GO_Cellular_Component$Illumina_Lumi$handler=function(h,...)
 mbl$View$GSEA$GO_Cellular_Component$Illumina_Lumi=gaction(label="Illumina_Lumi",handler=function(h,...)
 {
-	view_w<-gwindow("GSEA GO Cellular Component",visible=FALSE,height=400,width=600)
+	view_w<-gwindow("GSEA GO Cellular Component",visible=FALSE,height=480,width=650)
 	gtable(GOresultCC_Il_L,container=view_w)
 	visible(view_w)<-TRUE
 }
@@ -2488,7 +1964,7 @@ mbl$View$GSEA$GO_Cellular_Component$Illumina_Lumi=gaction(label="Illumina_Lumi",
 #mbl$View$GSEA$GO_Cellular_Component$Nimblegen$handler=function(h,...)
 mbl$View$GSEA$GO_Cellular_Component$Nimblegen=gaction(label="Nimblegen",handler=function(h,...)
 {
-	view_w<-gwindow("GSEA GO Cellular Component",visible=FALSE,height=400,width=600)
+	view_w<-gwindow("GSEA GO Cellular Component",visible=FALSE,height=480,width=650)
 	gtable(GOresultCC_N,container=view_w)
 	visible(view_w)<-TRUE
 }
@@ -2496,7 +1972,7 @@ mbl$View$GSEA$GO_Cellular_Component$Nimblegen=gaction(label="Nimblegen",handler=
 #mbl$View$GSEA$GO_Cellular_Component$Series_Matrix$handler=function(h,...)
 mbl$View$GSEA$GO_Cellular_Component$Series_Matrix=gaction(label="Series_Matrix",handler=function(h,...)
 {
-	view_w<-gwindow("GSEA GO Cellular Component",visible=FALSE,height=400,width=600)
+	view_w<-gwindow("GSEA GO Cellular Component",visible=FALSE,height=480,width=650)
 	gtable(GOresultCC_S,container=view_w)
 	visible(view_w)<-TRUE
 }
@@ -2504,7 +1980,7 @@ mbl$View$GSEA$GO_Cellular_Component$Series_Matrix=gaction(label="Series_Matrix",
 #mbl$View$GSEA$GO_Cellular_Component$Online_Data$handler=function(h,...)
 mbl$View$GSEA$GO_Cellular_Component$Online_Data=gaction(label="Online_Data",handler=function(h,...)
 {
-	view_w<-gwindow("GSEA GO Cellular Component",visible=FALSE,height=400,width=600)
+	view_w<-gwindow("GSEA GO Cellular Component",visible=FALSE,height=480,width=650)
 	gtable(GOresultCC_O,container=view_w)
 	visible(view_w)<-TRUE
 }
@@ -2513,7 +1989,7 @@ mbl$View$GSEA$GO_Cellular_Component$Online_Data=gaction(label="Online_Data",hand
 #mbl$View$GSEA$KEGG_Pathways$Affymetrix$handler=function(h,...)
 mbl$View$GSEA$KEGG_Pathways$Affymetrix=gaction(label="Affymetrix",handler=function(h,...)
 {
-	view_w<-gwindow("GSEA KEGG Pathways",visible=FALSE,height=400,width=600)
+	view_w<-gwindow("GSEA KEGG Pathways",visible=FALSE,height=480,width=650)
 	gtable(KEGGresult_Affy,container=view_w)
 	visible(view_w)<-TRUE
 }
@@ -2521,7 +1997,7 @@ mbl$View$GSEA$KEGG_Pathways$Affymetrix=gaction(label="Affymetrix",handler=functi
 #mbl$View$GSEA$KEGG_Pathways$Agilent_OneColor$handler=function(h,...)
 mbl$View$GSEA$KEGG_Pathways$Agilent_OneColor=gaction(label="Agilent_OneColor",handler=function(h,...)
 {	
-	view_w<-gwindow("GSEA KEGG Pathways",visible=FALSE,height=400,width=600)
+	view_w<-gwindow("GSEA KEGG Pathways",visible=FALSE,height=480,width=650)
 	gtable(KEGGresult_Ag1,container=view_w)
 	visible(view_w)<-TRUE
 }
@@ -2529,7 +2005,7 @@ mbl$View$GSEA$KEGG_Pathways$Agilent_OneColor=gaction(label="Agilent_OneColor",ha
 #mbl$View$GSEA$KEGG_Pathways$Agilent_TwoColor$handler=function(h,...)
 mbl$View$GSEA$KEGG_Pathways$Agilent_TwoColor=gaction(label="Agilent_TwoColor",handler=function(h,...)
 {
-	view_w<-gwindow("GSEA KEGG Pathways",visible=FALSE,height=400,width=600)
+	view_w<-gwindow("GSEA KEGG Pathways",visible=FALSE,height=480,width=650)
 	gtable(KEGGresult_Ag2,container=view_w)
 	visible(view_w)<-TRUE
 }
@@ -2537,7 +2013,7 @@ mbl$View$GSEA$KEGG_Pathways$Agilent_TwoColor=gaction(label="Agilent_TwoColor",ha
 #mbl$View$GSEA$KEGG_Pathways$Illumina_Beadarray$handler=function(h,...)
 mbl$View$GSEA$KEGG_Pathways$Illumina_Beadarray=gaction(label="Illumina_Beadarray",handler=function(h,...)
 {
-	view_w<-gwindow("GSEA KEGG Pathways",visible=FALSE,height=400,width=600)
+	view_w<-gwindow("GSEA KEGG Pathways",visible=FALSE,height=480,width=650)
 	gtable(KEGGresult_Il_B,container=view_w)
 	visible(view_w)<-TRUE
 }
@@ -2545,7 +2021,7 @@ mbl$View$GSEA$KEGG_Pathways$Illumina_Beadarray=gaction(label="Illumina_Beadarray
 #mbl$View$GSEA$KEGG_Pathways$Illumina_Lumi$handler=function(h,...)
 mbl$View$GSEA$KEGG_Pathways$Illumina_Lumi=gaction(label="Illumina_Lumi",handler=function(h,...)
 {
-	view_w<-gwindow("GSEA KEGG Pathways",visible=FALSE,height=400,width=600)
+	view_w<-gwindow("GSEA KEGG Pathways",visible=FALSE,height=480,width=650)
 	gtable(KEGGresult_Il_L,container=view_w)
 	visible(view_w)<-TRUE
 }
@@ -2553,7 +2029,7 @@ mbl$View$GSEA$KEGG_Pathways$Illumina_Lumi=gaction(label="Illumina_Lumi",handler=
 #mbl$View$GSEA$KEGG_Pathways$Nimblegen$handler=function(h,...)
 mbl$View$GSEA$KEGG_Pathways$Nimblegen=gaction(label="Nimblegen",handler=function(h,...)
 {
-	view_w<-gwindow("GSEA KEGG Pathways",visible=FALSE,height=400,width=600)
+	view_w<-gwindow("GSEA KEGG Pathways",visible=FALSE,height=480,width=650)
 	gtable(KEGGresult_N,container=view_w)
 	visible(view_w)<-TRUE
 }
@@ -2561,7 +2037,7 @@ mbl$View$GSEA$KEGG_Pathways$Nimblegen=gaction(label="Nimblegen",handler=function
 #mbl$View$GSEA$KEGG_Pathways$Series_Matrix$handler=function(h,...)
 mbl$View$GSEA$KEGG_Pathways$Series_Matrix=gaction(label="Series_Matrix",handler=function(h,...)
 {
-	view_w<-gwindow("GSEA KEGG Pathways",visible=FALSE,height=400,width=600)
+	view_w<-gwindow("GSEA KEGG Pathways",visible=FALSE,height=480,width=650)
 	gtable(KEGGresult_S,container=view_w)
 	visible(view_w)<-TRUE
 }
@@ -2569,7 +2045,7 @@ mbl$View$GSEA$KEGG_Pathways$Series_Matrix=gaction(label="Series_Matrix",handler=
 #mbl$View$GSEA$KEGG_Pathways$Online_Data$handler=function(h,...)
 mbl$View$GSEA$KEGG_Pathways$Online_Data=gaction(label="Online_Data",handler=function(h,...)
 {
-	view_w<-gwindow("GSEA KEGG Pathways",visible=FALSE,height=400,width=600)
+	view_w<-gwindow("GSEA KEGG Pathways",visible=FALSE,height=480,width=650)
 	gtable(KEGGresult_O,container=view_w)
 	visible(view_w)<-TRUE
 }
@@ -2578,7 +2054,7 @@ mbl$View$GSEA$KEGG_Pathways$Online_Data=gaction(label="Online_Data",handler=func
 #mbl$View$GSTA$GO_Biological_Process$Affymetrix$handler=function(h,...)
 mbl$View$GSTA$GO_Biological_Process$Affymetrix=gaction(label="Affymetrix",handler=function(h,...)
 {
-	view_w<-gwindow("GSTA GO Biological Process",visible=FALSE,height=400,width=600)
+	view_w<-gwindow("GSTA GO Biological Process",visible=FALSE,height=480,width=650)
 	gtable(GOtable.outBP_Affy,container=view_w)
 	visible(view_w)<-TRUE
 }
@@ -2586,7 +2062,7 @@ mbl$View$GSTA$GO_Biological_Process$Affymetrix=gaction(label="Affymetrix",handle
 #mbl$View$GSTA$GO_Biological_Process$Agilent_OneColor$handler=function(h,...)
 mbl$View$GSTA$GO_Biological_Process$Agilent_OneColor=gaction(label="Agilent_OneColor",handler=function(h,...)
 {	
-	view_w<-gwindow("GSTA GO Biological Process",visible=FALSE,height=400,width=600)
+	view_w<-gwindow("GSTA GO Biological Process",visible=FALSE,height=480,width=650)
 	gtable(GOtable.outBP_Ag1,container=view_w)
 	visible(view_w)<-TRUE
 }
@@ -2594,7 +2070,7 @@ mbl$View$GSTA$GO_Biological_Process$Agilent_OneColor=gaction(label="Agilent_OneC
 #mbl$View$GSTA$GO_Biological_Process$Agilent_TwoColor$handler=function(h,...)
 mbl$View$GSTA$GO_Biological_Process$Agilent_TwoColor=gaction(label="Agilent_TwoColor",handler=function(h,...)
 {
-	view_w<-gwindow("GSTA GO Biological Process",visible=FALSE,height=400,width=600)
+	view_w<-gwindow("GSTA GO Biological Process",visible=FALSE,height=480,width=650)
 	gtable(GOtable.outBP_Ag2,container=view_w)
 	visible(view_w)<-TRUE
 }
@@ -2602,7 +2078,7 @@ mbl$View$GSTA$GO_Biological_Process$Agilent_TwoColor=gaction(label="Agilent_TwoC
 #mbl$View$GSTA$GO_Biological_Process$Illumina_Beadarray$handler=function(h,...)
 mbl$View$GSTA$GO_Biological_Process$Illumina_Beadarray=gaction(label="Illumina_Beadarray",handler=function(h,...)
 {
-	view_w<-gwindow("GSTA GO Biological Process",visible=FALSE,height=400,width=600)
+	view_w<-gwindow("GSTA GO Biological Process",visible=FALSE,height=480,width=650)
 	gtable(GOtable.outBP_Il_B,container=view_w)
 	visible(view_w)<-TRUE
 }
@@ -2610,7 +2086,7 @@ mbl$View$GSTA$GO_Biological_Process$Illumina_Beadarray=gaction(label="Illumina_B
 #mbl$View$GSTA$GO_Biological_Process$Illumina_Lumi$handler=function(h,...)
 mbl$View$GSTA$GO_Biological_Process$Illumina_Lumi=gaction(label="Illumina_Lumi",handler=function(h,...)
 {
-	view_w<-gwindow("GSTA GO Biological Process",visible=FALSE,height=400,width=600)
+	view_w<-gwindow("GSTA GO Biological Process",visible=FALSE,height=480,width=650)
 	gtable(GOtable.outBP_Il_L,container=view_w)
 	visible(view_w)<-TRUE
 }
@@ -2618,7 +2094,7 @@ mbl$View$GSTA$GO_Biological_Process$Illumina_Lumi=gaction(label="Illumina_Lumi",
 #mbl$View$GSTA$GO_Biological_Process$Nimblegen$handler=function(h,...)
 mbl$View$GSTA$GO_Biological_Process$Nimblegen=gaction(label="Nimblegen",handler=function(h,...)
 {
-	view_w<-gwindow("GSTA GO Biological Process",visible=FALSE,height=400,width=600)
+	view_w<-gwindow("GSTA GO Biological Process",visible=FALSE,height=480,width=650)
 	gtable(GOtable.outBP_N,container=view_w)
 	visible(view_w)<-TRUE
 }
@@ -2626,7 +2102,7 @@ mbl$View$GSTA$GO_Biological_Process$Nimblegen=gaction(label="Nimblegen",handler=
 #mbl$View$GSTA$GO_Biological_Process$Series_Matrix$handler=function(h,...)
 mbl$View$GSTA$GO_Biological_Process$Series_Matrix=gaction(label="Series_Matrix",handler=function(h,...)
 {
-	view_w<-gwindow("GSTA GO Biological Process",visible=FALSE,height=400,width=600)
+	view_w<-gwindow("GSTA GO Biological Process",visible=FALSE,height=480,width=650)
 	gtable(GOtable.outBP_S,container=view_w)
 	visible(view_w)<-TRUE
 }
@@ -2634,7 +2110,7 @@ mbl$View$GSTA$GO_Biological_Process$Series_Matrix=gaction(label="Series_Matrix",
 #mbl$View$GSTA$GO_Biological_Process$Online_Data$handler=function(h,...)
 mbl$View$GSTA$GO_Biological_Process$Online_Data=gaction(label="Online_Data",handler=function(h,...)
 {
-	view_w<-gwindow("GSTA GO Biological Process",visible=FALSE,height=400,width=600)
+	view_w<-gwindow("GSTA GO Biological Process",visible=FALSE,height=480,width=650)
 	gtable(GOtable.outBP_O,container=view_w)
 	visible(view_w)<-TRUE
 }
@@ -2643,7 +2119,7 @@ mbl$View$GSTA$GO_Biological_Process$Online_Data=gaction(label="Online_Data",hand
 #mbl$View$GSTA$GO_Molecular_Function$Affymetrix$handler=function(h,...)
 mbl$View$GSTA$GO_Molecular_Function$Affymetrix=gaction(label="Affymetrix",handler=function(h,...)
 {
-	view_w<-gwindow("GSTA GO Molecular Function",visible=FALSE,height=400,width=600)
+	view_w<-gwindow("GSTA GO Molecular Function",visible=FALSE,height=480,width=650)
 	gtable(GOtable.outMF_Affy,container=view_w)
 	visible(view_w)<-TRUE
 }
@@ -2651,7 +2127,7 @@ mbl$View$GSTA$GO_Molecular_Function$Affymetrix=gaction(label="Affymetrix",handle
 #mbl$View$GSTA$GO_Molecular_Function$Agilent_OneColor$handler=function(h,...)
 mbl$View$GSTA$GO_Molecular_Function$Agilent_OneColor=gaction(label="Agilent_OneColor",handler=function(h,...)
 {	
-	view_w<-gwindow("GSTA GO Molecular Function",visible=FALSE,height=400,width=600)
+	view_w<-gwindow("GSTA GO Molecular Function",visible=FALSE,height=480,width=650)
 	gtable(GOtable.outMF_Ag1,container=view_w)
 	visible(view_w)<-TRUE
 }
@@ -2659,7 +2135,7 @@ mbl$View$GSTA$GO_Molecular_Function$Agilent_OneColor=gaction(label="Agilent_OneC
 #mbl$View$GSTA$GO_Molecular_Function$Agilent_TwoColor$handler=function(h,...)
 mbl$View$GSTA$GO_Molecular_Function$Agilent_TwoColor=gaction(label="Agilent_TwoColor",handler=function(h,...)
 {
-	view_w<-gwindow("GSTA GO Molecular Function",visible=FALSE,height=400,width=600)
+	view_w<-gwindow("GSTA GO Molecular Function",visible=FALSE,height=480,width=650)
 	gtable(GOtable.outMF_Ag2,container=view_w)
 	visible(view_w)<-TRUE
 }
@@ -2667,7 +2143,7 @@ mbl$View$GSTA$GO_Molecular_Function$Agilent_TwoColor=gaction(label="Agilent_TwoC
 #mbl$View$GSTA$GO_Molecular_Function$Illumina_Beadarray$handler=function(h,...)
 mbl$View$GSTA$GO_Molecular_Function$Illumina_Beadarray=gaction(label="Illumina_Beadarray",handler=function(h,...)
 {
-	view_w<-gwindow("GSTA GO Molecular Function",visible=FALSE,height=400,width=600)
+	view_w<-gwindow("GSTA GO Molecular Function",visible=FALSE,height=480,width=650)
 	gtable(GOtable.outMF_Il_B,container=view_w)
 	visible(view_w)<-TRUE
 }
@@ -2675,7 +2151,7 @@ mbl$View$GSTA$GO_Molecular_Function$Illumina_Beadarray=gaction(label="Illumina_B
 #mbl$View$GSTA$GO_Molecular_Function$Illumina_Lumi$handler=function(h,...)
 mbl$View$GSTA$GO_Molecular_Function$Illumina_Lumi=gaction(label="Illumina_Lumi",handler=function(h,...)
 {
-	view_w<-gwindow("GSTA GO Molecular Function",visible=FALSE,height=400,width=600)
+	view_w<-gwindow("GSTA GO Molecular Function",visible=FALSE,height=480,width=650)
 	gtable(GOtable.outMF_Il_L,container=view_w)
 	visible(view_w)<-TRUE
 }
@@ -2683,7 +2159,7 @@ mbl$View$GSTA$GO_Molecular_Function$Illumina_Lumi=gaction(label="Illumina_Lumi",
 #mbl$View$GSTA$GO_Molecular_Function$Nimblegen$handler=function(h,...)
 mbl$View$GSTA$GO_Molecular_Function$Nimblegen=gaction(label="Nimblegen",handler=function(h,...)
 {
-	view_w<-gwindow("GSTA GO Molecular Function",visible=FALSE,height=400,width=600)
+	view_w<-gwindow("GSTA GO Molecular Function",visible=FALSE,height=480,width=650)
 	gtable(GOtable.outMF_N,container=view_w)
 	visible(view_w)<-TRUE
 }
@@ -2691,7 +2167,7 @@ mbl$View$GSTA$GO_Molecular_Function$Nimblegen=gaction(label="Nimblegen",handler=
 #mbl$View$GSTA$GO_Molecular_Function$Series_Matrix$handler=function(h,...)
 mbl$View$GSTA$GO_Molecular_Function$Series_Matrix=gaction(label="Series_Matrix",handler=function(h,...)
 {
-	view_w<-gwindow("GSTA GO Molecular Function",visible=FALSE,height=400,width=600)
+	view_w<-gwindow("GSTA GO Molecular Function",visible=FALSE,height=480,width=650)
 	gtable(GOtable.outMF_S,container=view_w)
 	visible(view_w)<-TRUE
 }
@@ -2699,7 +2175,7 @@ mbl$View$GSTA$GO_Molecular_Function$Series_Matrix=gaction(label="Series_Matrix",
 #mbl$View$GSTA$GO_Molecular_Function$Online_Data$handler=function(h,...)
 mbl$View$GSTA$GO_Molecular_Function$Online_Data=gaction(label="Online_Data",handler=function(h,...)
 {
-	view_w<-gwindow("GSTA GO Molecular Function",visible=FALSE,height=400,width=600)
+	view_w<-gwindow("GSTA GO Molecular Function",visible=FALSE,height=480,width=650)
 	gtable(GOtable.outMF_O,container=view_w)
 	visible(view_w)<-TRUE
 }
@@ -2708,7 +2184,7 @@ mbl$View$GSTA$GO_Molecular_Function$Online_Data=gaction(label="Online_Data",hand
 #mbl$View$GSTA$GO_Cellular_Component$Affymetrix$handler=function(h,...)
 mbl$View$GSTA$GO_Cellular_Component$Affymetrix=gaction(label="Affymetrix",handler=function(h,...)
 {
-	view_w<-gwindow("GSTA GO Cellular Component",visible=FALSE,height=400,width=600)
+	view_w<-gwindow("GSTA GO Cellular Component",visible=FALSE,height=480,width=650)
 	gtable(GOtable.outCC_Affy,container=view_w)
 	visible(view_w)<-TRUE
 }
@@ -2716,7 +2192,7 @@ mbl$View$GSTA$GO_Cellular_Component$Affymetrix=gaction(label="Affymetrix",handle
 #mbl$View$GSTA$GO_Cellular_Component$Agilent_OneColor$handler=function(h,...)
 mbl$View$GSTA$GO_Cellular_Component$Agilent_OneColor=gaction(label="Agilent_OneColor",handler=function(h,...)
 {	
-	view_w<-gwindow("GSTA GO Cellular Component",visible=FALSE,height=400,width=600)
+	view_w<-gwindow("GSTA GO Cellular Component",visible=FALSE,height=480,width=650)
 	gtable(GOtable.outCC_Ag1,container=view_w)
 	visible(view_w)<-TRUE
 }
@@ -2724,7 +2200,7 @@ mbl$View$GSTA$GO_Cellular_Component$Agilent_OneColor=gaction(label="Agilent_OneC
 #mbl$View$GSTA$GO_Cellular_Component$Agilent_TwoColor$handler=function(h,...)
 mbl$View$GSTA$GO_Cellular_Component$Agilent_TwoColor=gaction(label="Agilent_TwoColor",handler=function(h,...)
 {
-	view_w<-gwindow("GSTA GO Cellular Component",visible=FALSE,height=400,width=600)
+	view_w<-gwindow("GSTA GO Cellular Component",visible=FALSE,height=480,width=650)
 	gtable(GOtable.outCC_Ag2,container=view_w)
 	visible(view_w)<-TRUE
 }
@@ -2732,7 +2208,7 @@ mbl$View$GSTA$GO_Cellular_Component$Agilent_TwoColor=gaction(label="Agilent_TwoC
 #mbl$View$GSTA$GO_Cellular_Component$Illumina_Beadarray$handler=function(h,...)
 mbl$View$GSTA$GO_Cellular_Component$Illumina_Beadarray=gaction(label="Illumina_Beadarray",handler=function(h,...)
 {
-	view_w<-gwindow("GSTA GO Cellular Component",visible=FALSE,height=400,width=600)
+	view_w<-gwindow("GSTA GO Cellular Component",visible=FALSE,height=480,width=650)
 	gtable(GOtable.outCC_Il_B,container=view_w)
 	visible(view_w)<-TRUE
 }
@@ -2740,7 +2216,7 @@ mbl$View$GSTA$GO_Cellular_Component$Illumina_Beadarray=gaction(label="Illumina_B
 #mbl$View$GSTA$GO_Cellular_Component$Illumina_Lumi$handler=function(h,...)
 mbl$View$GSTA$GO_Cellular_Component$Illumina_Lumi=gaction(label="Illumina_Lumi",handler=function(h,...)
 {
-	view_w<-gwindow("GSTA GO Cellular Component",visible=FALSE,height=400,width=600)
+	view_w<-gwindow("GSTA GO Cellular Component",visible=FALSE,height=480,width=650)
 	gtable(GOtable.outCC_Il_L,container=view_w)
 	visible(view_w)<-TRUE
 }
@@ -2748,7 +2224,7 @@ mbl$View$GSTA$GO_Cellular_Component$Illumina_Lumi=gaction(label="Illumina_Lumi",
 #mbl$View$GSTA$GO_Cellular_Component$Nimblegen$handler=function(h,...)
 mbl$View$GSTA$GO_Cellular_Component$Nimblegen=gaction(label="Nimblegen",handler=function(h,...)
 {
-	view_w<-gwindow("GSTA GO Cellular Component",visible=FALSE,height=400,width=600)
+	view_w<-gwindow("GSTA GO Cellular Component",visible=FALSE,height=480,width=650)
 	gtable(GOtable.outCC_N,container=view_w)
 	visible(view_w)<-TRUE
 }
@@ -2756,7 +2232,7 @@ mbl$View$GSTA$GO_Cellular_Component$Nimblegen=gaction(label="Nimblegen",handler=
 #mbl$View$GSTA$GO_Cellular_Component$Series_Matrix$handler=function(h,...)
 mbl$View$GSTA$GO_Cellular_Component$Series_Matrix=gaction(label="Series_Matrix",handler=function(h,...)
 {
-	view_w<-gwindow("GSTA GO Cellular Component",visible=FALSE,height=400,width=600)
+	view_w<-gwindow("GSTA GO Cellular Component",visible=FALSE,height=480,width=650)
 	gtable(GOtable.outCC_S,container=view_w)
 	visible(view_w)<-TRUE
 }
@@ -2764,7 +2240,7 @@ mbl$View$GSTA$GO_Cellular_Component$Series_Matrix=gaction(label="Series_Matrix",
 #mbl$View$GSTA$GO_Cellular_Component$Online_Data$handler=function(h,...)
 mbl$View$GSTA$GO_Cellular_Component$Online_Data=gaction(label="Online_Data",handler=function(h,...)
 {
-	view_w<-gwindow("GSTA GO Cellular Component",visible=FALSE,height=400,width=600)
+	view_w<-gwindow("GSTA GO Cellular Component",visible=FALSE,height=480,width=650)
 	gtable(GOtable.outCC_O,container=view_w)
 	visible(view_w)<-TRUE
 }
@@ -2773,7 +2249,7 @@ mbl$View$GSTA$GO_Cellular_Component$Online_Data=gaction(label="Online_Data",hand
 #mbl$View$GSTA$KEGG_Pathways$Affymetrix$handler=function(h,...)
 mbl$View$GSTA$KEGG_Pathways$Affymetrix=gaction(label="Affymetrix",handler=function(h,...)
 {
-	view_w<-gwindow("GSTA KEGG Pathways",visible=FALSE,height=400,width=600)
+	view_w<-gwindow("GSTA KEGG Pathways",visible=FALSE,height=480,width=650)
 	gtable(KEGGtable.out_Affy,container=view_w)
 	visible(view_w)<-TRUE
 }
@@ -2781,7 +2257,7 @@ mbl$View$GSTA$KEGG_Pathways$Affymetrix=gaction(label="Affymetrix",handler=functi
 #mbl$View$GSTA$KEGG_Pathways$Agilent_OneColor$handler=function(h,...)
 mbl$View$GSTA$KEGG_Pathways$Agilent_OneColor=gaction(label="Agilent_OneColor",handler=function(h,...)
 {	
-	view_w<-gwindow("GSTA KEGG Pathways",visible=FALSE,height=400,width=600)
+	view_w<-gwindow("GSTA KEGG Pathways",visible=FALSE,height=480,width=650)
 	gtable(KEGGtable.out_Ag1,container=view_w)
 	visible(view_w)<-TRUE
 }
@@ -2789,7 +2265,7 @@ mbl$View$GSTA$KEGG_Pathways$Agilent_OneColor=gaction(label="Agilent_OneColor",ha
 #mbl$View$GSTA$KEGG_Pathways$Agilent_TwoColor$handler=function(h,...)
 mbl$View$GSTA$KEGG_Pathways$Agilent_TwoColor=gaction(label="Agilent_TwoColor",handler=function(h,...)
 {
-	view_w<-gwindow("GSTA KEGG Pathways",visible=FALSE,height=400,width=600)
+	view_w<-gwindow("GSTA KEGG Pathways",visible=FALSE,height=480,width=650)
 	gtable(KEGGtable.out_Ag2,container=view_w)
 	visible(view_w)<-TRUE
 }
@@ -2797,7 +2273,7 @@ mbl$View$GSTA$KEGG_Pathways$Agilent_TwoColor=gaction(label="Agilent_TwoColor",ha
 #mbl$View$GSTA$KEGG_Pathways$Illumina_Beadarray$handler=function(h,...)
 mbl$View$GSTA$KEGG_Pathways$Illumina_Beadarray=gaction(label="Illumina_Beadarray",handler=function(h,...)
 {
-	view_w<-gwindow("GSTA KEGG Pathways",visible=FALSE,height=400,width=600)
+	view_w<-gwindow("GSTA KEGG Pathways",visible=FALSE,height=480,width=650)
 	gtable(KEGGtable.out_Il_B,container=view_w)
 	visible(view_w)<-TRUE
 }
@@ -2805,7 +2281,7 @@ mbl$View$GSTA$KEGG_Pathways$Illumina_Beadarray=gaction(label="Illumina_Beadarray
 #mbl$View$GSTA$KEGG_Pathways$Illumina_Lumi$handler=function(h,...)
 mbl$View$GSTA$KEGG_Pathways$Illumina_Lumi=gaction(label="Illumina_Lumi",handler=function(h,...)
 {
-	view_w<-gwindow("GSTA KEGG Pathways",visible=FALSE,height=400,width=600)
+	view_w<-gwindow("GSTA KEGG Pathways",visible=FALSE,height=480,width=650)
 	gtable(KEGGtable.out_Il_L,container=view_w)
 	visible(view_w)<-TRUE
 }
@@ -2813,7 +2289,7 @@ mbl$View$GSTA$KEGG_Pathways$Illumina_Lumi=gaction(label="Illumina_Lumi",handler=
 #mbl$View$GSTA$KEGG_Pathways$Nimblegen$handler=function(h,...)
 mbl$View$GSTA$KEGG_Pathways$Nimblegen=gaction(label="Nimblegen",handler=function(h,...)
 {
-	view_w<-gwindow("GSTA KEGG Pathways",visible=FALSE,height=400,width=600)
+	view_w<-gwindow("GSTA KEGG Pathways",visible=FALSE,height=480,width=650)
 	gtable(KEGGtable.out_N,container=view_w)
 	visible(view_w)<-TRUE
 }
@@ -2821,7 +2297,7 @@ mbl$View$GSTA$KEGG_Pathways$Nimblegen=gaction(label="Nimblegen",handler=function
 #mbl$View$GSTA$KEGG_Pathways$Series_Matrix$handler=function(h,...)
 mbl$View$GSTA$KEGG_Pathways$Series_Matrix=gaction(label="Series_Matrix",handler=function(h,...)
 {
-	view_w<-gwindow("GSTA KEGG Pathways",visible=FALSE,height=400,width=600)
+	view_w<-gwindow("GSTA KEGG Pathways",visible=FALSE,height=480,width=650)
 	gtable(KEGGtable.out_S,container=view_w)
 	visible(view_w)<-TRUE
 }
@@ -2829,7 +2305,7 @@ mbl$View$GSTA$KEGG_Pathways$Series_Matrix=gaction(label="Series_Matrix",handler=
 #mbl$View$GSTA$KEGG_Pathways$Online_Data$handler=function(h,...)
 mbl$View$GSTA$KEGG_Pathways$Online_Data=gaction(label="Online_Data",handler=function(h,...)
 {
-	view_w<-gwindow("GSTA KEGG Pathways",visible=FALSE,height=400,width=600)
+	view_w<-gwindow("GSTA KEGG Pathways",visible=FALSE,height=480,width=650)
 	gtable(KEGGtable.out_O,container=view_w)
 	visible(view_w)<-TRUE
 }
@@ -2838,7 +2314,7 @@ mbl$View$GSTA$KEGG_Pathways$Online_Data=gaction(label="Online_Data",handler=func
 #mbl$View$Identifier_Symbol$Affymetrix$handler=function(h,...)
 mbl$View$Identifier_Symbol$Affymetrix=gaction(label="Affymetrix",handler=function(h,...)
 {
-	view_w<-gwindow("Identifier_Symbol_Affymetrix",visible=FALSE,height=400,width=600)
+	view_w<-gwindow("Identifier_Symbol_Affymetrix",visible=FALSE,height=480,width=650)
 	gtable(genes_Affy,container=view_w)
 	visible(view_w)<-TRUE
 }
@@ -2846,7 +2322,7 @@ mbl$View$Identifier_Symbol$Affymetrix=gaction(label="Affymetrix",handler=functio
 #mbl$View$Identifier_Symbol$Agilent_OneColor$handler=function(h,...)
 mbl$View$Identifier_Symbol$Agilent_OneColor=gaction(label="Agilent_OneColor",handler=function(h,...)
 {
-	view_w<-gwindow("Identifier_Symbol_Agilent_OneColor",visible=FALSE,height=400,width=600)
+	view_w<-gwindow("Identifier_Symbol_Agilent_OneColor",visible=FALSE,height=480,width=650)
 	gtable(genes_Ag1,container=view_w)
 	visible(view_w)<-TRUE
 }
@@ -2854,7 +2330,7 @@ mbl$View$Identifier_Symbol$Agilent_OneColor=gaction(label="Agilent_OneColor",han
 #mbl$View$Identifier_Symbol$Agilent_TwoColor$handler=function(h,...)
 mbl$View$Identifier_Symbol$Agilent_TwoColor=gaction(label="Agilent_TwoColor",handler=function(h,...)
 {
-	view_w<-gwindow("Identifier_Symbol_Agilent_TwoColor",visible=FALSE,height=400,width=600)
+	view_w<-gwindow("Identifier_Symbol_Agilent_TwoColor",visible=FALSE,height=480,width=650)
 	gtable(genes_Ag2,container=view_w)
 	visible(view_w)<-TRUE
 }
@@ -2862,7 +2338,7 @@ mbl$View$Identifier_Symbol$Agilent_TwoColor=gaction(label="Agilent_TwoColor",han
 #mbl$View$Identifier_Symbol$Illumina_Beadarray$handler=function(h,...)
 mbl$View$Identifier_Symbol$Illumina_Beadarray=gaction(label="Illumina_Beadarray",handler=function(h,...)
 {
-	view_w<-gwindow("Identifier_Symbol_Illumina_Beadarray",visible=FALSE,height=400,width=600)
+	view_w<-gwindow("Identifier_Symbol_Illumina_Beadarray",visible=FALSE,height=480,width=650)
 	gtable(genes_Il_B,container=view_w)
 	visible(view_w)<-TRUE
 }
@@ -2870,7 +2346,7 @@ mbl$View$Identifier_Symbol$Illumina_Beadarray=gaction(label="Illumina_Beadarray"
 #mbl$View$Identifier_Symbol$Illumina_Lumi$handler=function(h,...)
 mbl$View$Identifier_Symbol$Illumina_Lumi=gaction(label="Illumina_Lumi",handler=function(h,...)
 {
-	view_w<-gwindow("Identifier_Symbol_Illumina_Lumi",visible=FALSE,height=400,width=600)
+	view_w<-gwindow("Identifier_Symbol_Illumina_Lumi",visible=FALSE,height=480,width=650)
 	gtable(genes_Il_L,container=view_w)
 	visible(view_w)<-TRUE
 }
@@ -2878,7 +2354,7 @@ mbl$View$Identifier_Symbol$Illumina_Lumi=gaction(label="Illumina_Lumi",handler=f
 #mbl$View$Identifier_Symbol$Nimblegen$handler=function(h,...)
 mbl$View$Identifier_Symbol$Nimblegen=gaction(label="Nimblegen",handler=function(h,...)
 {
-	view_w<-gwindow("Identifier_Symbol_Nimblegen",visible=FALSE,height=400,width=600)
+	view_w<-gwindow("Identifier_Symbol_Nimblegen",visible=FALSE,height=480,width=650)
 	gtable(genes_N,container=view_w)
 	visible(view_w)<-TRUE
 }
@@ -2886,7 +2362,7 @@ mbl$View$Identifier_Symbol$Nimblegen=gaction(label="Nimblegen",handler=function(
 #mbl$View$Identifier_Symbol$Series_Matrix$handler=function(h,...)
 mbl$View$Identifier_Symbol$Series_Matrix=gaction(label="Series_Matrix",handler=function(h,...)
 {
-	view_w<-gwindow("Identifier_Symbol_Series_Matrix",visible=FALSE,height=400,width=600)
+	view_w<-gwindow("Identifier_Symbol_Series_Matrix",visible=FALSE,height=480,width=650)
 	gtable(genes_S,container=view_w)
 	visible(view_w)<-TRUE
 }
@@ -2894,7 +2370,7 @@ mbl$View$Identifier_Symbol$Series_Matrix=gaction(label="Series_Matrix",handler=f
 #mbl$View$Identifier_Symbol$Online_Data$handler=function(h,...)
 mbl$View$Identifier_Symbol$Online_Data=gaction(label="Online_Data",handler=function(h,...)
 {
-	view_w<-gwindow("Identifier_Symbol_Online_Data",visible=FALSE,height=400,width=600)
+	view_w<-gwindow("Identifier_Symbol_Online_Data",visible=FALSE,height=480,width=650)
 	gtable(genes_O,container=view_w)
 	visible(view_w)<-TRUE
 }
@@ -2906,7 +2382,7 @@ mbl$View$Graph$GSEA_GO_Biological_Process$Affymetrix=gaction(label="Affymetrix",
 	nAttrs<-list()
 	nAttrs$fillcolor<-nodefill_gsea_goBP_Affy
 	plot(g_gsea_goBP_Affy,nodeAttrs=nAttrs)
-	view_w<-gwindow("Graph GSEA GO Biological Process",visible=FALSE,height=400,width=600)
+	view_w<-gwindow("Graph GSEA GO Biological Process",visible=FALSE,height=480,width=650)
 	gtable(legend_gsea_goBP_Affy,container=view_w)
 	visible(view_w)<-TRUE
 }
@@ -2917,7 +2393,7 @@ mbl$View$Graph$GSEA_GO_Biological_Process$Agilent_OneColor=gaction(label="Agilen
 	nAttrs<-list()
 	nAttrs$fillcolor<-nodefill_gsea_goBP_Ag1
 	plot(g_gsea_goBP_Ag1,nodeAttrs=nAttrs)
-	view_w<-gwindow("Graph GSEA GO Biological Process",visible=FALSE,height=400,width=600)
+	view_w<-gwindow("Graph GSEA GO Biological Process",visible=FALSE,height=480,width=650)
 	gtable(legend_gsea_goBP_Ag1,container=view_w)
 	visible(view_w)<-TRUE
 }
@@ -2928,7 +2404,7 @@ mbl$View$Graph$GSEA_GO_Biological_Process$Agilent_TwoColor=gaction(label="Agilen
 	nAttrs<-list()
 	nAttrs$fillcolor<-nodefill_gsea_goBP_Ag2
 	plot(g_gsea_goBP_Ag2,nodeAttrs=nAttrs)
-	view_w<-gwindow("Graph GSEA GO Biological Process",visible=FALSE,height=400,width=600)
+	view_w<-gwindow("Graph GSEA GO Biological Process",visible=FALSE,height=480,width=650)
 	gtable(legend_gsea_goBP_Ag2,container=view_w)
 	visible(view_w)<-TRUE
 }
@@ -2939,7 +2415,7 @@ mbl$View$Graph$GSEA_GO_Biological_Process$Illumina_Beadarray=gaction(label="Illu
 	nAttrs<-list()
 	nAttrs$fillcolor<-nodefill_gsea_goBP_Il_B
 	plot(g_gsea_goBP_Il_B,nodeAttrs=nAttrs)
-	view_w<-gwindow("Graph GSEA GO Biological Process",visible=FALSE,height=400,width=600)
+	view_w<-gwindow("Graph GSEA GO Biological Process",visible=FALSE,height=480,width=650)
 	gtable(legend_gsea_goBP_Il_B,container=view_w)
 	visible(view_w)<-TRUE
 }
@@ -2950,7 +2426,7 @@ mbl$View$Graph$GSEA_GO_Biological_Process$Illumina_Lumi=gaction(label="Illumina_
 	nAttrs<-list()
 	nAttrs$fillcolor<-nodefill_gsea_goBP_Il_L
 	plot(g_gsea_goBP_Il_L,nodeAttrs=nAttrs)
-	view_w<-gwindow("Graph GSEA GO Biological Process",visible=FALSE,height=400,width=600)
+	view_w<-gwindow("Graph GSEA GO Biological Process",visible=FALSE,height=480,width=650)
 	gtable(legend_gsea_goBP_Il_L,container=view_w)
 	visible(view_w)<-TRUE
 }
@@ -2961,7 +2437,7 @@ mbl$View$Graph$GSEA_GO_Biological_Process$Nimblegen=gaction(label="Nimblegen",ha
 	nAttrs<-list()
 	nAttrs$fillcolor<-nodefill_gsea_goBP_N
 	plot(g_gsea_goBP_N,nodeAttrs=nAttrs)
-	view_w<-gwindow("Graph GSEA GO Biological Process",visible=FALSE,height=400,width=600)
+	view_w<-gwindow("Graph GSEA GO Biological Process",visible=FALSE,height=480,width=650)
 	gtable(legend_gsea_goBP_N,container=view_w)
 	visible(view_w)<-TRUE
 }
@@ -2972,7 +2448,7 @@ mbl$View$Graph$GSEA_GO_Biological_Process$Series_Matrix=gaction(label="Series_Ma
 	nAttrs<-list()
 	nAttrs$fillcolor<-nodefill_gsea_goBP_S
 	plot(g_gsea_goBP_S,nodeAttrs=nAttrs)
-	view_w<-gwindow("Graph GSEA GO Biological Process",visible=FALSE,height=400,width=600)
+	view_w<-gwindow("Graph GSEA GO Biological Process",visible=FALSE,height=480,width=650)
 	gtable(legend_gsea_goBP_S,container=view_w)
 	visible(view_w)<-TRUE
 }
@@ -2983,7 +2459,7 @@ mbl$View$Graph$GSEA_GO_Biological_Process$Online_Data=gaction(label="Online_Data
 	nAttrs<-list()
 	nAttrs$fillcolor<-nodefill_gsea_goBP_O
 	plot(g_gsea_goBP_O,nodeAttrs=nAttrs)
-	view_w<-gwindow("Graph GSEA GO Biological Process",visible=FALSE,height=400,width=600)
+	view_w<-gwindow("Graph GSEA GO Biological Process",visible=FALSE,height=480,width=650)
 	gtable(legend_gsea_goBP_O,container=view_w)
 	visible(view_w)<-TRUE
 }
@@ -2995,7 +2471,7 @@ mbl$View$Graph$GSEA_GO_Molecular_Function$Affymetrix=gaction(label="Affymetrix",
 	nAttrs<-list()
 	nAttrs$fillcolor<-nodefill_gsea_goMF_Affy
 	plot(g_gsea_goMF_Affy,nodeAttrs=nAttrs)
-	view_w<-gwindow("Graph GSEA GO Molecular Function",visible=FALSE,height=400,width=600)
+	view_w<-gwindow("Graph GSEA GO Molecular Function",visible=FALSE,height=480,width=650)
 	gtable(legend_gsea_goMF_Affy,container=view_w)
 	visible(view_w)<-TRUE
 }
@@ -3006,7 +2482,7 @@ mbl$View$Graph$GSEA_GO_Molecular_Function$Agilent_OneColor=gaction(label="Agilen
 	nAttrs<-list()
 	nAttrs$fillcolor<-nodefill_gsea_goMF_Ag1
 	plot(g_gsea_goMF_Ag1,nodeAttrs=nAttrs)
-	view_w<-gwindow("Graph GSEA GO Molecular Function",visible=FALSE,height=400,width=600)
+	view_w<-gwindow("Graph GSEA GO Molecular Function",visible=FALSE,height=480,width=650)
 	gtable(legend_gsea_goMF_Ag1,container=view_w)
 	visible(view_w)<-TRUE
 }
@@ -3017,7 +2493,7 @@ mbl$View$Graph$GSEA_GO_Molecular_Function$Agilent_TwoColor=gaction(label="Agilen
 	nAttrs<-list()
 	nAttrs$fillcolor<-nodefill_gsea_goMF_Ag2
 	plot(g_gsea_goMF_Ag2,nodeAttrs=nAttrs)
-	view_w<-gwindow("Graph GSEA GO Molecular Function",visible=FALSE,height=400,width=600)
+	view_w<-gwindow("Graph GSEA GO Molecular Function",visible=FALSE,height=480,width=650)
 	gtable(legend_gsea_goMF_Ag2,container=view_w)
 	visible(view_w)<-TRUE
 }
@@ -3028,7 +2504,7 @@ mbl$View$Graph$GSEA_GO_Molecular_Function$Illumina_Beadarray=gaction(label="Illu
 	nAttrs<-list()
 	nAttrs$fillcolor<-nodefill_gsea_goMF_Il_B
 	plot(g_gsea_goMF_Il_B,nodeAttrs=nAttrs)
-	view_w<-gwindow("Graph GSEA GO Molecular Function",visible=FALSE,height=400,width=600)
+	view_w<-gwindow("Graph GSEA GO Molecular Function",visible=FALSE,height=480,width=650)
 	gtable(legend_gsea_goMF_Il_B,container=view_w)
 	visible(view_w)<-TRUE
 }
@@ -3039,7 +2515,7 @@ mbl$View$Graph$GSEA_GO_Molecular_Function$Illumina_Lumi=gaction(label="Illumina_
 	nAttrs<-list()
 	nAttrs$fillcolor<-nodefill_gsea_goMF_Il_L
 	plot(g_gsea_goMF_Il_L,nodeAttrs=nAttrs)
-	view_w<-gwindow("Graph GSEA GO Molecular Function",visible=FALSE,height=400,width=600)
+	view_w<-gwindow("Graph GSEA GO Molecular Function",visible=FALSE,height=480,width=650)
 	gtable(legend_gsea_goMF_Il_L,container=view_w)
 	visible(view_w)<-TRUE
 }
@@ -3050,7 +2526,7 @@ mbl$View$Graph$GSEA_GO_Molecular_Function$Nimblegen=gaction(label="Nimblegen",ha
 	nAttrs<-list()
 	nAttrs$fillcolor<-nodefill_gsea_goMF_N
 	plot(g_gsea_goMF_N,nodeAttrs=nAttrs)
-	view_w<-gwindow("Graph GSEA GO Molecular Function",visible=FALSE,height=400,width=600)
+	view_w<-gwindow("Graph GSEA GO Molecular Function",visible=FALSE,height=480,width=650)
 	gtable(legend_gsea_goMF_N,container=view_w)
 	visible(view_w)<-TRUE
 }
@@ -3061,7 +2537,7 @@ mbl$View$Graph$GSEA_GO_Molecular_Function$Series_Matrix=gaction(label="Series_Ma
 	nAttrs<-list()
 	nAttrs$fillcolor<-nodefill_gsea_goMF_S
 	plot(g_gsea_goMF_S,nodeAttrs=nAttrs)
-	view_w<-gwindow("Graph GSEA GO Molecular Function",visible=FALSE,height=400,width=600)
+	view_w<-gwindow("Graph GSEA GO Molecular Function",visible=FALSE,height=480,width=650)
 	gtable(legend_gsea_goMF_S,container=view_w)
 	visible(view_w)<-TRUE
 }
@@ -3072,7 +2548,7 @@ mbl$View$Graph$GSEA_GO_Molecular_Function$Online_Data=gaction(label="Online_Data
 	nAttrs<-list()
 	nAttrs$fillcolor<-nodefill_gsea_goMF_O
 	plot(g_gsea_goMF_O,nodeAttrs=nAttrs)
-	view_w<-gwindow("Graph GSEA GO Molecular Function",visible=FALSE,height=400,width=600)
+	view_w<-gwindow("Graph GSEA GO Molecular Function",visible=FALSE,height=480,width=650)
 	gtable(legend_gsea_goMF_O,container=view_w)
 	visible(view_w)<-TRUE
 }
@@ -3084,7 +2560,7 @@ mbl$View$Graph$GSEA_GO_Cellular_Component$Affymetrix=gaction(label="Affymetrix",
 	nAttrs<-list()
 	nAttrs$fillcolor<-nodefill_gsea_goCC_Affy
 	plot(g_gsea_goCC_Affy,nodeAttrs=nAttrs)
-	view_w<-gwindow("Graph GSEA GO Cellular Component",visible=FALSE,height=400,width=600)
+	view_w<-gwindow("Graph GSEA GO Cellular Component",visible=FALSE,height=480,width=650)
 	gtable(legend_gsea_goCC_Affy,container=view_w)
 	visible(view_w)<-TRUE
 }
@@ -3095,7 +2571,7 @@ mbl$View$Graph$GSEA_GO_Cellular_Component$Agilent_OneColor=gaction(label="Agilen
 	nAttrs<-list()
 	nAttrs$fillcolor<-nodefill_gsea_goCC_Ag1
 	plot(g_gsea_goCC_Ag1,nodeAttrs=nAttrs)
-	view_w<-gwindow("Graph GSEA GO Cellular Component",visible=FALSE,height=400,width=600)
+	view_w<-gwindow("Graph GSEA GO Cellular Component",visible=FALSE,height=480,width=650)
 	gtable(legend_gsea_goCC_Ag1,container=view_w)
 	visible(view_w)<-TRUE
 }
@@ -3106,7 +2582,7 @@ mbl$View$Graph$GSEA_GO_Cellular_Component$Agilent_TwoColor=gaction(label="Agilen
 	nAttrs<-list()
 	nAttrs$fillcolor<-nodefill_gsea_goCC_Ag2
 	plot(g_gsea_goCC_Ag2,nodeAttrs=nAttrs)
-	view_w<-gwindow("Graph GSEA GO Cellular Component",visible=FALSE,height=400,width=600)
+	view_w<-gwindow("Graph GSEA GO Cellular Component",visible=FALSE,height=480,width=650)
 	gtable(legend_gsea_goCC_Ag2,container=view_w)
 	visible(view_w)<-TRUE
 }
@@ -3117,7 +2593,7 @@ mbl$View$Graph$GSEA_GO_Cellular_Component$Illumina_Beadarray=gaction(label="Illu
 	nAttrs<-list()
 	nAttrs$fillcolor<-nodefill_gsea_goCC_Il_B
 	plot(g_gsea_goCC_Il_B,nodeAttrs=nAttrs)
-	view_w<-gwindow("Graph GSEA GO Cellular Component",visible=FALSE,height=400,width=600)
+	view_w<-gwindow("Graph GSEA GO Cellular Component",visible=FALSE,height=480,width=650)
 	gtable(legend_gsea_goCC_Il_B,container=view_w)
 	visible(view_w)<-TRUE
 }
@@ -3128,7 +2604,7 @@ mbl$View$Graph$GSEA_GO_Cellular_Component$Illumina_Lumi=gaction(label="Illumina_
 	nAttrs<-list()
 	nAttrs$fillcolor<-nodefill_gsea_goCC_Il_L
 	plot(g_gsea_goCC_Il_L,nodeAttrs=nAttrs)
-	view_w<-gwindow("Graph GSEA GO Cellular Component",visible=FALSE,height=400,width=600)
+	view_w<-gwindow("Graph GSEA GO Cellular Component",visible=FALSE,height=480,width=650)
 	gtable(legend_gsea_goCC_Il_L,container=view_w)
 	visible(view_w)<-TRUE
 }
@@ -3139,7 +2615,7 @@ mbl$View$Graph$GSEA_GO_Cellular_Component$Nimblegen=gaction(label="Nimblegen",ha
 	nAttrs<-list()
 	nAttrs$fillcolor<-nodefill_gsea_goCC_N
 	plot(g_gsea_goCC_N,nodeAttrs=nAttrs)
-	view_w<-gwindow("Graph GSEA GO Cellular Component",visible=FALSE,height=400,width=600)
+	view_w<-gwindow("Graph GSEA GO Cellular Component",visible=FALSE,height=480,width=650)
 	gtable(legend_gsea_goCC_N,container=view_w)
 	visible(view_w)<-TRUE
 }
@@ -3150,7 +2626,7 @@ mbl$View$Graph$GSEA_GO_Cellular_Component$Series_Matrix=gaction(label="Series_Ma
 	nAttrs<-list()
 	nAttrs$fillcolor<-nodefill_gsea_goCC_S
 	plot(g_gsea_goCC_S,nodeAttrs=nAttrs)
-	view_w<-gwindow("Graph GSEA GO Cellular Component",visible=FALSE,height=400,width=600)
+	view_w<-gwindow("Graph GSEA GO Cellular Component",visible=FALSE,height=480,width=650)
 	gtable(legend_gsea_goCC_S,container=view_w)
 	visible(view_w)<-TRUE
 }
@@ -3161,7 +2637,7 @@ mbl$View$Graph$GSEA_GO_Cellular_Component$Online_Data=gaction(label="Online_Data
 	nAttrs<-list()
 	nAttrs$fillcolor<-nodefill_gsea_goCC_O
 	plot(g_gsea_goCC_O,nodeAttrs=nAttrs)
-	view_w<-gwindow("Graph GSEA GO Cellular Component",visible=FALSE,height=400,width=600)
+	view_w<-gwindow("Graph GSEA GO Cellular Component",visible=FALSE,height=480,width=650)
 	gtable(legend_gsea_goCC_O,container=view_w)
 	visible(view_w)<-TRUE
 }
@@ -3171,6 +2647,8 @@ mbl$View$Graph$GSEA_GO_Cellular_Component$Online_Data=gaction(label="Online_Data
 mbl$View$Graph$GSEA_KEGG_Pathways$Affymetrix=gaction(label="Affymetrix",handler=function(h,...)
 {
 	nA<-makeNodeAttrs(mapkG_gsea_kegg_Affy,fillcolor=logcol_gsea_kegg_Affy,width=10,height=1.2)
+	oldpar<-par(no.readonly=TRUE)
+	on.exit(par(oldpar))
 	par(mar=c(3,5,0,5),mgp=c(0,0,0))
 	layout(mat=matrix(c(rep(1,8),2),ncol=1,byrow=TRUE))
 	plot(mapkG_gsea_kegg_Affy,"dot",nodeAttrs=nA)
@@ -3179,7 +2657,7 @@ mbl$View$Graph$GSEA_KEGG_Pathways$Affymetrix=gaction(label="Affymetrix",handler=
 	image(as.matrix(seq(1,ar)),col=cols,yaxt="n",xaxt="n")
 	mtext("down-regulation",side=1,at=0,line=1)
 	mtext("up-regulation",side=1,at=1,line=1)
-	view_w<-gwindow("Graph GSEA KEGG Pathways",visible=FALSE,height=400,width=600)
+	view_w<-gwindow("Graph GSEA KEGG Pathways",visible=FALSE,height=480,width=650)
 	gtable(legend_gsea_kegg_Affy,container=view_w)
 	visible(view_w)<-TRUE
 }
@@ -3188,6 +2666,8 @@ mbl$View$Graph$GSEA_KEGG_Pathways$Affymetrix=gaction(label="Affymetrix",handler=
 mbl$View$Graph$GSEA_KEGG_Pathways$Agilent_OneColor=gaction(label="Agilent_OneColor",handler=function(h,...)
 {	
 	nA<-makeNodeAttrs(mapkG_gsea_kegg_Ag1,fillcolor=logcol_gsea_kegg_Ag1,width=10,height=1.2)
+	oldpar<-par(no.readonly=TRUE)
+	on.exit(par(oldpar))
 	par(mar=c(3,5,0,5),mgp=c(0,0,0))
 	layout(mat=matrix(c(rep(1,8),2),ncol=1,byrow=TRUE))
 	plot(mapkG_gsea_kegg_Ag1,"dot",nodeAttrs=nA)
@@ -3196,7 +2676,7 @@ mbl$View$Graph$GSEA_KEGG_Pathways$Agilent_OneColor=gaction(label="Agilent_OneCol
 	image(as.matrix(seq(1,ar)),col=cols,yaxt="n",xaxt="n")
 	mtext("down-regulation",side=1,at=0,line=1)
 	mtext("up-regulation",side=1,at=1,line=1)
-	view_w<-gwindow("Graph GSEA KEGG Pathways",visible=FALSE,height=400,width=600)
+	view_w<-gwindow("Graph GSEA KEGG Pathways",visible=FALSE,height=480,width=650)
 	gtable(legend_gsea_kegg_Ag1,container=view_w)
 	visible(view_w)<-TRUE
 }
@@ -3205,6 +2685,8 @@ mbl$View$Graph$GSEA_KEGG_Pathways$Agilent_OneColor=gaction(label="Agilent_OneCol
 mbl$View$Graph$GSEA_KEGG_Pathways$Agilent_TwoColor=gaction(label="Agilent_TwoColor",handler=function(h,...)
 {
 	nA<-makeNodeAttrs(mapkG_gsea_kegg_Ag2,fillcolor=logcol_gsea_kegg_Ag2,width=10,height=1.2)
+	oldpar<-par(no.readonly=TRUE)
+	on.exit(par(oldpar))
 	par(mar=c(3,5,0,5),mgp=c(0,0,0))
 	layout(mat=matrix(c(rep(1,8),2),ncol=1,byrow=TRUE))
 	plot(mapkG_gsea_kegg_Ag2,"dot",nodeAttrs=nA)
@@ -3213,7 +2695,7 @@ mbl$View$Graph$GSEA_KEGG_Pathways$Agilent_TwoColor=gaction(label="Agilent_TwoCol
 	image(as.matrix(seq(1,ar)),col=cols,yaxt="n",xaxt="n")
 	mtext("down-regulation",side=1,at=0,line=1)
 	mtext("up-regulation",side=1,at=1,line=1)
-	view_w<-gwindow("Graph GSEA KEGG Pathways",visible=FALSE,height=400,width=600)
+	view_w<-gwindow("Graph GSEA KEGG Pathways",visible=FALSE,height=480,width=650)
 	gtable(legend_gsea_kegg_Ag2,container=view_w)
 	visible(view_w)<-TRUE
 }
@@ -3222,6 +2704,8 @@ mbl$View$Graph$GSEA_KEGG_Pathways$Agilent_TwoColor=gaction(label="Agilent_TwoCol
 mbl$View$Graph$GSEA_KEGG_Pathways$Illumina_Beadarray=gaction(label="Illumina_Beadarray",handler=function(h,...)
 {
 	nA<-makeNodeAttrs(mapkG_gsea_kegg_Il_B,fillcolor=logcol_gsea_kegg_Il_B,width=10,height=1.2)
+	oldpar<-par(no.readonly=TRUE)
+	on.exit(par(oldpar))
 	par(mar=c(3,5,0,5),mgp=c(0,0,0))
 	layout(mat=matrix(c(rep(1,8),2),ncol=1,byrow=TRUE))
 	plot(mapkG_gsea_kegg_Il_B,"dot",nodeAttrs=nA)
@@ -3230,7 +2714,7 @@ mbl$View$Graph$GSEA_KEGG_Pathways$Illumina_Beadarray=gaction(label="Illumina_Bea
 	image(as.matrix(seq(1,ar)),col=cols,yaxt="n",xaxt="n")
 	mtext("down-regulation",side=1,at=0,line=1)
 	mtext("up-regulation",side=1,at=1,line=1)
-	view_w<-gwindow("Graph GSEA KEGG Pathways",visible=FALSE,height=400,width=600)
+	view_w<-gwindow("Graph GSEA KEGG Pathways",visible=FALSE,height=480,width=650)
 	gtable(legend_gsea_kegg_Il_B,container=view_w)
 	visible(view_w)<-TRUE
 }
@@ -3239,6 +2723,8 @@ mbl$View$Graph$GSEA_KEGG_Pathways$Illumina_Beadarray=gaction(label="Illumina_Bea
 mbl$View$Graph$GSEA_KEGG_Pathways$Illumina_Lumi=gaction(label="Illumina_Lumi",handler=function(h,...)
 {
 	nA<-makeNodeAttrs(mapkG_gsea_kegg_Il_L,fillcolor=logcol_gsea_kegg_Il_L,width=10,height=1.2)
+	oldpar<-par(no.readonly=TRUE)
+	on.exit(par(oldpar))
 	par(mar=c(3,5,0,5),mgp=c(0,0,0))
 	layout(mat=matrix(c(rep(1,8),2),ncol=1,byrow=TRUE))
 	plot(mapkG_gsea_kegg_Il_L,"dot",nodeAttrs=nA)
@@ -3247,7 +2733,7 @@ mbl$View$Graph$GSEA_KEGG_Pathways$Illumina_Lumi=gaction(label="Illumina_Lumi",ha
 	image(as.matrix(seq(1,ar)),col=cols,yaxt="n",xaxt="n")
 	mtext("down-regulation",side=1,at=0,line=1)
 	mtext("up-regulation",side=1,at=1,line=1)
-	view_w<-gwindow("Graph GSEA KEGG Pathways",visible=FALSE,height=400,width=600)
+	view_w<-gwindow("Graph GSEA KEGG Pathways",visible=FALSE,height=480,width=650)
 	gtable(legend_gsea_kegg_Il_L,container=view_w)
 	visible(view_w)<-TRUE
 }
@@ -3256,6 +2742,8 @@ mbl$View$Graph$GSEA_KEGG_Pathways$Illumina_Lumi=gaction(label="Illumina_Lumi",ha
 mbl$View$Graph$GSEA_KEGG_Pathways$Nimblegen=gaction(label="Nimblegen",handler=function(h,...)
 {
 	nA<-makeNodeAttrs(mapkG_gsea_kegg_N,fillcolor=logcol_gsea_kegg_N,width=10,height=1.2)
+	oldpar<-par(no.readonly=TRUE)
+	on.exit(par(oldpar))
 	par(mar=c(3,5,0,5),mgp=c(0,0,0))
 	layout(mat=matrix(c(rep(1,8),2),ncol=1,byrow=TRUE))
 	plot(mapkG_gsea_kegg_N,"dot",nodeAttrs=nA)
@@ -3264,7 +2752,7 @@ mbl$View$Graph$GSEA_KEGG_Pathways$Nimblegen=gaction(label="Nimblegen",handler=fu
 	image(as.matrix(seq(1,ar)),col=cols,yaxt="n",xaxt="n")
 	mtext("down-regulation",side=1,at=0,line=1)
 	mtext("up-regulation",side=1,at=1,line=1)
-	view_w<-gwindow("Graph GSEA KEGG Pathways",visible=FALSE,height=400,width=600)
+	view_w<-gwindow("Graph GSEA KEGG Pathways",visible=FALSE,height=480,width=650)
 	gtable(legend_gsea_kegg_N,container=view_w)
 	visible(view_w)<-TRUE
 }
@@ -3273,6 +2761,8 @@ mbl$View$Graph$GSEA_KEGG_Pathways$Nimblegen=gaction(label="Nimblegen",handler=fu
 mbl$View$Graph$GSEA_KEGG_Pathways$Series_Matrix=gaction(label="Series_Matrix",handler=function(h,...)
 {
 	nA<-makeNodeAttrs(mapkG_gsea_kegg_S,fillcolor=logcol_gsea_kegg_S,width=10,height=1.2)
+	oldpar<-par(no.readonly=TRUE)
+	on.exit(par(oldpar))
 	par(mar=c(3,5,0,5),mgp=c(0,0,0))
 	layout(mat=matrix(c(rep(1,8),2),ncol=1,byrow=TRUE))
 	plot(mapkG_gsea_kegg_S,"dot",nodeAttrs=nA)
@@ -3281,7 +2771,7 @@ mbl$View$Graph$GSEA_KEGG_Pathways$Series_Matrix=gaction(label="Series_Matrix",ha
 	image(as.matrix(seq(1,ar)),col=cols,yaxt="n",xaxt="n")
 	mtext("down-regulation",side=1,at=0,line=1)
 	mtext("up-regulation",side=1,at=1,line=1)
-	view_w<-gwindow("Graph GSEA KEGG Pathways",visible=FALSE,height=400,width=600)
+	view_w<-gwindow("Graph GSEA KEGG Pathways",visible=FALSE,height=480,width=650)
 	gtable(legend_gsea_kegg_S,container=view_w)
 	visible(view_w)<-TRUE
 }
@@ -3290,6 +2780,8 @@ mbl$View$Graph$GSEA_KEGG_Pathways$Series_Matrix=gaction(label="Series_Matrix",ha
 mbl$View$Graph$GSEA_KEGG_Pathways$Online_Data=gaction(label="Online_Data",handler=function(h,...)
 {
 	nA<-makeNodeAttrs(mapkG_gsea_kegg_O,fillcolor=logcol_gsea_kegg_O,width=10,height=1.2)
+	oldpar<-par(no.readonly=TRUE)
+	on.exit(par(oldpar))
 	par(mar=c(3,5,0,5),mgp=c(0,0,0))
 	layout(mat=matrix(c(rep(1,8),2),ncol=1,byrow=TRUE))
 	plot(mapkG_gsea_kegg_O,"dot",nodeAttrs=nA)
@@ -3298,7 +2790,7 @@ mbl$View$Graph$GSEA_KEGG_Pathways$Online_Data=gaction(label="Online_Data",handle
 	image(as.matrix(seq(1,ar)),col=cols,yaxt="n",xaxt="n")
 	mtext("down-regulation",side=1,at=0,line=1)
 	mtext("up-regulation",side=1,at=1,line=1)
-	view_w<-gwindow("Graph GSEA KEGG Pathways",visible=FALSE,height=400,width=600)
+	view_w<-gwindow("Graph GSEA KEGG Pathways",visible=FALSE,height=480,width=650)
 	gtable(legend_gsea_kegg_O,container=view_w)
 	visible(view_w)<-TRUE
 }
@@ -3310,7 +2802,7 @@ mbl$View$Graph$GSTA_GO_Biological_Process$Affymetrix=gaction(label="Affymetrix",
 	nAttrs<-list()
 	nAttrs$fillcolor<-nodefill_gsta_goBP_Affy
 	plot(g_gsta_goBP_Affy,nodeAttrs=nAttrs)
-	view_w<-gwindow("Graph GSTA GO Biological Process",visible=FALSE,height=400,width=600)
+	view_w<-gwindow("Graph GSTA GO Biological Process",visible=FALSE,height=480,width=650)
 	gtable(legend_gsta_goBP_Affy,container=view_w)
 	visible(view_w)<-TRUE
 }
@@ -3321,7 +2813,7 @@ mbl$View$Graph$GSTA_GO_Biological_Process$Agilent_OneColor=gaction(label="Agilen
 	nAttrs<-list()
 	nAttrs$fillcolor<-nodefill_gsta_goBP_Ag1
 	plot(g_gsta_goBP_Ag1,nodeAttrs=nAttrs)
-	view_w<-gwindow("Graph GSTA GO Biological Process",visible=FALSE,height=400,width=600)
+	view_w<-gwindow("Graph GSTA GO Biological Process",visible=FALSE,height=480,width=650)
 	gtable(legend_gsta_goBP_Ag1,container=view_w)
 	visible(view_w)<-TRUE
 }
@@ -3332,7 +2824,7 @@ mbl$View$Graph$GSTA_GO_Biological_Process$Agilent_TwoColor=gaction(label="Agilen
 	nAttrs<-list()
 	nAttrs$fillcolor<-nodefill_gsta_goBP_Ag2
 	plot(g_gsta_goBP_Ag2,nodeAttrs=nAttrs)
-	view_w<-gwindow("Graph GSTA GO Biological Process",visible=FALSE,height=400,width=600)
+	view_w<-gwindow("Graph GSTA GO Biological Process",visible=FALSE,height=480,width=650)
 	gtable(legend_gsta_goBP_Ag2,container=view_w)
 	visible(view_w)<-TRUE
 }
@@ -3343,7 +2835,7 @@ mbl$View$Graph$GSTA_GO_Biological_Process$Illumina_Beadarray=gaction(label="Illu
 	nAttrs<-list()
 	nAttrs$fillcolor<-nodefill_gsta_goBP_Il_B
 	plot(g_gsta_goBP_Il_B,nodeAttrs=nAttrs)
-	view_w<-gwindow("Graph GSTA GO Biological Process",visible=FALSE,height=400,width=600)
+	view_w<-gwindow("Graph GSTA GO Biological Process",visible=FALSE,height=480,width=650)
 	gtable(legend_gsta_goBP_Il_B,container=view_w)
 	visible(view_w)<-TRUE
 }
@@ -3354,7 +2846,7 @@ mbl$View$Graph$GSTA_GO_Biological_Process$Illumina_Lumi=gaction(label="Illumina_
 	nAttrs<-list()
 	nAttrs$fillcolor<-nodefill_gsta_goBP_Il_L
 	plot(g_gsta_goBP_Il_L,nodeAttrs=nAttrs)
-	view_w<-gwindow("Graph GSTA GO Biological Process",visible=FALSE,height=400,width=600)
+	view_w<-gwindow("Graph GSTA GO Biological Process",visible=FALSE,height=480,width=650)
 	gtable(legend_gsta_goBP_Il_L,container=view_w)
 	visible(view_w)<-TRUE
 }
@@ -3365,7 +2857,7 @@ mbl$View$Graph$GSTA_GO_Biological_Process$Nimblegen=gaction(label="Nimblegen",ha
 	nAttrs<-list()
 	nAttrs$fillcolor<-nodefill_gsta_goBP_N
 	plot(g_gsta_goBP_N,nodeAttrs=nAttrs)
-	view_w<-gwindow("Graph GSTA GO Biological Process",visible=FALSE,height=400,width=600)
+	view_w<-gwindow("Graph GSTA GO Biological Process",visible=FALSE,height=480,width=650)
 	gtable(legend_gsta_goBP_N,container=view_w)
 	visible(view_w)<-TRUE
 }
@@ -3376,7 +2868,7 @@ mbl$View$Graph$GSTA_GO_Biological_Process$Series_Matrix=gaction(label="Series_Ma
 	nAttrs<-list()
 	nAttrs$fillcolor<-nodefill_gsta_goBP_S
 	plot(g_gsta_goBP_S,nodeAttrs=nAttrs)
-	view_w<-gwindow("Graph GSTA GO Biological Process",visible=FALSE,height=400,width=600)
+	view_w<-gwindow("Graph GSTA GO Biological Process",visible=FALSE,height=480,width=650)
 	gtable(legend_gsta_goBP_S,container=view_w)
 	visible(view_w)<-TRUE
 }
@@ -3387,7 +2879,7 @@ mbl$View$Graph$GSTA_GO_Biological_Process$Online_Data=gaction(label="Online_Data
 	nAttrs<-list()
 	nAttrs$fillcolor<-nodefill_gsta_goBP_O
 	plot(g_gsta_goBP_O,nodeAttrs=nAttrs)
-	view_w<-gwindow("Graph GSTA GO Biological Process",visible=FALSE,height=400,width=600)
+	view_w<-gwindow("Graph GSTA GO Biological Process",visible=FALSE,height=480,width=650)
 	gtable(legend_gsta_goBP_O,container=view_w)
 	visible(view_w)<-TRUE
 }
@@ -3399,7 +2891,7 @@ mbl$View$Graph$GSTA_GO_Molecular_Function$Affymetrix=gaction(label="Affymetrix",
 	nAttrs<-list()
 	nAttrs$fillcolor<-nodefill_gsta_goMF_Affy
 	plot(g_gsta_goMF_Affy,nodeAttrs=nAttrs)
-	view_w<-gwindow("Graph GSTA GO Molecular Function",visible=FALSE,height=400,width=600)
+	view_w<-gwindow("Graph GSTA GO Molecular Function",visible=FALSE,height=480,width=650)
 	gtable(legend_gsta_goMF_Affy,container=view_w)
 	visible(view_w)<-TRUE
 }
@@ -3410,7 +2902,7 @@ mbl$View$Graph$GSTA_GO_Molecular_Function$Agilent_OneColor=gaction(label="Agilen
 	nAttrs<-list()
 	nAttrs$fillcolor<-nodefill_gsta_goMF_Ag1
 	plot(g_gsta_goMF_Ag1,nodeAttrs=nAttrs)
-	view_w<-gwindow("Graph GSTA GO Molecular Function",visible=FALSE,height=400,width=600)
+	view_w<-gwindow("Graph GSTA GO Molecular Function",visible=FALSE,height=480,width=650)
 	gtable(legend_gsta_goMF_Ag1,container=view_w)
 	visible(view_w)<-TRUE
 }
@@ -3421,7 +2913,7 @@ mbl$View$Graph$GSTA_GO_Molecular_Function$Agilent_TwoColor=gaction(label="Agilen
 	nAttrs<-list()
 	nAttrs$fillcolor<-nodefill_gsta_goMF_Ag2
 	plot(g_gsta_goMF_Ag2,nodeAttrs=nAttrs)
-	view_w<-gwindow("Graph GSTA GO Molecular Function",visible=FALSE,height=400,width=600)
+	view_w<-gwindow("Graph GSTA GO Molecular Function",visible=FALSE,height=480,width=650)
 	gtable(legend_gsta_goMF_Ag2,container=view_w)
 	visible(view_w)<-TRUE
 }
@@ -3432,7 +2924,7 @@ mbl$View$Graph$GSTA_GO_Molecular_Function$Illumina_Beadarray=gaction(label="Illu
 	nAttrs<-list()
 	nAttrs$fillcolor<-nodefill_gsta_goMF_Il_B
 	plot(g_gsta_goMF_Il_B,nodeAttrs=nAttrs)
-	view_w<-gwindow("Graph GSTA GO Molecular Function",visible=FALSE,height=400,width=600)
+	view_w<-gwindow("Graph GSTA GO Molecular Function",visible=FALSE,height=480,width=650)
 	gtable(legend_gsta_goMF_Il_B,container=view_w)
 	visible(view_w)<-TRUE
 }
@@ -3443,7 +2935,7 @@ mbl$View$Graph$GSTA_GO_Molecular_Function$Illumina_Lumi=gaction(label="Illumina_
 	nAttrs<-list()
 	nAttrs$fillcolor<-nodefill_gsta_goMF_Il_L
 	plot(g_gsta_goMF_Il_L,nodeAttrs=nAttrs)
-	view_w<-gwindow("Graph GSTA GO Molecular Function",visible=FALSE,height=400,width=600)
+	view_w<-gwindow("Graph GSTA GO Molecular Function",visible=FALSE,height=480,width=650)
 	gtable(legend_gsta_goMF_Il_L,container=view_w)
 	visible(view_w)<-TRUE
 }
@@ -3454,7 +2946,7 @@ mbl$View$Graph$GSTA_GO_Molecular_Function$Nimblegen=gaction(label="Nimblegen",ha
 	nAttrs<-list()
 	nAttrs$fillcolor<-nodefill_gsta_goMF_N
 	plot(g_gsta_goMF_N,nodeAttrs=nAttrs)
-	view_w<-gwindow("Graph GSTA GO Molecular Function",visible=FALSE,height=400,width=600)
+	view_w<-gwindow("Graph GSTA GO Molecular Function",visible=FALSE,height=480,width=650)
 	gtable(legend_gsta_goMF_N,container=view_w)
 	visible(view_w)<-TRUE
 }
@@ -3465,7 +2957,7 @@ mbl$View$Graph$GSTA_GO_Molecular_Function$Series_Matrix=gaction(label="Series_Ma
 	nAttrs<-list()
 	nAttrs$fillcolor<-nodefill_gsta_goMF_S
 	plot(g_gsta_goMF_S,nodeAttrs=nAttrs)
-	view_w<-gwindow("Graph GSTA GO Molecular Function",visible=FALSE,height=400,width=600)
+	view_w<-gwindow("Graph GSTA GO Molecular Function",visible=FALSE,height=480,width=650)
 	gtable(legend_gsta_goMF_S,container=view_w)
 	visible(view_w)<-TRUE
 }
@@ -3476,7 +2968,7 @@ mbl$View$Graph$GSTA_GO_Molecular_Function$Online_Data=gaction(label="Online_Data
 	nAttrs<-list()
 	nAttrs$fillcolor<-nodefill_gsta_goMF_O
 	plot(g_gsta_goMF_O,nodeAttrs=nAttrs)
-	view_w<-gwindow("Graph GSTA GO Molecular Function",visible=FALSE,height=400,width=600)
+	view_w<-gwindow("Graph GSTA GO Molecular Function",visible=FALSE,height=480,width=650)
 	gtable(legend_gsta_goMF_O,container=view_w)
 	visible(view_w)<-TRUE
 }
@@ -3488,7 +2980,7 @@ mbl$View$Graph$GSTA_GO_Cellular_Component$Affymetrix=gaction(label="Affymetrix",
 	nAttrs<-list()
 	nAttrs$fillcolor<-nodefill_gsta_goCC_Affy
 	plot(g_gsta_goCC_Affy,nodeAttrs=nAttrs)
-	view_w<-gwindow("Graph GSTA GO Cellular Component",visible=FALSE,height=400,width=600)
+	view_w<-gwindow("Graph GSTA GO Cellular Component",visible=FALSE,height=480,width=650)
 	gtable(legend_gsta_goCC_Affy,container=view_w)
 	visible(view_w)<-TRUE
 }
@@ -3499,7 +2991,7 @@ mbl$View$Graph$GSTA_GO_Cellular_Component$Agilent_OneColor=gaction(label="Agilen
 	nAttrs<-list()
 	nAttrs$fillcolor<-nodefill_gsta_goCC_Ag1
 	plot(g_gsta_goCC_Ag1,nodeAttrs=nAttrs)
-	view_w<-gwindow("Graph GSTA GO Cellular Component",visible=FALSE,height=400,width=600)
+	view_w<-gwindow("Graph GSTA GO Cellular Component",visible=FALSE,height=480,width=650)
 	gtable(legend_gsta_goCC_Ag1,container=view_w)
 	visible(view_w)<-TRUE
 }
@@ -3510,7 +3002,7 @@ mbl$View$Graph$GSTA_GO_Cellular_Component$Agilent_TwoColor=gaction(label="Agilen
 	nAttrs<-list()
 	nAttrs$fillcolor<-nodefill_gsta_goCC_Ag2
 	plot(g_gsta_goCC_Ag2,nodeAttrs=nAttrs)
-	view_w<-gwindow("Graph GSTA GO Cellular Component",visible=FALSE,height=400,width=600)
+	view_w<-gwindow("Graph GSTA GO Cellular Component",visible=FALSE,height=480,width=650)
 	gtable(legend_gsta_goCC_Ag2,container=view_w)
 	visible(view_w)<-TRUE
 }
@@ -3521,7 +3013,7 @@ mbl$View$Graph$GSTA_GO_Cellular_Component$Illumina_Beadarray=gaction(label="Illu
 	nAttrs<-list()
 	nAttrs$fillcolor<-nodefill_gsta_goCC_Il_B
 	plot(g_gsta_goCC_Il_B,nodeAttrs=nAttrs)
-	view_w<-gwindow("Graph GSTA GO Cellular Component",visible=FALSE,height=400,width=600)
+	view_w<-gwindow("Graph GSTA GO Cellular Component",visible=FALSE,height=480,width=650)
 	gtable(legend_gsta_goCC_Il_B,container=view_w)
 	visible(view_w)<-TRUE
 }
@@ -3532,7 +3024,7 @@ mbl$View$Graph$GSTA_GO_Cellular_Component$Illumina_Lumi=gaction(label="Illumina_
 	nAttrs<-list()
 	nAttrs$fillcolor<-nodefill_gsta_goCC_Il_L
 	plot(g_gsta_goCC_Il_L,nodeAttrs=nAttrs)
-	view_w<-gwindow("Graph GSTA GO Cellular Component",visible=FALSE,height=400,width=600)
+	view_w<-gwindow("Graph GSTA GO Cellular Component",visible=FALSE,height=480,width=650)
 	gtable(legend_gsta_goCC_Il_L,container=view_w)
 	visible(view_w)<-TRUE
 }
@@ -3543,7 +3035,7 @@ mbl$View$Graph$GSTA_GO_Cellular_Component$Nimblegen=gaction(label="Nimblegen",ha
 	nAttrs<-list()
 	nAttrs$fillcolor<-nodefill_gsta_goCC_N
 	plot(g_gsta_goCC_N,nodeAttrs=nAttrs)
-	view_w<-gwindow("Graph GSTA GO Cellular Component",visible=FALSE,height=400,width=600)
+	view_w<-gwindow("Graph GSTA GO Cellular Component",visible=FALSE,height=480,width=650)
 	gtable(legend_gsta_goCC_N,container=view_w)
 	visible(view_w)<-TRUE
 }
@@ -3554,7 +3046,7 @@ mbl$View$Graph$GSTA_GO_Cellular_Component$Series_Matrix=gaction(label="Series_Ma
 	nAttrs<-list()
 	nAttrs$fillcolor<-nodefill_gsta_goCC_S
 	plot(g_gsta_goCC_S,nodeAttrs=nAttrs)
-	view_w<-gwindow("Graph GSTA GO Cellular Component",visible=FALSE,height=400,width=600)
+	view_w<-gwindow("Graph GSTA GO Cellular Component",visible=FALSE,height=480,width=650)
 	gtable(legend_gsta_goCC_S,container=view_w)
 	visible(view_w)<-TRUE
 }
@@ -3565,7 +3057,7 @@ mbl$View$Graph$GSTA_GO_Cellular_Component$Online_Data=gaction(label="Online_Data
 	nAttrs<-list()
 	nAttrs$fillcolor<-nodefill_gsta_goCC_O
 	plot(g_gsta_goCC_O,nodeAttrs=nAttrs)
-	view_w<-gwindow("Graph GSTA GO Cellular Component",visible=FALSE,height=400,width=600)
+	view_w<-gwindow("Graph GSTA GO Cellular Component",visible=FALSE,height=480,width=650)
 	gtable(legend_gsta_goCC_O,container=view_w)
 	visible(view_w)<-TRUE
 }
@@ -3575,6 +3067,8 @@ mbl$View$Graph$GSTA_GO_Cellular_Component$Online_Data=gaction(label="Online_Data
 mbl$View$Graph$GSTA_KEGG_Pathways$Affymetrix=gaction(label="Affymetrix",handler=function(h,...)
 {
 	nA<-makeNodeAttrs(mapkG_gsta_kegg_Affy,fillcolor=logcol_gsta_kegg_Affy,width=10,height=1.2)
+	oldpar<-par(no.readonly=TRUE)
+	on.exit(par(oldpar))
 	par(mar=c(3,5,0,5),mgp=c(0,0,0))
 	layout(mat=matrix(c(rep(1,8),2),ncol=1,byrow=TRUE))
 	plot(mapkG_gsta_kegg_Affy,"dot",nodeAttrs=nA)
@@ -3583,7 +3077,7 @@ mbl$View$Graph$GSTA_KEGG_Pathways$Affymetrix=gaction(label="Affymetrix",handler=
 	image(as.matrix(seq(1,ar)),col=cols,yaxt="n",xaxt="n")
 	mtext("down-regulation",side=1,at=0,line=1)
 	mtext("up-regulation",side=1,at=1,line=1)
-	view_w<-gwindow("Graph GSTA KEGG Pathways",visible=FALSE,height=400,width=600)
+	view_w<-gwindow("Graph GSTA KEGG Pathways",visible=FALSE,height=480,width=650)
 	gtable(legend_gsta_kegg_Affy,container=view_w)
 	visible(view_w)<-TRUE
 }
@@ -3592,6 +3086,8 @@ mbl$View$Graph$GSTA_KEGG_Pathways$Affymetrix=gaction(label="Affymetrix",handler=
 mbl$View$Graph$GSTA_KEGG_Pathways$Agilent_OneColor=gaction(label="Agilent_OneColor",handler=function(h,...)
 {	
 	nA<-makeNodeAttrs(mapkG_gsta_kegg_Ag1,fillcolor=logcol_gsta_kegg_Ag1,width=10,height=1.2)
+	oldpar<-par(no.readonly=TRUE)
+	on.exit(par(oldpar))
 	par(mar=c(3,5,0,5),mgp=c(0,0,0))
 	layout(mat=matrix(c(rep(1,8),2),ncol=1,byrow=TRUE))
 	plot(mapkG_gsta_kegg_Ag1,"dot",nodeAttrs=nA)
@@ -3600,7 +3096,7 @@ mbl$View$Graph$GSTA_KEGG_Pathways$Agilent_OneColor=gaction(label="Agilent_OneCol
 	image(as.matrix(seq(1,ar)),col=cols,yaxt="n",xaxt="n")
 	mtext("down-regulation",side=1,at=0,line=1)
 	mtext("up-regulation",side=1,at=1,line=1)
-	view_w<-gwindow("Graph GSTA KEGG Pathways",visible=FALSE,height=400,width=600)
+	view_w<-gwindow("Graph GSTA KEGG Pathways",visible=FALSE,height=480,width=650)
 	gtable(legend_gsta_kegg_Ag1,container=view_w)
 	visible(view_w)<-TRUE
 }
@@ -3609,6 +3105,8 @@ mbl$View$Graph$GSTA_KEGG_Pathways$Agilent_OneColor=gaction(label="Agilent_OneCol
 mbl$View$Graph$GSTA_KEGG_Pathways$Agilent_TwoColor=gaction(label="Agilent_TwoColor",handler=function(h,...)
 {
 	nA<-makeNodeAttrs(mapkG_gsta_kegg_Ag2,fillcolor=logcol_gsta_kegg_Ag2,width=10,height=1.2)
+	oldpar<-par(no.readonly=TRUE)
+	on.exit(par(oldpar))
 	par(mar=c(3,5,0,5),mgp=c(0,0,0))
 	layout(mat=matrix(c(rep(1,8),2),ncol=1,byrow=TRUE))
 	plot(mapkG_gsta_kegg_Ag2,"dot",nodeAttrs=nA)
@@ -3617,7 +3115,7 @@ mbl$View$Graph$GSTA_KEGG_Pathways$Agilent_TwoColor=gaction(label="Agilent_TwoCol
 	image(as.matrix(seq(1,ar)),col=cols,yaxt="n",xaxt="n")
 	mtext("down-regulation",side=1,at=0,line=1)
 	mtext("up-regulation",side=1,at=1,line=1)
-	view_w<-gwindow("Graph GSTA KEGG Pathways",visible=FALSE,height=400,width=600)
+	view_w<-gwindow("Graph GSTA KEGG Pathways",visible=FALSE,height=480,width=650)
 	gtable(legend_gsta_kegg_Ag2,container=view_w)
 	visible(view_w)<-TRUE
 }
@@ -3626,6 +3124,8 @@ mbl$View$Graph$GSTA_KEGG_Pathways$Agilent_TwoColor=gaction(label="Agilent_TwoCol
 mbl$View$Graph$GSTA_KEGG_Pathways$Illumina_Beadarray=gaction(label="Illumina_Beadarray",handler=function(h,...)
 {
 	nA<-makeNodeAttrs(mapkG_gsta_kegg_Il_B,fillcolor=logcol_gsta_kegg_Il_B,width=10,height=1.2)
+	oldpar<-par(no.readonly=TRUE)
+	on.exit(par(oldpar))
 	par(mar=c(3,5,0,5),mgp=c(0,0,0))
 	layout(mat=matrix(c(rep(1,8),2),ncol=1,byrow=TRUE))
 	plot(mapkG_gsta_kegg_Il_B,"dot",nodeAttrs=nA)
@@ -3634,7 +3134,7 @@ mbl$View$Graph$GSTA_KEGG_Pathways$Illumina_Beadarray=gaction(label="Illumina_Bea
 	image(as.matrix(seq(1,ar)),col=cols,yaxt="n",xaxt="n")
 	mtext("down-regulation",side=1,at=0,line=1)
 	mtext("up-regulation",side=1,at=1,line=1)
-	view_w<-gwindow("Graph GSTA KEGG Pathways",visible=FALSE,height=400,width=600)
+	view_w<-gwindow("Graph GSTA KEGG Pathways",visible=FALSE,height=480,width=650)
 	gtable(legend_gsta_kegg_Il_B,container=view_w)
 	visible(view_w)<-TRUE
 }
@@ -3643,6 +3143,8 @@ mbl$View$Graph$GSTA_KEGG_Pathways$Illumina_Beadarray=gaction(label="Illumina_Bea
 mbl$View$Graph$GSTA_KEGG_Pathways$Illumina_Lumi=gaction(label="Illumina_Lumi",handler=function(h,...)
 {
 	nA<-makeNodeAttrs(mapkG_gsta_kegg_Il_L,fillcolor=logcol_gsta_kegg_Il_L,width=10,height=1.2)
+	oldpar<-par(no.readonly=TRUE)
+	on.exit(par(oldpar))
 	par(mar=c(3,5,0,5),mgp=c(0,0,0))
 	layout(mat=matrix(c(rep(1,8),2),ncol=1,byrow=TRUE))
 	plot(mapkG_gsta_kegg_Il_L,"dot",nodeAttrs=nA)
@@ -3651,7 +3153,7 @@ mbl$View$Graph$GSTA_KEGG_Pathways$Illumina_Lumi=gaction(label="Illumina_Lumi",ha
 	image(as.matrix(seq(1,ar)),col=cols,yaxt="n",xaxt="n")
 	mtext("down-regulation",side=1,at=0,line=1)
 	mtext("up-regulation",side=1,at=1,line=1)
-	view_w<-gwindow("Graph GSTA KEGG Pathways",visible=FALSE,height=400,width=600)
+	view_w<-gwindow("Graph GSTA KEGG Pathways",visible=FALSE,height=480,width=650)
 	gtable(legend_gsta_kegg_Il_L,container=view_w)
 	visible(view_w)<-TRUE
 }
@@ -3660,6 +3162,8 @@ mbl$View$Graph$GSTA_KEGG_Pathways$Illumina_Lumi=gaction(label="Illumina_Lumi",ha
 mbl$View$Graph$GSTA_KEGG_Pathways$Nimblegen=gaction(label="Nimblegen",handler=function(h,...)
 {
 	nA<-makeNodeAttrs(mapkG_gsta_kegg_N,fillcolor=logcol_gsta_kegg_N,width=10,height=1.2)
+	oldpar<-par(no.readonly=TRUE)
+	on.exit(par(oldpar))
 	par(mar=c(3,5,0,5),mgp=c(0,0,0))
 	layout(mat=matrix(c(rep(1,8),2),ncol=1,byrow=TRUE))
 	plot(mapkG_gsta_kegg_N,"dot",nodeAttrs=nA)
@@ -3668,7 +3172,7 @@ mbl$View$Graph$GSTA_KEGG_Pathways$Nimblegen=gaction(label="Nimblegen",handler=fu
 	image(as.matrix(seq(1,ar)),col=cols,yaxt="n",xaxt="n")
 	mtext("down-regulation",side=1,at=0,line=1)
 	mtext("up-regulation",side=1,at=1,line=1)
-	view_w<-gwindow("Graph GSTA KEGG Pathways",visible=FALSE,height=400,width=600)
+	view_w<-gwindow("Graph GSTA KEGG Pathways",visible=FALSE,height=480,width=650)
 	gtable(legend_gsta_kegg_N,container=view_w)
 	visible(view_w)<-TRUE
 }
@@ -3677,6 +3181,8 @@ mbl$View$Graph$GSTA_KEGG_Pathways$Nimblegen=gaction(label="Nimblegen",handler=fu
 mbl$View$Graph$GSTA_KEGG_Pathways$Series_Matrix=gaction(label="Series_Matrix",handler=function(h,...)
 {
 	nA<-makeNodeAttrs(mapkG_gsta_kegg_S,fillcolor=logcol_gsta_kegg_S,width=10,height=1.2)
+	oldpar<-par(no.readonly=TRUE)
+	on.exit(par(oldpar))
 	par(mar=c(3,5,0,5),mgp=c(0,0,0))
 	layout(mat=matrix(c(rep(1,8),2),ncol=1,byrow=TRUE))
 	plot(mapkG_gsta_kegg_S,"dot",nodeAttrs=nA)
@@ -3685,7 +3191,7 @@ mbl$View$Graph$GSTA_KEGG_Pathways$Series_Matrix=gaction(label="Series_Matrix",ha
 	image(as.matrix(seq(1,ar)),col=cols,yaxt="n",xaxt="n")
 	mtext("down-regulation",side=1,at=0,line=1)
 	mtext("up-regulation",side=1,at=1,line=1)
-	view_w<-gwindow("Graph GSTA KEGG Pathways",visible=FALSE,height=400,width=600)
+	view_w<-gwindow("Graph GSTA KEGG Pathways",visible=FALSE,height=480,width=650)
 	gtable(legend_gsta_kegg_S,container=view_w)
 	visible(view_w)<-TRUE
 }
@@ -3694,6 +3200,8 @@ mbl$View$Graph$GSTA_KEGG_Pathways$Series_Matrix=gaction(label="Series_Matrix",ha
 mbl$View$Graph$GSTA_KEGG_Pathways$Online_Data=gaction(label="Online_Data",handler=function(h,...)
 {
 	nA<-makeNodeAttrs(mapkG_gsta_kegg_O,fillcolor=logcol_gsta_kegg_O,width=10,height=1.2)
+	oldpar<-par(no.readonly=TRUE)
+	on.exit(par(oldpar))
 	par(mar=c(3,5,0,5),mgp=c(0,0,0))
 	layout(mat=matrix(c(rep(1,8),2),ncol=1,byrow=TRUE))
 	plot(mapkG_gsta_kegg_O,"dot",nodeAttrs=nA)
@@ -3702,7 +3210,7 @@ mbl$View$Graph$GSTA_KEGG_Pathways$Online_Data=gaction(label="Online_Data",handle
 	image(as.matrix(seq(1,ar)),col=cols,yaxt="n",xaxt="n")
 	mtext("down-regulation",side=1,at=0,line=1)
 	mtext("up-regulation",side=1,at=1,line=1)
-	view_w<-gwindow("Graph GSTA KEGG Pathways",visible=FALSE,height=400,width=600)
+	view_w<-gwindow("Graph GSTA KEGG Pathways",visible=FALSE,height=480,width=650)
 	gtable(legend_gsta_kegg_O,container=view_w)
 	visible(view_w)<-TRUE
 }
@@ -3815,7 +3323,7 @@ mbl$Export$Affymetrix$Normalized_Data=gaction(label="Normalized_Data",handler=fu
 	folderchoose=NULL
 	setwd(el)
 	write.table(dat2Affy.m,file=en,sep="\t")
-	setwd(cur_dir)
+	on.exit(setwd(cur_dir))
 }
 )
 #mbl$Export$Affymetrix$QC_Plot$handler=function(h,...)
@@ -3833,7 +3341,7 @@ mbl$Export$Affymetrix$QC_Plot=gaction(label="QC_Plot",handler=function(h,...)
 		plot(dat2Affy.m)
 	}
 	dev.off()
-	setwd(cur_dir)
+	on.exit(setwd(cur_dir))
 }
 )
 #mbl$Export$Affymetrix$Filtered_Data$handler=function(h,...)
@@ -3846,7 +3354,7 @@ mbl$Export$Affymetrix$Filtered_Data=gaction(label="Filtered_Data",handler=functi
 	setwd(el)
 	ps1<-as.data.frame(dat2Affy.f)
 	write.table(ps1,file=en,sep="\t")
-	setwd(cur_dir)
+	on.exit(setwd(cur_dir))
 }
 )
 #mbl$Export$Affymetrix$Stat_Significant_Data$handler=function(h,...)
@@ -3858,7 +3366,7 @@ mbl$Export$Affymetrix$Stat_Significant_Data=gaction(label="Stat_Significant_Data
 	folderchoose=NULL
 	setwd(el)
 	write.table(dat2Affy.s,file=en,sep="\t")
-	setwd(cur_dir)
+	on.exit(setwd(cur_dir))
 }
 )
 #mbl$Export$Affymetrix$DGE_Data$handler=function(h,...)
@@ -3870,7 +3378,7 @@ mbl$Export$Affymetrix$DGE_Data=gaction(label="DGE_Data",handler=function(h,...)
 	folderchoose=NULL
 	setwd(el)
 	write.table(DE_Affy,file=en,sep="\t")
-	setwd(cur_dir)
+	on.exit(setwd(cur_dir))
 }
 )
 #mbl$Export$Affymetrix$PCA_Plot$handler=function(h,...)
@@ -3885,7 +3393,7 @@ mbl$Export$Affymetrix$PCA_Plot=gaction(label="PCA_Plot",handler=function(h,...)
 	png(img)
 	plot(pca_Affy,main="Affymetrix PCA")
 	dev.off()
-	setwd(cur_dir)
+	on.exit(setwd(cur_dir))
 }
 )
 #mbl$Export$Affymetrix$Cluster_Plot$handler=function(h,...)
@@ -3900,7 +3408,7 @@ mbl$Export$Affymetrix$Cluster_Plot=gaction(label="Cluster_Plot",handler=function
 	png(img)
 	plot(hclust(sample.dist_Affy,method="complete"))
 	dev.off()
-	setwd(cur_dir)
+	on.exit(setwd(cur_dir))
 }
 )
 #mbl$Export$Affymetrix$Classification_Data$handler=function(h,...)
@@ -3916,7 +3424,7 @@ mbl$Export$Affymetrix$Classification_Data=gaction(label="Classification_Data",ha
 	heatmap(Clas_Affy,margins=c(7,7),Rowv=NA,Colv=NA,cexCol=0.8,cexRow=0.8,col=heatcol)
 	dev.off()
 	write.table(Clas_Affy,file=en,sep="\t")
-	setwd(cur_dir)
+	on.exit(setwd(cur_dir))
 }
 )
 #mbl$Export$Affymetrix$GSEA_GO_Biological_Process$handler=function(h,...)
@@ -3928,7 +3436,7 @@ mbl$Export$Affymetrix$GSEA_GO_Biological_Process=gaction(label="GSEA_GO_Biologic
 	folderchoose=NULL
 	setwd(el)
 	write.table(GOresultBP_Affy,file=en,sep="\t")
-	setwd(cur_dir)
+	on.exit(setwd(cur_dir))
 }
 )
 #mbl$Export$Affymetrix$GSEA_GO_Molecular_Function$handler=function(h,...)
@@ -3940,7 +3448,7 @@ mbl$Export$Affymetrix$GSEA_GO_Molecular_Function=gaction(label="GSEA_GO_Molecula
 	folderchoose=NULL
 	setwd(el)
 	write.table(GOresultMF_Affy,file=en,sep="\t")
-	setwd(cur_dir)
+	on.exit(setwd(cur_dir))
 }
 )
 #mbl$Export$Affymetrix$GSEA_GO_Cellular_Component$handler=function(h,...)
@@ -3952,7 +3460,7 @@ mbl$Export$Affymetrix$GSEA_GO_Cellular_Component=gaction(label="GSEA_GO_Cellular
 	folderchoose=NULL
 	setwd(el)
 	write.table(GOresultCC_Affy,file=en,sep="\t")
-	setwd(cur_dir)
+	on.exit(setwd(cur_dir))
 }
 )
 #mbl$Export$Affymetrix$GSEA_KEGG_Pathways$handler=function(h,...)
@@ -3964,7 +3472,7 @@ mbl$Export$Affymetrix$GSEA_KEGG_Pathways=gaction(label="GSEA_KEGG_Pathways",hand
 	folderchoose=NULL
 	setwd(el)
 	write.table(KEGGresult_Affy,file=en,sep="\t")
-	setwd(cur_dir)
+	on.exit(setwd(cur_dir))
 }
 )
 #mbl$Export$Affymetrix$GSTA_GO_Biological_Process$handler=function(h,...)
@@ -3976,7 +3484,7 @@ mbl$Export$Affymetrix$GSTA_GO_Biological_Process=gaction(label="GSTA_GO_Biologic
 	folderchoose=NULL
 	setwd(el)
 	write.table(GOtable.outBP_Affy,file=en,sep="\t")
-	setwd(cur_dir)
+	on.exit(setwd(cur_dir))
 }
 )
 #mbl$Export$Affymetrix$GSTA_GO_Molecular_Function$handler=function(h,...)
@@ -3988,7 +3496,7 @@ mbl$Export$Affymetrix$GSTA_GO_Molecular_Function=gaction(label="GSTA_GO_Molecula
 	folderchoose=NULL
 	setwd(el)
 	write.table(GOtable.outMF_Affy,file=en,sep="\t")
-	setwd(cur_dir)
+	on.exit(setwd(cur_dir))
 }
 )
 #mbl$Export$Affymetrix$GSTA_GO_Cellular_Component$handler=function(h,...)
@@ -4000,7 +3508,7 @@ mbl$Export$Affymetrix$GSTA_GO_Cellular_Component=gaction(label="GSTA_GO_Cellular
 	folderchoose=NULL
 	setwd(el)
 	write.table(GOtable.outCC_Affy,file=en,sep="\t")
-	setwd(cur_dir)
+	on.exit(setwd(cur_dir))
 }
 )
 #mbl$Export$Affymetrix$GSTA_KEGG_Pathways$handler=function(h,...)
@@ -4012,7 +3520,7 @@ mbl$Export$Affymetrix$GSTA_KEGG_Pathways=gaction(label="GSTA_KEGG_Pathways",hand
 	folderchoose=NULL
 	setwd(el)
 	write.table(KEGGtable.out_Affy,file=en,sep="\t")
-	setwd(cur_dir)
+	on.exit(setwd(cur_dir))
 }
 )
 #mbl$Export$Affymetrix$Identifier_Symbol$handler=function(h,...)
@@ -4024,7 +3532,7 @@ mbl$Export$Affymetrix$Identifier_Symbol=gaction(label="Identifier_Symbol",handle
 	folderchoose=NULL
 	setwd(el)
 	write.table(genes_Affy,file=en,sep="\t")
-	setwd(cur_dir)
+	on.exit(setwd(cur_dir))
 }
 )
 #mbl$Export$Affymetrix$Graph_GSEA_GO_Biological_Process$handler=function(h,...)
@@ -4042,7 +3550,7 @@ mbl$Export$Affymetrix$Graph_GSEA_GO_Biological_Process=gaction(label="Graph_GSEA
 	plot(g_gsea_goBP_Affy,nodeAttrs=nAttrs)
 	dev.off()
 	write.table(legend_gsea_goBP_Affy,file=en,sep="\t")
-	setwd(cur_dir)
+	on.exit(setwd(cur_dir))
 }
 )
 #mbl$Export$Affymetrix$Graph_GSEA_GO_Molecular_Function$handler=function(h,...)
@@ -4060,7 +3568,7 @@ mbl$Export$Affymetrix$Graph_GSEA_GO_Molecular_Function=gaction(label="Graph_GSEA
 	plot(g_gsea_goMF_Affy,nodeAttrs=nAttrs)
 	dev.off()
 	write.table(legend_gsea_goMF_Affy,file=en,sep="\t")
-	setwd(cur_dir)
+	on.exit(setwd(cur_dir))
 }
 )
 #mbl$Export$Affymetrix$Graph_GSEA_GO_Cellular_Component$handler=function(h,...)
@@ -4078,7 +3586,7 @@ mbl$Export$Affymetrix$Graph_GSEA_GO_Cellular_Component=gaction(label="Graph_GSEA
 	plot(g_gsea_goCC_Affy,nodeAttrs=nAttrs)
 	dev.off()
 	write.table(legend_gsea_goCC_Affy,file=en,sep="\t")
-	setwd(cur_dir)
+	on.exit(setwd(cur_dir))
 }
 )
 #mbl$Export$Affymetrix$Graph_GSEA_KEGG_Pathways$handler=function(h,...)
@@ -4092,6 +3600,8 @@ mbl$Export$Affymetrix$Graph_GSEA_KEGG_Pathways=gaction(label="Graph_GSEA_KEGG_Pa
 	img<-paste(en,"png",sep=".")
 	png(img)
 	nA<-makeNodeAttrs(mapkG_gsea_kegg_Affy,fillcolor=logcol_gsea_kegg_Affy,width=10,height=1.2)
+	oldpar<-par(no.readonly=TRUE)
+	on.exit(par(oldpar))
 	par(mar=c(3,5,0,5),mgp=c(0,0,0))
 	layout(mat=matrix(c(rep(1,8),2),ncol=1,byrow=TRUE))
 	plot(mapkG_gsea_kegg_Affy,"dot",nodeAttrs=nA)
@@ -4102,7 +3612,7 @@ mbl$Export$Affymetrix$Graph_GSEA_KEGG_Pathways=gaction(label="Graph_GSEA_KEGG_Pa
 	mtext("up-regulation",side=1,at=1,line=1)
 	dev.off()
 	write.table(legend_gsea_kegg_Affy,file=en,sep="\t")
-	setwd(cur_dir)
+	on.exit(setwd(cur_dir))
 }
 )
 #mbl$Export$Affymetrix$Graph_GSTA_GO_Biological_Process$handler=function(h,...)
@@ -4120,7 +3630,7 @@ mbl$Export$Affymetrix$Graph_GSTA_GO_Biological_Process=gaction(label="Graph_GSTA
 	plot(g_gsta_goBP_Affy,nodeAttrs=nAttrs)
 	dev.off()
 	write.table(legend_gsta_goBP_Affy,file=en,sep="\t")
-	setwd(cur_dir)
+	on.exit(setwd(cur_dir))
 }
 )
 #mbl$Export$Affymetrix$Graph_GSTA_GO_Molecular_Function$handler=function(h,...)
@@ -4138,7 +3648,7 @@ mbl$Export$Affymetrix$Graph_GSTA_GO_Molecular_Function=gaction(label="Graph_GSTA
 	plot(g_gsta_goMF_Affy,nodeAttrs=nAttrs)
 	dev.off()
 	write.table(legend_gsta_goMF_Affy,file=en,sep="\t")
-	setwd(cur_dir)
+	on.exit(setwd(cur_dir))
 }
 )
 #mbl$Export$Affymetrix$Graph_GSTA_GO_Cellular_Component$handler=function(h,...)
@@ -4156,7 +3666,7 @@ mbl$Export$Affymetrix$Graph_GSTA_GO_Cellular_Component=gaction(label="Graph_GSTA
 	plot(g_gsta_goCC_Affy,nodeAttrs=nAttrs)
 	dev.off()
 	write.table(legend_gsta_goCC_Affy,file=en,sep="\t")
-	setwd(cur_dir)
+	on.exit(setwd(cur_dir))
 }
 )
 #mbl$Export$Affymetrix$Graph_GSTA_KEGG_Pathways$handler=function(h,...)
@@ -4170,6 +3680,8 @@ mbl$Export$Affymetrix$Graph_GSTA_KEGG_Pathways=gaction(label="Graph_GSTA_KEGG_Pa
 	img<-paste(en,"png",sep=".")
 	png(img)
 	nA<-makeNodeAttrs(mapkG_gsta_kegg_Affy,fillcolor=logcol_gsta_kegg_Affy,width=10,height=1.2)
+	oldpar<-par(no.readonly=TRUE)
+	on.exit(par(oldpar))
 	par(mar=c(3,5,0,5),mgp=c(0,0,0))
 	layout(mat=matrix(c(rep(1,8),2),ncol=1,byrow=TRUE))
 	plot(mapkG_gsta_kegg_Affy,"dot",nodeAttrs=nA)
@@ -4180,7 +3692,7 @@ mbl$Export$Affymetrix$Graph_GSTA_KEGG_Pathways=gaction(label="Graph_GSTA_KEGG_Pa
 	mtext("up-regulation",side=1,at=1,line=1)
 	dev.off()
 	write.table(legend_gsta_kegg_Affy,file=en,sep="\t")
-	setwd(cur_dir)
+	on.exit(setwd(cur_dir))
 }
 )
 #mbl$Export$Affymetrix$Coexpression_Network$handler=function(h,...)
@@ -4195,7 +3707,7 @@ mbl$Export$Affymetrix$Coexpression_Network=gaction(label="Coexpression_Network",
 	png(img)
 	plot(myGraph_Affy,nodeAttrs=makeNodeAttrs(myGraph_Affy,fontsize=18,fillcolor="grey"))
 	dev.off()
-	setwd(cur_dir)
+	on.exit(setwd(cur_dir))
 }
 )
 #mbl$Export$Affymetrix$SSE_Plot$handler=function(h,...)
@@ -4210,7 +3722,7 @@ mbl$Export$Affymetrix$SSE_Plot=gaction(label="SSE_Plot",handler=function(h,...)
 	png(img)
 	ssize.plot(size_Affy,xlim=c(0,20),main=paste("Sample size to detect 2-fold change",sep=""))
 	dev.off()
-	setwd(cur_dir)
+	on.exit(setwd(cur_dir))
 }
 )
 #mbl$Export$Affymetrix$All$handler=function(h,...)
@@ -4251,6 +3763,8 @@ mbl$Export$Affymetrix$All=gaction(label="All",handler=function(h,...)
 	try(({img<-paste(en,".png",sep="_Graph_GSEA_Data_KEGG");
 	png(img);
 	nA<-makeNodeAttrs(mapkG_gsea_kegg_Affy,fillcolor=logcol_gsea_kegg_Affy,width=10,height=1.2)
+	oldpar<-par(no.readonly=TRUE)
+	on.exit(par(oldpar))
 	par(mar=c(3,5,0,5),mgp=c(0,0,0))
 	layout(mat=matrix(c(rep(1,8),2),ncol=1,byrow=TRUE))
 	plot(mapkG_gsea_kegg_Affy,"dot",nodeAttrs=nA)
@@ -4273,6 +3787,8 @@ mbl$Export$Affymetrix$All=gaction(label="All",handler=function(h,...)
 	try(({img<-paste(en,".png",sep="_Graph_GSTA_Data_KEGG");
 	png(img);
 	nA<-makeNodeAttrs(mapkG_gsta_kegg_Affy,fillcolor=logcol_gsta_kegg_Affy,width=10,height=1.2)
+	oldpar<-par(no.readonly=TRUE)
+	on.exit(par(oldpar))
 	par(mar=c(3,5,0,5),mgp=c(0,0,0))
 	layout(mat=matrix(c(rep(1,8),2),ncol=1,byrow=TRUE))
 	plot(mapkG_gsta_kegg_Affy,"dot",nodeAttrs=nA)
@@ -4288,7 +3804,7 @@ mbl$Export$Affymetrix$All=gaction(label="All",handler=function(h,...)
 	try(({img<-paste(en,".png",sep="_Coexpression_Network");png(img);plot(myGraph_Affy,nodeAttrs=makeNodeAttrs(myGraph_Affy,fontsize=18,fillcolor="grey"));
 	dev.off()}),silent=TRUE)	
 #	}),silent=TRUE)
-	setwd(cur_dir)
+	on.exit(setwd(cur_dir))
 }
 )
 
@@ -4301,7 +3817,7 @@ mbl$Export$Agilent_OneColor$Normalized_Data=gaction(label="Normalized_Data",hand
 	folderchoose=NULL
 	setwd(el)
 	write.table(datAgOne2.m,file=en)
-	setwd(cur_dir)
+	on.exit(setwd(cur_dir))
 }
 )
 #mbl$Export$Agilent_OneColor$QC_Data$handler=function(h,...)
@@ -4316,7 +3832,7 @@ mbl$Export$Agilent_OneColor$QC_Data=gaction(label="QC_Data",handler=function(h,.
 	png(img)
 	boxplot(datAgOne2.m)
 	dev.off()
-	setwd(cur_dir)
+	on.exit(setwd(cur_dir))
 }
 )
 #mbl$Export$Agilent_OneColor$Filtered_Data$handler=function(h,...)
@@ -4329,7 +3845,7 @@ mbl$Export$Agilent_OneColor$Filtered_Data=gaction(label="Filtered_Data",handler=
 	setwd(el)
 	ps1<-as.data.frame(datAgOne2.f)
 	write.table(ps1,file=en)
-	setwd(cur_dir)
+	on.exit(setwd(cur_dir))
 }
 )
 #mbl$Export$Agilent_OneColor$Stat_Significant_Data$handler=function(h,...)
@@ -4341,7 +3857,7 @@ mbl$Export$Agilent_OneColor$Stat_Significant_Data=gaction(label="Stat_Significan
 	folderchoose=NULL
 	setwd(el)
 	write.table(datAgOne2.s,file=en,sep="\t")
-	setwd(cur_dir)
+	on.exit(setwd(cur_dir))
 }
 )
 #mbl$Export$Agilent_OneColor$DGE_Data$handler=function(h,...)
@@ -4353,7 +3869,7 @@ mbl$Export$Agilent_OneColor$DGE_Data=gaction(label="DGE_Data",handler=function(h
 	folderchoose=NULL
 	setwd(el)
 	write.table(DE_Ag1,file=en)
-	setwd(cur_dir)
+	on.exit(setwd(cur_dir))
 }
 )
 #mbl$Export$Agilent_OneColor$PCA_Data$handler=function(h,...)
@@ -4368,7 +3884,7 @@ mbl$Export$Agilent_OneColor$PCA_Data=gaction(label="PCA_Data",handler=function(h
 	png(img)
 	plot(pca_Ag1,main="Agilent_OneColor PCA")
 	dev.off()
-	setwd(cur_dir)
+	on.exit(setwd(cur_dir))
 }
 )
 #mbl$Export$Agilent_OneColor$Clusted_Data$handler=function(h,...)
@@ -4383,7 +3899,7 @@ mbl$Export$Agilent_OneColor$Clusted_Data=gaction(label="Clusted_Data",handler=fu
 	png(img)
 	hclust(sample.dist_Ag1,method="complete")
 	dev.off()
-	setwd(cur_dir)
+	on.exit(setwd(cur_dir))
 }
 )
 #mbl$Export$Agilent_OneColor$Classification_Data$handler=function(h,...)
@@ -4399,7 +3915,7 @@ mbl$Export$Agilent_OneColor$Classification_Data=gaction(label="Classification_Da
 	heatmap(Clas_Ag1,margins=c(7,7),Rowv=NA,Colv=NA,cexCol=0.8,cexRow=0.8,col=heatcol)
 	dev.off()
 	write.table(Clas_Ag1,file=en)
-	setwd(cur_dir)
+	on.exit(setwd(cur_dir))
 }
 )
 #mbl$Export$Agilent_OneColor$GSEA_GO_Biological_Process$handler=function(h,...)
@@ -4411,7 +3927,7 @@ mbl$Export$Agilent_OneColor$GSEA_GO_Biological_Process=gaction(label="GSEA_GO_Bi
 	folderchoose=NULL
 	setwd(el)
 	write.table(GOresultBP_Ag1,file=en,sep="\t")
-	setwd(cur_dir)
+	on.exit(setwd(cur_dir))
 }
 )
 #mbl$Export$Agilent_OneColor$GSEA_GO_Molecular_Function$handler=function(h,...)
@@ -4423,7 +3939,7 @@ mbl$Export$Agilent_OneColor$GSEA_GO_Molecular_Function=gaction(label="GSEA_GO_Mo
 	folderchoose=NULL
 	setwd(el)
 	write.table(GOresultMF_Ag1,file=en,sep="\t")
-	setwd(cur_dir)
+	on.exit(setwd(cur_dir))
 }
 )
 #mbl$Export$Agilent_OneColor$GSEA_GO_Cellular_Component$handler=function(h,...)
@@ -4435,7 +3951,7 @@ mbl$Export$Agilent_OneColor$GSEA_GO_Cellular_Component=gaction(label="GSEA_GO_Ce
 	folderchoose=NULL
 	setwd(el)
 	write.table(GOresultCC_Ag1,file=en,sep="\t")
-	setwd(cur_dir)
+	on.exit(setwd(cur_dir))
 }
 )
 #mbl$Export$Agilent_OneColor$GSEA_KEGG_Pathways$handler=function(h,...)
@@ -4447,7 +3963,7 @@ mbl$Export$Agilent_OneColor$GSEA_KEGG_Pathways=gaction(label="GSEA_KEGG_Pathways
 	folderchoose=NULL
 	setwd(el)
 	write.table(KEGGresult_Ag1,file=en,sep="\t")
-	setwd(cur_dir)
+	on.exit(setwd(cur_dir))
 }
 )
 #mbl$Export$Agilent_OneColor$GSTA_GO_Biological_Process$handler=function(h,...)
@@ -4459,7 +3975,7 @@ mbl$Export$Agilent_OneColor$GSTA_GO_Biological_Process=gaction(label="GSTA_GO_Bi
 	folderchoose=NULL
 	setwd(el)
 	write.table(GOtable.outBP_Ag1,file=en,sep="\t")
-	setwd(cur_dir)
+	on.exit(setwd(cur_dir))
 }
 )
 #mbl$Export$Agilent_OneColor$GSTA_GO_Molecular_Function$handler=function(h,...)
@@ -4471,7 +3987,7 @@ mbl$Export$Agilent_OneColor$GSTA_GO_Molecular_Function=gaction(label="GSTA_GO_Mo
 	folderchoose=NULL
 	setwd(el)
 	write.table(GOtable.outMF_Ag1,file=en,sep="\t")
-	setwd(cur_dir)
+	on.exit(setwd(cur_dir))
 }
 )
 #mbl$Export$Agilent_OneColor$GSTA_GO_Cellular_Component$handler=function(h,...)
@@ -4483,7 +3999,7 @@ mbl$Export$Agilent_OneColor$GSTA_GO_Cellular_Component=gaction(label="GSTA_GO_Ce
 	folderchoose=NULL
 	setwd(el)
 	write.table(GOtable.outCC_Ag1,file=en,sep="\t")
-	setwd(cur_dir)
+	on.exit(setwd(cur_dir))
 }
 )
 #mbl$Export$Agilent_OneColor$GSTA_KEGG_Pathways$handler=function(h,...)
@@ -4495,7 +4011,7 @@ mbl$Export$Agilent_OneColor$GSTA_KEGG_Pathways=gaction(label="GSTA_KEGG_Pathways
 	folderchoose=NULL
 	setwd(el)
 	write.table(KEGGtable.out_Ag1,file=en,sep="\t")
-	setwd(cur_dir)
+	on.exit(setwd(cur_dir))
 }
 )
 #mbl$Export$Agilent_OneColor$Identifier_Symbol$handler=function(h,...)
@@ -4507,7 +4023,7 @@ mbl$Export$Agilent_OneColor$Identifier_Symbol=gaction(label="Identifier_Symbol",
 	folderchoose=NULL
 	setwd(el)
 	write.table(genes_Ag1,file=en,sep="\t")
-	setwd(cur_dir)
+	on.exit(setwd(cur_dir))
 }
 )
 #mbl$Export$Agilent_OneColor$Graph_GSEA_GO_Biological_Process$handler=function(h,...)
@@ -4525,7 +4041,7 @@ mbl$Export$Agilent_OneColor$Graph_GSEA_GO_Biological_Process=gaction(label="Grap
 	plot(g_gsea_goBP_Ag1,nodeAttrs=nAttrs)
 	dev.off()
 	write.table(legend_gsea_goBP_Ag1,file=en,sep="\t")
-	setwd(cur_dir)
+	on.exit(setwd(cur_dir))
 }
 )
 #mbl$Export$Agilent_OneColor$Graph_GSEA_GO_Molecular_Function$handler=function(h,...)
@@ -4543,7 +4059,7 @@ mbl$Export$Agilent_OneColor$Graph_GSEA_GO_Molecular_Function=gaction(label="Grap
 	plot(g_gsea_goMF_Ag1,nodeAttrs=nAttrs)
 	dev.off()
 	write.table(legend_gsea_goMF_Ag1,file=en,sep="\t")
-	setwd(cur_dir)
+	on.exit(setwd(cur_dir))
 }
 )
 #mbl$Export$Agilent_OneColor$Graph_GSEA_GO_Cellular_Component$handler=function(h,...)
@@ -4561,7 +4077,7 @@ mbl$Export$Agilent_OneColor$Graph_GSEA_GO_Cellular_Component=gaction(label="Grap
 	plot(g_gsea_goCC_Ag1,nodeAttrs=nAttrs)
 	dev.off()
 	write.table(legend_gsea_goCC_Ag1,file=en,sep="\t")
-	setwd(cur_dir)
+	on.exit(setwd(cur_dir))
 }
 )
 #mbl$Export$Agilent_OneColor$Graph_GSEA_KEGG_Pathways$handler=function(h,...)
@@ -4575,6 +4091,8 @@ mbl$Export$Agilent_OneColor$Graph_GSEA_KEGG_Pathways=gaction(label="Graph_GSEA_K
 	img<-paste(en,"png",sep=".")
 	png(img)
 	nA<-makeNodeAttrs(mapkG_gsea_kegg_Ag1,fillcolor=logcol_gsea_kegg_Ag1,width=10,height=1.2)
+	oldpar<-par(no.readonly=TRUE)
+	on.exit(par(oldpar))
 	par(mar=c(3,5,0,5),mgp=c(0,0,0))
 	layout(mat=matrix(c(rep(1,8),2),ncol=1,byrow=TRUE))
 	plot(mapkG_gsea_kegg_Ag1,"dot",nodeAttrs=nA)
@@ -4585,7 +4103,7 @@ mbl$Export$Agilent_OneColor$Graph_GSEA_KEGG_Pathways=gaction(label="Graph_GSEA_K
 	mtext("up-regulation",side=1,at=1,line=1)
 	dev.off()
 	write.table(legend_gsea_kegg_Ag1,file=en,sep="\t")
-	setwd(cur_dir)
+	on.exit(setwd(cur_dir))
 }
 )
 #mbl$Export$Agilent_OneColor$Graph_GSTA_GO_Biological_Process$handler=function(h,...)
@@ -4603,7 +4121,7 @@ mbl$Export$Agilent_OneColor$Graph_GSTA_GO_Biological_Process=gaction(label="Grap
 	plot(g_gsta_goBP_Ag1,nodeAttrs=nAttrs)
 	dev.off()
 	write.table(legend_gsta_goBP_Ag1,file=en,sep="\t")
-	setwd(cur_dir)
+	on.exit(setwd(cur_dir))
 }
 )
 #mbl$Export$Agilent_OneColor$Graph_GSTA_GO_Molecular_Function$handler=function(h,...)
@@ -4621,7 +4139,7 @@ mbl$Export$Agilent_OneColor$Graph_GSTA_GO_Molecular_Function=gaction(label="Grap
 	plot(g_gsta_goMF_Ag1,nodeAttrs=nAttrs)
 	dev.off()
 	write.table(legend_gsta_goMF_Ag1,file=en,sep="\t")
-	setwd(cur_dir)
+	on.exit(setwd(cur_dir))
 }
 )
 #mbl$Export$Agilent_OneColor$Graph_GSTA_GO_Cellular_Component$handler=function(h,...)
@@ -4639,7 +4157,7 @@ mbl$Export$Agilent_OneColor$Graph_GSTA_GO_Cellular_Component=gaction(label="Grap
 	plot(g_gsta_goCC_Ag1,nodeAttrs=nAttrs)
 	dev.off()
 	write.table(legend_gsta_goCC_Ag1,file=en,sep="\t")
-	setwd(cur_dir)
+	on.exit(setwd(cur_dir))
 }
 )
 #mbl$Export$Agilent_OneColor$Graph_GSTA_KEGG_Pathways$handler=function(h,...)
@@ -4653,6 +4171,8 @@ mbl$Export$Agilent_OneColor$Graph_GSTA_KEGG_Pathways=gaction(label="Graph_GSTA_K
 	img<-paste(en,"png",sep=".")
 	png(img)
 	nA<-makeNodeAttrs(mapkG_gsta_kegg_Ag1,fillcolor=logcol_gsta_kegg_Ag1,width=10,height=1.2)
+	oldpar<-par(no.readonly=TRUE)
+	on.exit(par(oldpar))
 	par(mar=c(3,5,0,5),mgp=c(0,0,0))
 	layout(mat=matrix(c(rep(1,8),2),ncol=1,byrow=TRUE))
 	plot(mapkG_gsta_kegg_Ag1,"dot",nodeAttrs=nA)
@@ -4663,7 +4183,7 @@ mbl$Export$Agilent_OneColor$Graph_GSTA_KEGG_Pathways=gaction(label="Graph_GSTA_K
 	mtext("up-regulation",side=1,at=1,line=1)
 	dev.off()
 	write.table(legend_gsta_kegg_Ag1,file=en,sep="\t")
-	setwd(cur_dir)
+	on.exit(setwd(cur_dir))
 }
 )
 #mbl$Export$Agilent_OneColor$Coexpression_Network_Data$handler=function(h,...)
@@ -4678,7 +4198,7 @@ mbl$Export$Agilent_OneColor$Coexpression_Network_Data=gaction(label="Coexpressio
 	png(img)
 	plot(myGraph_Ag1,nodeAttrs=makeNodeAttrs(myGraph_Ag1,fontsize=18,fillcolor="grey"))
 	dev.off()
-	setwd(cur_dir)
+	on.exit(setwd(cur_dir))
 }
 )
 #mbl$Export$Agilent_OneColor$SSE_Data$handler=function(h,...)
@@ -4693,7 +4213,7 @@ mbl$Export$Agilent_OneColor$SSE_Data=gaction(label="SSE_Data",handler=function(h
 	png(img)
 	ssize.plot(size_Ag1,xlim=c(0,20),main=paste("Sample size to detect 2-fold change",sep=""))
 	dev.off()
-	setwd(cur_dir)
+	on.exit(setwd(cur_dir))
 }
 )
 #mbl$Export$Agilent_OneColor$All$handler=function(h,...)
@@ -4735,6 +4255,8 @@ n<-ginput("Give a name")
 	try(({img<-paste(en,".png",sep="_Graph_GSEA_Data_KEGG");
 	png(img);
 	nA<-makeNodeAttrs(mapkG_gsea_kegg_Ag1,fillcolor=logcol_gsea_kegg_Ag1,width=10,height=1.2)
+	oldpar<-par(no.readonly=TRUE)
+	on.exit(par(oldpar))
 	par(mar=c(3,5,0,5),mgp=c(0,0,0))
 	layout(mat=matrix(c(rep(1,8),2),ncol=1,byrow=TRUE))
 	plot(mapkG_gsea_kegg_Ag1,"dot",nodeAttrs=nA)
@@ -4757,6 +4279,8 @@ n<-ginput("Give a name")
 	try(({img<-paste(en,".png",sep="_Graph_GSTA_Data_KEGG");
 	png(img);
 	nA<-makeNodeAttrs(mapkG_gsta_kegg_Ag1,fillcolor=logcol_gsta_kegg_Ag1,width=10,height=1.2)
+	oldpar<-par(no.readonly=TRUE)
+	on.exit(par(oldpar))
 	par(mar=c(3,5,0,5),mgp=c(0,0,0))
 	layout(mat=matrix(c(rep(1,8),2),ncol=1,byrow=TRUE))
 	plot(mapkG_gsta_kegg_Ag1,"dot",nodeAttrs=nA)
@@ -4772,7 +4296,7 @@ n<-ginput("Give a name")
 	try(({img<-paste(en,".png",sep="_Coexpression_Network");png(img);plot(myGraph_Ag1,nodeAttrs=makeNodeAttrs(myGraph_Ag1,fontsize=18,fillcolor="grey"));
 	dev.off()}),silent=TRUE)	
 #	}),silent=TRUE)
-	setwd(cur_dir)
+	on.exit(setwd(cur_dir))
 }
 )
 
@@ -4785,7 +4309,7 @@ mbl$Export$Agilent_TwoColor$Normalized_Data=gaction(label="Normalized_Data",hand
 	folderchoose=NULL
 	setwd(el)
 	write.table(datAgTwo2.m,file=en)
-	setwd(cur_dir)
+	on.exit(setwd(cur_dir))
 }
 )
 #mbl$Export$Agilent_TwoColor$QC_Data$handler=function(h,...)
@@ -4800,7 +4324,7 @@ mbl$Export$Agilent_TwoColor$QC_Data=gaction(label="QC_Data",handler=function(h,.
 	png(img)
 	plotMA3by2(datAgTwo2.m,device="png")
 	dev.off()
-	setwd(cur_dir)
+	on.exit(setwd(cur_dir))
 }
 )
 #mbl$Export$Agilent_TwoColor$Filtered_Data$handler=function(h,...)
@@ -4813,7 +4337,7 @@ mbl$Export$Agilent_TwoColor$Filtered_Data=gaction(label="Filtered_Data",handler=
 	setwd(el)
 	ps1<-as.data.frame(datAgTwo2.f)
 	write.table(ps1,file=en)
-	setwd(cur_dir)
+	on.exit(setwd(cur_dir))
 }
 )
 #mbl$Export$Agilent_TwoColor$Stat_Significant_Data$handler=function(h,...)
@@ -4825,7 +4349,7 @@ mbl$Export$Agilent_TwoColor$Stat_Significant_Data=gaction(label="Stat_Significan
 	folderchoose=NULL
 	setwd(el)
 	write.table(datAgTwo2.s,file=en,sep="\t")
-	setwd(cur_dir)
+	on.exit(setwd(cur_dir))
 }
 )
 #mbl$Export$Agilent_TwoColor$DGE_Data$handler=function(h,...)
@@ -4837,7 +4361,7 @@ mbl$Export$Agilent_TwoColor$DGE_Data=gaction(label="DGE_Data",handler=function(h
 	folderchoose=NULL
 	setwd(el)
 	write.table(DE_Ag2,file=en)
-	setwd(cur_dir)
+	on.exit(setwd(cur_dir))
 }
 )
 #mbl$Export$Agilent_TwoColor$PCA_Data$handler=function(h,...)
@@ -4852,7 +4376,7 @@ mbl$Export$Agilent_TwoColor$PCA_Data=gaction(label="PCA_Data",handler=function(h
 	png(img)
 	plot(pca_Ag2,main="Agilent_TwoColor PCA")
 	dev.off()
-	setwd(cur_dir)
+	on.exit(setwd(cur_dir))
 }
 )
 #mbl$Export$Agilent_TwoColor$Clusted_Data$handler=function(h,...)
@@ -4867,7 +4391,7 @@ mbl$Export$Agilent_TwoColor$Clusted_Data=gaction(label="Clusted_Data",handler=fu
 	png(img)
 	hclust(sample.dist_Ag2,method="complete")
 	dev.off()
-	setwd(cur_dir)
+	on.exit(setwd(cur_dir))
 }
 )
 #mbl$Export$Agilent_TwoColor$Classification_Data$handler=function(h,...)
@@ -4883,7 +4407,7 @@ mbl$Export$Agilent_TwoColor$Classification_Data=gaction(label="Classification_Da
 	heatmap(Clas_Ag2,margins=c(7,7),Rowv=NA,Colv=NA,cexCol=0.8,cexRow=0.8,col=heatcol)
 	dev.off()
 	write.table(Clas_Ag2,file=en)
-	setwd(cur_dir)
+	on.exit(setwd(cur_dir))
 }
 )
 #mbl$Export$Agilent_TwoColor$GSEA_GO_Biological_Process$handler=function(h,...)
@@ -4895,7 +4419,7 @@ mbl$Export$Agilent_TwoColor$GSEA_GO_Biological_Process=gaction(label="GSEA_GO_Bi
 	folderchoose=NULL
 	setwd(el)
 	write.table(GOresultBP_Ag2,file=en,sep="\t")
-	setwd(cur_dir)
+	on.exit(setwd(cur_dir))
 }
 )
 #mbl$Export$Agilent_TwoColor$GSEA_GO_Molecular_Function$handler=function(h,...)
@@ -4907,7 +4431,7 @@ mbl$Export$Agilent_TwoColor$GSEA_GO_Molecular_Function=gaction(label="GSEA_GO_Mo
 	folderchoose=NULL
 	setwd(el)
 	write.table(GOresultMF_Ag2,file=en,sep="\t")
-	setwd(cur_dir)
+	on.exit(setwd(cur_dir))
 }
 )
 #mbl$Export$Agilent_TwoColor$GSEA_GO_Cellular_Component$handler=function(h,...)
@@ -4919,7 +4443,7 @@ mbl$Export$Agilent_TwoColor$GSEA_GO_Cellular_Component=gaction(label="GSEA_GO_Ce
 	folderchoose=NULL
 	setwd(el)
 	write.table(GOresultCC_Ag2,file=en,sep="\t")
-	setwd(cur_dir)
+	on.exit(setwd(cur_dir))
 }
 )
 #mbl$Export$Agilent_TwoColor$GSEA_KEGG_Pathways$handler=function(h,...)
@@ -4931,7 +4455,7 @@ mbl$Export$Agilent_TwoColor$GSEA_KEGG_Pathways=gaction(label="GSEA_KEGG_Pathways
 	folderchoose=NULL
 	setwd(el)
 	write.table(KEGGresult_Ag2,file=en,sep="\t")
-	setwd(cur_dir)
+	on.exit(setwd(cur_dir))
 }
 )
 #mbl$Export$Agilent_TwoColor$GSTA_GO_Biological_Process$handler=function(h,...)
@@ -4943,7 +4467,7 @@ mbl$Export$Agilent_TwoColor$GSTA_GO_Biological_Process=gaction(label="GSTA_GO_Bi
 	folderchoose=NULL
 	setwd(el)
 	write.table(GOtable.outBP_Ag2,file=en,sep="\t")
-	setwd(cur_dir)
+	on.exit(setwd(cur_dir))
 }
 )
 #mbl$Export$Agilent_TwoColor$GSTA_GO_Molecular_Function$handler=function(h,...)
@@ -4955,7 +4479,7 @@ mbl$Export$Agilent_TwoColor$GSTA_GO_Molecular_Function=gaction(label="GSTA_GO_Mo
 	folderchoose=NULL
 	setwd(el)
 	write.table(GOtable.outMF_Ag2,file=en,sep="\t")
-	setwd(cur_dir)
+	on.exit(setwd(cur_dir))
 }
 )
 #mbl$Export$Agilent_TwoColor$GSTA_GO_Cellular_Component$handler=function(h,...)
@@ -4967,7 +4491,7 @@ mbl$Export$Agilent_TwoColor$GSTA_GO_Cellular_Component=gaction(label="GSTA_GO_Ce
 	folderchoose=NULL
 	setwd(el)
 	write.table(GOtable.outCC_Ag2,file=en,sep="\t")
-	setwd(cur_dir)
+	on.exit(setwd(cur_dir))
 }
 )
 #mbl$Export$Agilent_TwoColor$GSTA_KEGG_Pathways$handler=function(h,...)
@@ -4979,7 +4503,7 @@ mbl$Export$Agilent_TwoColor$GSTA_KEGG_Pathways=gaction(label="GSTA_KEGG_Pathways
 	folderchoose=NULL
 	setwd(el)
 	write.table(KEGGtable.out_Ag2,file=en,sep="\t")
-	setwd(cur_dir)
+	on.exit(setwd(cur_dir))
 }
 )
 #mbl$Export$Agilent_TwoColor$Identifier_Symbol$handler=function(h,...)
@@ -4991,7 +4515,7 @@ mbl$Export$Agilent_TwoColor$Identifier_Symbol=gaction(label="Identifier_Symbol",
 	folderchoose=NULL
 	setwd(el)
 	write.table(genes_Ag2,file=en,sep="\t")
-	setwd(cur_dir)
+	on.exit(setwd(cur_dir))
 }
 )
 #mbl$Export$Agilent_TwoColor$Graph_GSEA_GO_Biological_Process$handler=function(h,...)
@@ -5009,7 +4533,7 @@ mbl$Export$Agilent_TwoColor$Graph_GSEA_GO_Biological_Process=gaction(label="Grap
 	plot(g_gsea_goBP_Ag2,nodeAttrs=nAttrs)
 	dev.off()
 	write.table(legend_gsea_goBP_Ag2,file=en,sep="\t")
-	setwd(cur_dir)
+	on.exit(setwd(cur_dir))
 }
 )
 #mbl$Export$Agilent_TwoColor$Graph_GSEA_GO_Molecular_Function$handler=function(h,...)
@@ -5027,7 +4551,7 @@ mbl$Export$Agilent_TwoColor$Graph_GSEA_GO_Molecular_Function=gaction(label="Grap
 	plot(g_gsea_goMF_Ag2,nodeAttrs=nAttrs)
 	dev.off()
 	write.table(legend_gsea_goMF_Ag2,file=en,sep="\t")
-	setwd(cur_dir)
+	on.exit(setwd(cur_dir))
 }
 )
 #mbl$Export$Agilent_TwoColor$Graph_GSEA_GO_Cellular_Component$handler=function(h,...)
@@ -5045,7 +4569,7 @@ mbl$Export$Agilent_TwoColor$Graph_GSEA_GO_Cellular_Component=gaction(label="Grap
 	plot(g_gsea_goCC_Ag2,nodeAttrs=nAttrs)
 	dev.off()
 	write.table(legend_gsea_goCC_Ag2,file=en,sep="\t")
-	setwd(cur_dir)
+	on.exit(setwd(cur_dir))
 }
 )
 #mbl$Export$Agilent_TwoColor$Graph_GSEA_KEGG_Pathways$handler=function(h,...)
@@ -5059,6 +4583,8 @@ mbl$Export$Agilent_TwoColor$Graph_GSEA_KEGG_Pathways=gaction(label="Graph_GSEA_K
 	img<-paste(en,"png",sep=".")
 	png(img)
 	nA<-makeNodeAttrs(mapkG_gsea_kegg_Ag2,fillcolor=logcol_gsea_kegg_Ag2,width=10,height=1.2)
+	oldpar<-par(no.readonly=TRUE)
+	on.exit(par(oldpar))
 	par(mar=c(3,5,0,5),mgp=c(0,0,0))
 	layout(mat=matrix(c(rep(1,8),2),ncol=1,byrow=TRUE))
 	plot(mapkG_gsea_kegg_Ag2,"dot",nodeAttrs=nA)
@@ -5069,7 +4595,7 @@ mbl$Export$Agilent_TwoColor$Graph_GSEA_KEGG_Pathways=gaction(label="Graph_GSEA_K
 	mtext("up-regulation",side=1,at=1,line=1)
 	dev.off()
 	write.table(legend_gsea_kegg_Ag2,file=en,sep="\t")
-	setwd(cur_dir)
+	on.exit(setwd(cur_dir))
 }
 )
 #mbl$Export$Agilent_TwoColor$Graph_GSTA_GO_Biological_Process$handler=function(h,...)
@@ -5087,7 +4613,7 @@ mbl$Export$Agilent_TwoColor$Graph_GSTA_GO_Biological_Process=gaction(label="Grap
 	plot(g_gsta_goBP_Ag2,nodeAttrs=nAttrs)
 	dev.off()
 	write.table(legend_gsta_goBP_Ag2,file=en,sep="\t")
-	setwd(cur_dir)
+	on.exit(setwd(cur_dir))
 }
 )
 #mbl$Export$Agilent_TwoColor$Graph_GSTA_GO_Molecular_Function$handler=function(h,...)
@@ -5105,7 +4631,7 @@ mbl$Export$Agilent_TwoColor$Graph_GSTA_GO_Molecular_Function=gaction(label="Grap
 	plot(g_gsta_goMF_Ag2,nodeAttrs=nAttrs)
 	dev.off()
 	write.table(legend_gsta_goMF_Ag2,file=en,sep="\t")
-	setwd(cur_dir)
+	on.exit(setwd(cur_dir))
 }
 )
 #mbl$Export$Agilent_TwoColor$Graph_GSTA_GO_Cellular_Component$handler=function(h,...)
@@ -5123,7 +4649,7 @@ mbl$Export$Agilent_TwoColor$Graph_GSTA_GO_Cellular_Component=gaction(label="Grap
 	plot(g_gsta_goCC_Ag2,nodeAttrs=nAttrs)
 	dev.off()
 	write.table(legend_gsta_goCC_Ag2,file=en,sep="\t")
-	setwd(cur_dir)
+	on.exit(setwd(cur_dir))
 }
 )
 #mbl$Export$Agilent_TwoColor$Graph_GSTA_KEGG_Pathways$handler=function(h,...)
@@ -5137,6 +4663,8 @@ mbl$Export$Agilent_TwoColor$Graph_GSTA_KEGG_Pathways=gaction(label="Graph_GSTA_K
 	img<-paste(en,"png",sep=".")
 	png(img)
 	nA<-makeNodeAttrs(mapkG_gsta_kegg_Ag2,fillcolor=logcol_gsta_kegg_Ag2,width=10,height=1.2)
+	oldpar<-par(no.readonly=TRUE)
+	on.exit(par(oldpar))
 	par(mar=c(3,5,0,5),mgp=c(0,0,0))
 	layout(mat=matrix(c(rep(1,8),2),ncol=1,byrow=TRUE))
 	plot(mapkG_gsta_kegg_Ag2,"dot",nodeAttrs=nA)
@@ -5147,7 +4675,7 @@ mbl$Export$Agilent_TwoColor$Graph_GSTA_KEGG_Pathways=gaction(label="Graph_GSTA_K
 	mtext("up-regulation",side=1,at=1,line=1)
 	dev.off()
 	write.table(legend_gsta_kegg_Ag2,file=en,sep="\t")
-	setwd(cur_dir)
+	on.exit(setwd(cur_dir))
 }
 )
 #mbl$Export$Agilent_TwoColor$Coexpression_Network_Data$handler=function(h,...)
@@ -5162,7 +4690,7 @@ mbl$Export$Agilent_TwoColor$Coexpression_Network_Data=gaction(label="Coexpressio
 	png(img)
 	plot(myGraph_Ag2,nodeAttrs=makeNodeAttrs(myGraph_Ag2,fontsize=18,fillcolor="grey"))
 	dev.off()
-	setwd(cur_dir)
+	on.exit(setwd(cur_dir))
 }
 )
 #mbl$Export$Agilent_TwoColor$SSE_Data$handler=function(h,...)
@@ -5177,7 +4705,7 @@ mbl$Export$Agilent_TwoColor$SSE_Data=gaction(label="SSE_Data",handler=function(h
 	png(img)
 	ssize.plot(size_Ag2,xlim=c(0,20),main=paste("Sample size to detect 2-fold change",sep=""))
 	dev.off()
-	setwd(cur_dir)
+	on.exit(setwd(cur_dir))
 }
 )
 #mbl$Export$Agilent_TwoColor$All$handler=function(h,...)
@@ -5219,6 +4747,8 @@ mbl$Export$Agilent_TwoColor$All=gaction(label="All",handler=function(h,...)
 	try(({img<-paste(en,".png",sep="_Graph_GSEA_Data_KEGG");
 	png(img);
 	nA<-makeNodeAttrs(mapkG_gsea_kegg_Ag2,fillcolor=logcol_gsea_kegg_Ag2,width=10,height=1.2)
+	oldpar<-par(no.readonly=TRUE)
+	on.exit(par(oldpar))
 	par(mar=c(3,5,0,5),mgp=c(0,0,0))
 	layout(mat=matrix(c(rep(1,8),2),ncol=1,byrow=TRUE))
 	plot(mapkG_gsea_kegg_Ag2,"dot",nodeAttrs=nA)
@@ -5241,6 +4771,8 @@ mbl$Export$Agilent_TwoColor$All=gaction(label="All",handler=function(h,...)
 	try(({img<-paste(en,".png",sep="_Graph_GSTA_Data_KEGG");
 	png(img);
 	nA<-makeNodeAttrs(mapkG_gsta_kegg_Ag2,fillcolor=logcol_gsta_kegg_Ag2,width=10,height=1.2)
+	oldpar<-par(no.readonly=TRUE)
+	on.exit(par(oldpar))
 	par(mar=c(3,5,0,5),mgp=c(0,0,0))
 	layout(mat=matrix(c(rep(1,8),2),ncol=1,byrow=TRUE))
 	plot(mapkG_gsta_kegg_Ag2,"dot",nodeAttrs=nA)
@@ -5256,7 +4788,7 @@ mbl$Export$Agilent_TwoColor$All=gaction(label="All",handler=function(h,...)
 	try(({img<-paste(en,".png",sep="_Coexpression_Network");png(img);plot(myGraph_Ag2,nodeAttrs=makeNodeAttrs(myGraph_Ag2,fontsize=18,fillcolor="grey"));
 	dev.off()}),silent=TRUE)	
 #	}),silent=TRUE)
-	setwd(cur_dir)
+	on.exit(setwd(cur_dir))
 }
 )
 
@@ -5269,7 +4801,7 @@ mbl$Export$Illumina_Beadarray$Normalized_Data=gaction(label="Normalized_Data",ha
 	folderchoose=NULL
 	setwd(el)
 	write.table(datIllBA2.m2,file=en)
-	setwd(cur_dir)
+	on.exit(setwd(cur_dir))
 }
 )
 #mbl$Export$Illumina_Beadarray$QC_Data$handler=function(h,...)
@@ -5284,7 +4816,7 @@ mbl$Export$Illumina_Beadarray$QC_Data=gaction(label="QC_Data",handler=function(h
 	png(img)
 	boxplot(datIllBA2.m2)
 	dev.off()
-	setwd(cur_dir)
+	on.exit(setwd(cur_dir))
 }
 )
 #mbl$Export$Illumina_Beadarray$Filtered_Data$handler=function(h,...)
@@ -5297,7 +4829,7 @@ mbl$Export$Illumina_Beadarray$Filtered_Data=gaction(label="Filtered_Data",handle
 	setwd(el)
 	ps1<-as.data.frame(datIllBA2.f)
 	write.table(ps1,file=en)
-	setwd(cur_dir)
+	on.exit(setwd(cur_dir))
 }
 )
 #mbl$Export$Illumina_Beadarray$Stat_Significant_Data$handler=function(h,...)
@@ -5309,7 +4841,7 @@ mbl$Export$Illumina_Beadarray$Stat_Significant_Data=gaction(label="Stat_Signific
 	folderchoose=NULL
 	setwd(el)
 	write.table(datIllBA2.s,file=en,sep="\t")
-	setwd(cur_dir)
+	on.exit(setwd(cur_dir))
 }
 )
 #mbl$Export$Illumina_Beadarray$DGE_Data$handler=function(h,...)
@@ -5321,7 +4853,7 @@ mbl$Export$Illumina_Beadarray$DGE_Data=gaction(label="DGE_Data",handler=function
 	folderchoose=NULL
 	setwd(el)
 	write.table(DE_Il_B,file=en)
-	setwd(cur_dir)
+	on.exit(setwd(cur_dir))
 }
 )
 #mbl$Export$Illumina_Beadarray$PCA_Data$handler=function(h,...)
@@ -5336,7 +4868,7 @@ mbl$Export$Illumina_Beadarray$PCA_Data=gaction(label="PCA_Data",handler=function
 	png(img)
 	plot(pca_Il_B,main="Illumina_Beadarray PCA")
 	dev.off()
-	setwd(cur_dir)
+	on.exit(setwd(cur_dir))
 }
 )
 #mbl$Export$Illumina_Beadarray$Clusted_Data$handler=function(h,...)
@@ -5351,7 +4883,7 @@ mbl$Export$Illumina_Beadarray$Clusted_Data=gaction(label="Clusted_Data",handler=
 	png(img)
 	hclust(sample.dist_Il_B,method="complete")
 	dev.off()
-	setwd(cur_dir)
+	on.exit(setwd(cur_dir))
 }
 )
 #mbl$Export$Illumina_Beadarray$Classification_Data$handler=function(h,...)
@@ -5367,7 +4899,7 @@ mbl$Export$Illumina_Beadarray$Classification_Data=gaction(label="Classification_
 	heatmap(Clas_Il_B,margins=c(7,7),Rowv=NA,Colv=NA,cexCol=0.8,cexRow=0.8,col=heatcol)
 	dev.off()
 	write.table(Clas_Il_B,file=en)
-	setwd(cur_dir)
+	on.exit(setwd(cur_dir))
 }
 )
 #mbl$Export$Illumina_Beadarray$GSEA_GO_Biological_Process$handler=function(h,...)
@@ -5379,7 +4911,7 @@ mbl$Export$Illumina_Beadarray$GSEA_GO_Biological_Process=gaction(label="GSEA_GO_
 	folderchoose=NULL
 	setwd(el)
 	write.table(GOresultBP_Il_B,file=en,sep="\t")
-	setwd(cur_dir)
+	on.exit(setwd(cur_dir))
 }
 )
 #mbl$Export$Illumina_Beadarray$GSEA_GO_Molecular_Function$handler=function(h,...)
@@ -5391,7 +4923,7 @@ mbl$Export$Illumina_Beadarray$GSEA_GO_Molecular_Function=gaction(label="GSEA_GO_
 	folderchoose=NULL
 	setwd(el)
 	write.table(GOresultMF_Il_B,file=en,sep="\t")
-	setwd(cur_dir)
+	on.exit(setwd(cur_dir))
 }
 )
 #mbl$Export$Illumina_Beadarray$GSEA_GO_Cellular_Component$handler=function(h,...)
@@ -5403,7 +4935,7 @@ mbl$Export$Illumina_Beadarray$GSEA_GO_Cellular_Component=gaction(label="GSEA_GO_
 	folderchoose=NULL
 	setwd(el)
 	write.table(GOresultCC_Il_B,file=en,sep="\t")
-	setwd(cur_dir)
+	on.exit(setwd(cur_dir))
 }
 )
 #mbl$Export$Illumina_Beadarray$GSEA_KEGG_Pathways$handler=function(h,...)
@@ -5415,7 +4947,7 @@ mbl$Export$Illumina_Beadarray$GSEA_KEGG_Pathways=gaction(label="GSEA_KEGG_Pathwa
 	folderchoose=NULL
 	setwd(el)
 	write.table(KEGGresult_Il_B,file=en,sep="\t")
-	setwd(cur_dir)
+	on.exit(setwd(cur_dir))
 }
 )
 #mbl$Export$Illumina_Beadarray$GSTA_GO_Biological_Process$handler=function(h,...)
@@ -5427,7 +4959,7 @@ mbl$Export$Illumina_Beadarray$GSTA_GO_Biological_Process=gaction(label="GSTA_GO_
 	folderchoose=NULL
 	setwd(el)
 	write.table(GOtable.outBP_Il_B,file=en,sep="\t")
-	setwd(cur_dir)
+	on.exit(setwd(cur_dir))
 }
 )
 #mbl$Export$Illumina_Beadarray$GSTA_GO_Molecular_Function$handler=function(h,...)
@@ -5439,7 +4971,7 @@ mbl$Export$Illumina_Beadarray$GSTA_GO_Molecular_Function=gaction(label="GSTA_GO_
 	folderchoose=NULL
 	setwd(el)
 	write.table(GOtable.outMF_Il_B,file=en,sep="\t")
-	setwd(cur_dir)
+	on.exit(setwd(cur_dir))
 }
 )
 #mbl$Export$Illumina_Beadarray$GSTA_GO_Cellular_Component$handler=function(h,...)
@@ -5451,7 +4983,7 @@ mbl$Export$Illumina_Beadarray$GSTA_GO_Cellular_Component=gaction(label="GSTA_GO_
 	folderchoose=NULL
 	setwd(el)
 	write.table(GOtable.outCC_Il_B,file=en,sep="\t")
-	setwd(cur_dir)
+	on.exit(setwd(cur_dir))
 }
 )
 #mbl$Export$Illumina_Beadarray$GSTA_KEGG_Pathways$handler=function(h,...)
@@ -5463,7 +4995,7 @@ mbl$Export$Illumina_Beadarray$GSTA_KEGG_Pathways=gaction(label="GSTA_KEGG_Pathwa
 	folderchoose=NULL
 	setwd(el)
 	write.table(KEGGtable.out_Il_B,file=en,sep="\t")
-	setwd(cur_dir)
+	on.exit(setwd(cur_dir))
 }
 )
 #mbl$Export$Illumina_Beadarray$Identifier_Symbol$handler=function(h,...)
@@ -5475,7 +5007,7 @@ mbl$Export$Illumina_Beadarray$Identifier_Symbol=gaction(label="Identifier_Symbol
 	folderchoose=NULL
 	setwd(el)
 	write.table(genes_Il_B,file=en,sep="\t")
-	setwd(cur_dir)
+	on.exit(setwd(cur_dir))
 }
 )
 #mbl$Export$Illumina_Beadarray$Graph_GSEA_GO_Biological_Process$handler=function(h,...)
@@ -5493,7 +5025,7 @@ mbl$Export$Illumina_Beadarray$Graph_GSEA_GO_Biological_Process=gaction(label="Gr
 	plot(g_gsea_goBP_Il_B,nodeAttrs=nAttrs)
 	dev.off()
 	write.table(legend_gsea_goBP_Il_B,file=en,sep="\t")
-	setwd(cur_dir)
+	on.exit(setwd(cur_dir))
 }
 )
 #mbl$Export$Illumina_Beadarray$Graph_GSEA_GO_Molecular_Function$handler=function(h,...)
@@ -5511,7 +5043,7 @@ mbl$Export$Illumina_Beadarray$Graph_GSEA_GO_Molecular_Function=gaction(label="Gr
 	plot(g_gsea_goMF_Il_B,nodeAttrs=nAttrs)
 	dev.off()
 	write.table(legend_gsea_goMF_Il_B,file=en,sep="\t")
-	setwd(cur_dir)
+	on.exit(setwd(cur_dir))
 }
 )
 #mbl$Export$Illumina_Beadarray$Graph_GSEA_GO_Cellular_Component$handler=function(h,...)
@@ -5529,7 +5061,7 @@ mbl$Export$Illumina_Beadarray$Graph_GSEA_GO_Cellular_Component=gaction(label="Gr
 	plot(g_gsea_goCC_Il_B,nodeAttrs=nAttrs)
 	dev.off()
 	write.table(legend_gsea_goCC_Il_B,file=en,sep="\t")
-	setwd(cur_dir)
+	on.exit(setwd(cur_dir))
 }
 )
 #mbl$Export$Illumina_Beadarray$Graph_GSEA_KEGG_Pathways$handler=function(h,...)
@@ -5543,6 +5075,8 @@ mbl$Export$Illumina_Beadarray$Graph_GSEA_KEGG_Pathways=gaction(label="Graph_GSEA
 	img<-paste(en,"png",sep=".")
 	png(img)
 	nA<-makeNodeAttrs(mapkG_gsea_kegg_Il_B,fillcolor=logcol_gsea_kegg_Il_B,width=10,height=1.2)
+	oldpar<-par(no.readonly=TRUE)
+	on.exit(par(oldpar))
 	par(mar=c(3,5,0,5),mgp=c(0,0,0))
 	layout(mat=matrix(c(rep(1,8),2),ncol=1,byrow=TRUE))
 	plot(mapkG_gsea_kegg_Il_B,"dot",nodeAttrs=nA)
@@ -5553,7 +5087,7 @@ mbl$Export$Illumina_Beadarray$Graph_GSEA_KEGG_Pathways=gaction(label="Graph_GSEA
 	mtext("up-regulation",side=1,at=1,line=1)
 	dev.off()
 	write.table(legend_gsea_kegg_Il_B,file=en,sep="\t")
-	setwd(cur_dir)
+	on.exit(setwd(cur_dir))
 }
 )
 #mbl$Export$Illumina_Beadarray$Graph_GSTA_GO_Biological_Process$handler=function(h,...)
@@ -5571,7 +5105,7 @@ mbl$Export$Illumina_Beadarray$Graph_GSTA_GO_Biological_Process=gaction(label="Gr
 	plot(g_gsta_goBP_Il_B,nodeAttrs=nAttrs)
 	dev.off()
 	write.table(legend_gsta_goBP_Il_B,file=en,sep="\t")
-	setwd(cur_dir)
+	on.exit(setwd(cur_dir))
 }
 )
 #mbl$Export$Illumina_Beadarray$Graph_GSTA_GO_Molecular_Function$handler=function(h,...)
@@ -5589,7 +5123,7 @@ mbl$Export$Illumina_Beadarray$Graph_GSTA_GO_Molecular_Function=gaction(label="Gr
 	plot(g_gsta_goMF_Il_B,nodeAttrs=nAttrs)
 	dev.off()
 	write.table(legend_gsta_goMF_Il_B,file=en,sep="\t")
-	setwd(cur_dir)
+	on.exit(setwd(cur_dir))
 }
 )
 #mbl$Export$Illumina_Beadarray$Graph_GSTA_GO_Cellular_Component$handler=function(h,...)
@@ -5607,7 +5141,7 @@ mbl$Export$Illumina_Beadarray$Graph_GSTA_GO_Cellular_Component=gaction(label="Gr
 	plot(g_gsta_goCC_Il_B,nodeAttrs=nAttrs)
 	dev.off()
 	write.table(legend_gsta_goCC_Il_B,file=en,sep="\t")
-	setwd(cur_dir)
+	on.exit(setwd(cur_dir))
 }
 )
 #mbl$Export$Illumina_Beadarray$Graph_GSTA_KEGG_Pathways$handler=function(h,...)
@@ -5621,6 +5155,8 @@ mbl$Export$Illumina_Beadarray$Graph_GSTA_KEGG_Pathways=gaction(label="Graph_GSTA
 	img<-paste(en,"png",sep=".")
 	png(img)
 	nA<-makeNodeAttrs(mapkG_gsta_kegg_Il_B,fillcolor=logcol_gsta_kegg_Il_B,width=10,height=1.2)
+	oldpar<-par(no.readonly=TRUE)
+	on.exit(par(oldpar))
 	par(mar=c(3,5,0,5),mgp=c(0,0,0))
 	layout(mat=matrix(c(rep(1,8),2),ncol=1,byrow=TRUE))
 	plot(mapkG_gsta_kegg_Il_B,"dot",nodeAttrs=nA)
@@ -5631,7 +5167,7 @@ mbl$Export$Illumina_Beadarray$Graph_GSTA_KEGG_Pathways=gaction(label="Graph_GSTA
 	mtext("up-regulation",side=1,at=1,line=1)
 	dev.off()
 	write.table(legend_gsta_kegg_Il_B,file=en,sep="\t")
-	setwd(cur_dir)
+	on.exit(setwd(cur_dir))
 }
 )
 #mbl$Export$Illumina_Beadarray$Coexpression_Network_Data$handler=function(h,...)
@@ -5646,7 +5182,7 @@ mbl$Export$Illumina_Beadarray$Coexpression_Network_Data=gaction(label="Coexpress
 	png(img)
 	plot(myGraph_Il_B,nodeAttrs=makeNodeAttrs(myGraph_Il_B,fontsize=18,fillcolor="grey"))
 	dev.off()
-	setwd(cur_dir)
+	on.exit(setwd(cur_dir))
 }
 )
 #mbl$Export$Illumina_Beadarray$SSE_Data$handler=function(h,...)
@@ -5661,7 +5197,7 @@ mbl$Export$Illumina_Beadarray$SSE_Data=gaction(label="SSE_Data",handler=function
 	png(img)
 	ssize.plot(size_Il_B,xlim=c(0,20),main=paste("Sample size to detect 2-fold change",sep=""))
 	dev.off()
-	setwd(cur_dir)
+	on.exit(setwd(cur_dir))
 }
 )
 #mbl$Export$Illumina_Beadarray$All$handler=function(h,...)
@@ -5703,6 +5239,8 @@ mbl$Export$Illumina_Beadarray$All=gaction(label="All",handler=function(h,...)
 	try(({img<-paste(en,".png",sep="_Graph_GSEA_Data_KEGG");
 	png(img);
 	nA<-makeNodeAttrs(mapkG_gsea_kegg_Il_B,fillcolor=logcol_gsea_kegg_Il_B,width=10,height=1.2)
+	oldpar<-par(no.readonly=TRUE)
+	on.exit(par(oldpar))
 	par(mar=c(3,5,0,5),mgp=c(0,0,0))
 	layout(mat=matrix(c(rep(1,8),2),ncol=1,byrow=TRUE))
 	plot(mapkG_gsea_kegg_Il_B,"dot",nodeAttrs=nA)
@@ -5725,6 +5263,8 @@ mbl$Export$Illumina_Beadarray$All=gaction(label="All",handler=function(h,...)
 	try(({img<-paste(en,".png",sep="_Graph_GSTA_Data_KEGG");
 	png(img);
 	nA<-makeNodeAttrs(mapkG_gsta_kegg_Il_B,fillcolor=logcol_gsta_kegg_Il_B,width=10,height=1.2)
+	oldpar<-par(no.readonly=TRUE)
+	on.exit(par(oldpar))
 	par(mar=c(3,5,0,5),mgp=c(0,0,0))
 	layout(mat=matrix(c(rep(1,8),2),ncol=1,byrow=TRUE))
 	plot(mapkG_gsta_kegg_Il_B,"dot",nodeAttrs=nA)
@@ -5740,7 +5280,7 @@ mbl$Export$Illumina_Beadarray$All=gaction(label="All",handler=function(h,...)
 	try(({img<-paste(en,".png",sep="_Coexpression_Network");png(img);plot(myGraph_Il_B,nodeAttrs=makeNodeAttrs(myGraph_Il_B,fontsize=18,fillcolor="grey"));
 	dev.off()}),silent=TRUE)	
 #	}),silent=TRUE)
-	setwd(cur_dir)
+	on.exit(setwd(cur_dir))
 }
 )
 
@@ -5753,7 +5293,7 @@ mbl$Export$Illumina_Lumi$Normalized_Data=gaction(label="Normalized_Data",handler
 	folderchoose=NULL
 	setwd(el)
 	write.table(lumi_NQ.m,file=en)
-	setwd(cur_dir)
+	on.exit(setwd(cur_dir))
 }
 )
 #mbl$Export$Illumina_Lumi$QC_Data$handler=function(h,...)
@@ -5768,7 +5308,7 @@ mbl$Export$Illumina_Lumi$QC_Data=gaction(label="QC_Data",handler=function(h,...)
 	png(img)
 	plot(lumi_NQ.m,what="boxplot")
 	dev.off()
-	setwd(cur_dir)
+	on.exit(setwd(cur_dir))
 }
 )
 #mbl$Export$Illumina_Lumi$Filtered_Data$handler=function(h,...)
@@ -5781,7 +5321,7 @@ mbl$Export$Illumina_Lumi$Filtered_Data=gaction(label="Filtered_Data",handler=fun
 	setwd(el)
 	ps1<-as.data.frame(lumi_NQ.f)
 	write.table(ps1,file=en)
-	setwd(cur_dir)
+	on.exit(setwd(cur_dir))
 }
 )
 #mbl$Export$Illumina_Lumi$Stat_Significant_Data$handler=function(h,...)
@@ -5793,7 +5333,7 @@ mbl$Export$Illumina_Lumi$Stat_Significant_Data=gaction(label="Stat_Significant_D
 	folderchoose=NULL
 	setwd(el)
 	write.table(lumi_NQ.s,file=en,sep="\t")
-	setwd(cur_dir)
+	on.exit(setwd(cur_dir))
 }
 )
 #mbl$Export$Illumina_Lumi$DGE_Data$handler=function(h,...)
@@ -5805,7 +5345,7 @@ mbl$Export$Illumina_Lumi$DGE_Data=gaction(label="DGE_Data",handler=function(h,..
 	folderchoose=NULL
 	setwd(el)
 	write.table(DE_Il_L,file=en)
-	setwd(cur_dir)
+	on.exit(setwd(cur_dir))
 }
 )
 #mbl$Export$Illumina_Lumi$PCA_Data$handler=function(h,...)
@@ -5820,7 +5360,7 @@ mbl$Export$Illumina_Lumi$PCA_Data=gaction(label="PCA_Data",handler=function(h,..
 	png(img)
 	plot(pca_Il_L,main="Illumina_Lumi PCA")
 	dev.off()
-	setwd(cur_dir)
+	on.exit(setwd(cur_dir))
 }
 )
 #mbl$Export$Illumina_Lumi$Clusted_Data$handler=function(h,...)
@@ -5835,7 +5375,7 @@ mbl$Export$Illumina_Lumi$Clusted_Data=gaction(label="Clusted_Data",handler=funct
 	png(img)
 	hclust(sample.dist_Il_L,method="complete")
 	dev.off()
-	setwd(cur_dir)
+	on.exit(setwd(cur_dir))
 }
 )
 #mbl$Export$Illumina_Lumi$Classification_Data$handler=function(h,...)
@@ -5851,7 +5391,7 @@ mbl$Export$Illumina_Lumi$Classification_Data=gaction(label="Classification_Data"
 	heatmap(Clas_Il_L,margins=c(7,7),Rowv=NA,Colv=NA,cexCol=0.8,cexRow=0.8,col=heatcol)
 	dev.off()
 	write.table(Clas_Il_L,file=en)
-	setwd(cur_dir)
+	on.exit(setwd(cur_dir))
 }
 )
 #mbl$Export$Illumina_Lumi$GSEA_GO_Biological_Process$handler=function(h,...)
@@ -5863,7 +5403,7 @@ mbl$Export$Illumina_Lumi$GSEA_GO_Biological_Process=gaction(label="GSEA_GO_Biolo
 	folderchoose=NULL
 	setwd(el)
 	write.table(GOresultBP_Il_L,file=en,sep="\t")
-	setwd(cur_dir)
+	on.exit(setwd(cur_dir))
 }
 )
 #mbl$Export$Illumina_Lumi$GSEA_GO_Molecular_Function$handler=function(h,...)
@@ -5875,7 +5415,7 @@ mbl$Export$Illumina_Lumi$GSEA_GO_Molecular_Function=gaction(label="GSEA_GO_Molec
 	folderchoose=NULL
 	setwd(el)
 	write.table(GOresultMF_Il_L,file=en,sep="\t")
-	setwd(cur_dir)
+	on.exit(setwd(cur_dir))
 }
 )
 #mbl$Export$Illumina_Lumi$GSEA_GO_Cellular_Component$handler=function(h,...)
@@ -5887,7 +5427,7 @@ mbl$Export$Illumina_Lumi$GSEA_GO_Cellular_Component=gaction(label="GSEA_GO_Cellu
 	folderchoose=NULL
 	setwd(el)
 	write.table(GOresultCC_Il_L,file=en,sep="\t")
-	setwd(cur_dir)
+	on.exit(setwd(cur_dir))
 }
 )
 #mbl$Export$Illumina_Lumi$GSEA_KEGG_Pathways$handler=function(h,...)
@@ -5899,7 +5439,7 @@ mbl$Export$Illumina_Lumi$GSEA_KEGG_Pathways=gaction(label="GSEA_KEGG_Pathways",h
 	folderchoose=NULL
 	setwd(el)
 	write.table(KEGGresult_Il_L,file=en,sep="\t")
-	setwd(cur_dir)
+	on.exit(setwd(cur_dir))
 }
 )
 #mbl$Export$Illumina_Lumi$GSTA_GO_Biological_Process$handler=function(h,...)
@@ -5911,7 +5451,7 @@ mbl$Export$Illumina_Lumi$GSTA_GO_Biological_Process=gaction(label="GSTA_GO_Biolo
 	folderchoose=NULL
 	setwd(el)
 	write.table(GOtable.outBP_Il_L,file=en,sep="\t")
-	setwd(cur_dir)
+	on.exit(setwd(cur_dir))
 }
 )
 #mbl$Export$Illumina_Lumi$GSTA_GO_Molecular_Function$handler=function(h,...)
@@ -5923,7 +5463,7 @@ mbl$Export$Illumina_Lumi$GSTA_GO_Molecular_Function=gaction(label="GSTA_GO_Molec
 	folderchoose=NULL
 	setwd(el)
 	write.table(GOtable.outMF_Il_L,file=en,sep="\t")
-	setwd(cur_dir)
+	on.exit(setwd(cur_dir))
 }
 )
 #mbl$Export$Illumina_Lumi$GSTA_GO_Cellular_Component$handler=function(h,...)
@@ -5935,7 +5475,7 @@ mbl$Export$Illumina_Lumi$GSTA_GO_Cellular_Component=gaction(label="GSTA_GO_Cellu
 	folderchoose=NULL
 	setwd(el)
 	write.table(GOtable.outCC_Il_L,file=en,sep="\t")
-	setwd(cur_dir)
+	on.exit(setwd(cur_dir))
 }
 )
 #mbl$Export$Illumina_Lumi$GSTA_KEGG_Pathways$handler=function(h,...)
@@ -5947,7 +5487,7 @@ mbl$Export$Illumina_Lumi$GSTA_KEGG_Pathways=gaction(label="GSTA_KEGG_Pathways",h
 	folderchoose=NULL
 	setwd(el)
 	write.table(KEGGtable.out_Il_L,file=en,sep="\t")
-	setwd(cur_dir)
+	on.exit(setwd(cur_dir))
 }
 )
 #mbl$Export$Illumina_Lumi$Identifier_Symbol$handler=function(h,...)
@@ -5959,7 +5499,7 @@ mbl$Export$Illumina_Lumi$Identifier_Symbol=gaction(label="Identifier_Symbol",han
 	folderchoose=NULL
 	setwd(el)
 	write.table(genes_Il_L,file=en,sep="\t")
-	setwd(cur_dir)
+	on.exit(setwd(cur_dir))
 }
 )
 #mbl$Export$Illumina_Lumi$Graph_GSEA_GO_Biological_Process$handler=function(h,...)
@@ -5977,7 +5517,7 @@ mbl$Export$Illumina_Lumi$Graph_GSEA_GO_Biological_Process=gaction(label="Graph_G
 	plot(g_gsea_goBP_Il_L,nodeAttrs=nAttrs)
 	dev.off()
 	write.table(legend_gsea_goBP_Il_L,file=en,sep="\t")
-	setwd(cur_dir)
+	on.exit(setwd(cur_dir))
 }
 )
 #mbl$Export$Illumina_Lumi$Graph_GSEA_GO_Molecular_Function$handler=function(h,...)
@@ -5995,7 +5535,7 @@ mbl$Export$Illumina_Lumi$Graph_GSEA_GO_Molecular_Function=gaction(label="Graph_G
 	plot(g_gsea_goMF_Il_L,nodeAttrs=nAttrs)
 	dev.off()
 	write.table(legend_gsea_goMF_Il_L,file=en,sep="\t")
-	setwd(cur_dir)
+	on.exit(setwd(cur_dir))
 }
 )
 #mbl$Export$Illumina_Lumi$Graph_GSEA_GO_Cellular_Component$handler=function(h,...)
@@ -6013,7 +5553,7 @@ mbl$Export$Illumina_Lumi$Graph_GSEA_GO_Cellular_Component=gaction(label="Graph_G
 	plot(g_gsea_goCC_Il_L,nodeAttrs=nAttrs)
 	dev.off()
 	write.table(legend_gsea_goCC_Il_L,file=en,sep="\t")
-	setwd(cur_dir)
+	on.exit(setwd(cur_dir))
 }
 )
 #mbl$Export$Illumina_Lumi$Graph_GSEA_KEGG_Pathways$handler=function(h,...)
@@ -6027,6 +5567,8 @@ mbl$Export$Illumina_Lumi$Graph_GSEA_KEGG_Pathways=gaction(label="Graph_GSEA_KEGG
 	img<-paste(en,"png",sep=".")
 	png(img)
 	nA<-makeNodeAttrs(mapkG_gsea_kegg_Il_L,fillcolor=logcol_gsea_kegg_Il_L,width=10,height=1.2)
+	oldpar<-par(no.readonly=TRUE)
+	on.exit(par(oldpar))
 	par(mar=c(3,5,0,5),mgp=c(0,0,0))
 	layout(mat=matrix(c(rep(1,8),2),ncol=1,byrow=TRUE))
 	plot(mapkG_gsea_kegg_Il_L,"dot",nodeAttrs=nA)
@@ -6037,7 +5579,7 @@ mbl$Export$Illumina_Lumi$Graph_GSEA_KEGG_Pathways=gaction(label="Graph_GSEA_KEGG
 	mtext("up-regulation",side=1,at=1,line=1)
 	dev.off()
 	write.table(legend_gsea_kegg_Il_L,file=en,sep="\t")
-	setwd(cur_dir)
+	on.exit(setwd(cur_dir))
 }
 )
 #mbl$Export$Illumina_Lumi$Graph_GSTA_GO_Biological_Process$handler=function(h,...)
@@ -6055,7 +5597,7 @@ mbl$Export$Illumina_Lumi$Graph_GSTA_GO_Biological_Process=gaction(label="Graph_G
 	plot(g_gsta_goBP_Il_L,nodeAttrs=nAttrs)
 	dev.off()
 	write.table(legend_gsta_goBP_Il_L,file=en,sep="\t")
-	setwd(cur_dir)
+	on.exit(setwd(cur_dir))
 }
 )
 #mbl$Export$Illumina_Lumi$Graph_GSTA_GO_Molecular_Function$handler=function(h,...)
@@ -6073,7 +5615,7 @@ mbl$Export$Illumina_Lumi$Graph_GSTA_GO_Molecular_Function=gaction(label="Graph_G
 	plot(g_gsta_goMF_Il_L,nodeAttrs=nAttrs)
 	dev.off()
 	write.table(legend_gsta_goMF_Il_L,file=en,sep="\t")
-	setwd(cur_dir)
+	on.exit(setwd(cur_dir))
 }
 )
 #mbl$Export$Illumina_Lumi$Graph_GSTA_GO_Cellular_Component$handler=function(h,...)
@@ -6091,7 +5633,7 @@ mbl$Export$Illumina_Lumi$Graph_GSTA_GO_Cellular_Component=gaction(label="Graph_G
 	plot(g_gsta_goCC_Il_L,nodeAttrs=nAttrs)
 	dev.off()
 	write.table(legend_gsta_goCC_Il_L,file=en,sep="\t")
-	setwd(cur_dir)
+	on.exit(setwd(cur_dir))
 }
 )
 #mbl$Export$Illumina_Lumi$Graph_GSTA_KEGG_Pathways$handler=function(h,...)
@@ -6105,6 +5647,8 @@ mbl$Export$Illumina_Lumi$Graph_GSTA_KEGG_Pathways=gaction(label="Graph_GSTA_KEGG
 	img<-paste(en,"png",sep=".")
 	png(img)
 	nA<-makeNodeAttrs(mapkG_gsta_kegg_Il_L,fillcolor=logcol_gsta_kegg_Il_L,width=10,height=1.2)
+	oldpar<-par(no.readonly=TRUE)
+	on.exit(par(oldpar))
 	par(mar=c(3,5,0,5),mgp=c(0,0,0))
 	layout(mat=matrix(c(rep(1,8),2),ncol=1,byrow=TRUE))
 	plot(mapkG_gsta_kegg_Il_L,"dot",nodeAttrs=nA)
@@ -6115,7 +5659,7 @@ mbl$Export$Illumina_Lumi$Graph_GSTA_KEGG_Pathways=gaction(label="Graph_GSTA_KEGG
 	mtext("up-regulation",side=1,at=1,line=1)
 	dev.off()
 	write.table(legend_gsta_kegg_Il_L,file=en,sep="\t")
-	setwd(cur_dir)
+	on.exit(setwd(cur_dir))
 }
 )
 #mbl$Export$Illumina_Lumi$Coexpression_Network_Data$handler=function(h,...)
@@ -6130,7 +5674,7 @@ mbl$Export$Illumina_Lumi$Coexpression_Network_Data=gaction(label="Coexpression_N
 	png(img)
 	plot(myGraph_Il_L,nodeAttrs=makeNodeAttrs(myGraph_Il_L,fontsize=18,fillcolor="grey"))
 	dev.off()
-	setwd(cur_dir)
+	on.exit(setwd(cur_dir))
 }
 )
 #mbl$Export$Illumina_Lumi$SSE_Data$handler=function(h,...)
@@ -6145,7 +5689,7 @@ mbl$Export$Illumina_Lumi$SSE_Data=gaction(label="SSE_Data",handler=function(h,..
 	png(img)
 	ssize.plot(size_Il_L,xlim=c(0,20),main=paste("Sample size to detect 2-fold change",sep=""))
 	dev.off()
-	setwd(cur_dir)
+	on.exit(setwd(cur_dir))
 }
 )
 #mbl$Export$Illumina_Lumi$All$handler=function(h,...)
@@ -6187,6 +5731,8 @@ mbl$Export$Illumina_Lumi$All=gaction(label="All",handler=function(h,...)
 	try(({img<-paste(en,".png",sep="_Graph_GSEA_Data_KEGG");
 	png(img);
 	nA<-makeNodeAttrs(mapkG_gsea_kegg_Il_L,fillcolor=logcol_gsea_kegg_Il_L,width=10,height=1.2)
+	oldpar<-par(no.readonly=TRUE)
+	on.exit(par(oldpar))
 	par(mar=c(3,5,0,5),mgp=c(0,0,0))
 	layout(mat=matrix(c(rep(1,8),2),ncol=1,byrow=TRUE))
 	plot(mapkG_gsea_kegg_Il_L,"dot",nodeAttrs=nA)
@@ -6209,6 +5755,8 @@ mbl$Export$Illumina_Lumi$All=gaction(label="All",handler=function(h,...)
 	try(({img<-paste(en,".png",sep="_Graph_GSTA_Data_KEGG");
 	png(img);
 	nA<-makeNodeAttrs(mapkG_gsta_kegg_Il_L,fillcolor=logcol_gsta_kegg_Il_L,width=10,height=1.2)
+	oldpar<-par(no.readonly=TRUE)
+	on.exit(par(oldpar))
 	par(mar=c(3,5,0,5),mgp=c(0,0,0))
 	layout(mat=matrix(c(rep(1,8),2),ncol=1,byrow=TRUE))
 	plot(mapkG_gsta_kegg_Il_L,"dot",nodeAttrs=nA)
@@ -6223,7 +5771,7 @@ mbl$Export$Illumina_Lumi$All=gaction(label="All",handler=function(h,...)
 	try(({img<-paste(en,".png",sep="_SSE_Plot");png(img);ssize.plot(size_Il_L,xlim=c(0,20),main=paste("Sample size to detect 2-fold change",sep=""));dev.off()}),silent=TRUE)
 	try(({img<-paste(en,".png",sep="_Coexpression_Network");png(img);plot(myGraph_Il_L,nodeAttrs=makeNodeAttrs(myGraph_Il_L,fontsize=18,fillcolor="grey"));dev.off()}),silent=TRUE)	
 #	}),silent=TRUE)
-	setwd(cur_dir)
+	on.exit(setwd(cur_dir))
 }
 )
 
@@ -6236,7 +5784,7 @@ mbl$Export$Nimblegen$Normalized_Data=gaction(label="Normalized_Data",handler=fun
 	folderchoose=NULL
 	setwd(el)
 	write.table(data.matrix_Nimblegen2.m,file=en)
-	setwd(cur_dir)
+	on.exit(setwd(cur_dir))
 }
 )
 #mbl$Export$Nimblegen$QC_Data$handler=function(h,...)
@@ -6251,7 +5799,7 @@ mbl$Export$Nimblegen$QC_Data=gaction(label="QC_Data",handler=function(h,...)
 	png(img)
 	boxplot(data.matrix_Nimblegen2.m)
 	dev.off()
-	setwd(cur_dir)
+	on.exit(setwd(cur_dir))
 }
 )
 #mbl$Export$Nimblegen$Filtered_Data$handler=function(h,...)
@@ -6264,7 +5812,7 @@ mbl$Export$Nimblegen$Filtered_Data=gaction(label="Filtered_Data",handler=functio
 	setwd(el)
 	ps1<-as.data.frame(data.matrix_Nimblegen2.f)
 	write.table(ps1,file=en)
-	setwd(cur_dir)
+	on.exit(setwd(cur_dir))
 }
 )
 #mbl$Export$Nimblegen$Stat_Significant_Data$handler=function(h,...)
@@ -6276,7 +5824,7 @@ mbl$Export$Nimblegen$Stat_Significant_Data=gaction(label="Stat_Significant_Data"
 	folderchoose=NULL
 	setwd(el)
 	write.table(data.matrix_Nimblegen2.s,file=en,sep="\t")
-	setwd(cur_dir)
+	on.exit(setwd(cur_dir))
 }
 )
 #mbl$Export$Nimblegen$DGE_Data$handler=function(h,...)
@@ -6288,7 +5836,7 @@ mbl$Export$Nimblegen$DGE_Data=gaction(label="DGE_Data",handler=function(h,...)
 	folderchoose=NULL
 	setwd(el)
 	write.table(DE_N,file=en)
-	setwd(cur_dir)
+	on.exit(setwd(cur_dir))
 }
 )
 #mbl$Export$Nimblegen$PCA_Data$handler=function(h,...)
@@ -6303,7 +5851,7 @@ mbl$Export$Nimblegen$PCA_Data=gaction(label="PCA_Data",handler=function(h,...)
 	png(img)
 	plot(pca_N,main="Nimblegen PCA")
 	dev.off()
-	setwd(cur_dir)
+	on.exit(setwd(cur_dir))
 }
 )
 #mbl$Export$Nimblegen$Clusted_Data$handler=function(h,...)
@@ -6318,7 +5866,7 @@ mbl$Export$Nimblegen$Clusted_Data=gaction(label="Clusted_Data",handler=function(
 	png(img)
 	hclust(sample.dist_N,method="complete")
 	dev.off()
-	setwd(cur_dir)
+	on.exit(setwd(cur_dir))
 }
 )
 #mbl$Export$Nimblegen$Classification_Data$handler=function(h,...)
@@ -6334,7 +5882,7 @@ mbl$Export$Nimblegen$Classification_Data=gaction(label="Classification_Data",han
 	heatmap(Clas_N,margins=c(7,7),Rowv=NA,Colv=NA,cexCol=0.8,cexRow=0.8,col=heatcol)
 	dev.off()
 	write.table(Clas_N,file=en)
-	setwd(cur_dir)
+	on.exit(setwd(cur_dir))
 }
 )
 #mbl$Export$Nimblegen$GSEA_GO_Biological_Process$handler=function(h,...)
@@ -6346,7 +5894,7 @@ mbl$Export$Nimblegen$GSEA_GO_Biological_Process=gaction(label="GSEA_GO_Biologica
 	folderchoose=NULL
 	setwd(el)
 	write.table(GOresultBP_N,file=en,sep="\t")
-	setwd(cur_dir)
+	on.exit(setwd(cur_dir))
 }
 )
 #mbl$Export$Nimblegen$GSEA_GO_Molecular_Function$handler=function(h,...)
@@ -6358,7 +5906,7 @@ mbl$Export$Nimblegen$GSEA_GO_Molecular_Function=gaction(label="GSEA_GO_Molecular
 	folderchoose=NULL
 	setwd(el)
 	write.table(GOresultMF_N,file=en,sep="\t")
-	setwd(cur_dir)
+	on.exit(setwd(cur_dir))
 }
 )
 #mbl$Export$Nimblegen$GSEA_GO_Cellular_Component$handler=function(h,...)
@@ -6370,7 +5918,7 @@ mbl$Export$Nimblegen$GSEA_GO_Cellular_Component=gaction(label="GSEA_GO_Cellular_
 	folderchoose=NULL
 	setwd(el)
 	write.table(GOresultCC_N,file=en,sep="\t")
-	setwd(cur_dir)
+	on.exit(setwd(cur_dir))
 }
 )
 #mbl$Export$Nimblegen$GSEA_KEGG_Pathways$handler=function(h,...)
@@ -6382,7 +5930,7 @@ mbl$Export$Nimblegen$GSEA_KEGG_Pathways=gaction(label="GSEA_KEGG_Pathways",handl
 	folderchoose=NULL
 	setwd(el)
 	write.table(KEGGresult_N,file=en,sep="\t")
-	setwd(cur_dir)
+	on.exit(setwd(cur_dir))
 }
 )
 #mbl$Export$Nimblegen$GSTA_GO_Biological_Process$handler=function(h,...)
@@ -6394,7 +5942,7 @@ mbl$Export$Nimblegen$GSTA_GO_Biological_Process=gaction(label="GSTA_GO_Biologica
 	folderchoose=NULL
 	setwd(el)
 	write.table(GOtable.outBP_N,file=en,sep="\t")
-	setwd(cur_dir)
+	on.exit(setwd(cur_dir))
 }
 )
 #mbl$Export$Nimblegen$GSTA_GO_Molecular_Function$handler=function(h,...)
@@ -6406,7 +5954,7 @@ mbl$Export$Nimblegen$GSTA_GO_Molecular_Function=gaction(label="GSTA_GO_Molecular
 	folderchoose=NULL
 	setwd(el)
 	write.table(GOtable.outMF_N,file=en,sep="\t")
-	setwd(cur_dir)
+	on.exit(setwd(cur_dir))
 }
 )
 #mbl$Export$Nimblegen$GSTA_GO_Cellular_Component$handler=function(h,...)
@@ -6418,7 +5966,7 @@ mbl$Export$Nimblegen$GSTA_GO_Cellular_Component=gaction(label="GSTA_GO_Cellular_
 	folderchoose=NULL
 	setwd(el)
 	write.table(GOtable.outCC_N,file=en,sep="\t")
-	setwd(cur_dir)
+	on.exit(setwd(cur_dir))
 }
 )
 #mbl$Export$Nimblegen$GSTA_KEGG_Pathways$handler=function(h,...)
@@ -6430,7 +5978,7 @@ mbl$Export$Nimblegen$GSTA_KEGG_Pathways=gaction(label="GSTA_KEGG_Pathways",handl
 	folderchoose=NULL
 	setwd(el)
 	write.table(KEGGtable.out_N,file=en,sep="\t")
-	setwd(cur_dir)
+	on.exit(setwd(cur_dir))
 }
 )
 #mbl$Export$Nimblegen$Identifier_Symbol$handler=function(h,...)
@@ -6442,7 +5990,7 @@ mbl$Export$Nimblegen$Identifier_Symbol=gaction(label="Identifier_Symbol",handler
 	folderchoose=NULL
 	setwd(el)
 	write.table(genes_N,file=en,sep="\t")
-	setwd(cur_dir)
+	on.exit(setwd(cur_dir))
 }
 )
 #mbl$Export$Nimblegen$Graph_GSEA_GO_Biological_Process$handler=function(h,...)
@@ -6460,7 +6008,7 @@ mbl$Export$Nimblegen$Graph_GSEA_GO_Biological_Process=gaction(label="Graph_GSEA_
 	plot(g_gsea_goBP_N,nodeAttrs=nAttrs)
 	dev.off()
 	write.table(legend_gsea_goBP_N,file=en,sep="\t")
-	setwd(cur_dir)
+	on.exit(setwd(cur_dir))
 }
 )
 #mbl$Export$Nimblegen$Graph_GSEA_GO_Molecular_Function$handler=function(h,...)
@@ -6478,7 +6026,7 @@ mbl$Export$Nimblegen$Graph_GSEA_GO_Molecular_Function=gaction(label="Graph_GSEA_
 	plot(g_gsea_goMF_N,nodeAttrs=nAttrs)
 	dev.off()
 	write.table(legend_gsea_goMF_N,file=en,sep="\t")
-	setwd(cur_dir)
+	on.exit(setwd(cur_dir))
 }
 )
 #mbl$Export$Nimblegen$Graph_GSEA_GO_Cellular_Component$handler=function(h,...)
@@ -6496,7 +6044,7 @@ mbl$Export$Nimblegen$Graph_GSEA_GO_Cellular_Component=gaction(label="Graph_GSEA_
 	plot(g_gsea_goCC_N,nodeAttrs=nAttrs)
 	dev.off()
 	write.table(legend_gsea_goCC_N,file=en,sep="\t")
-	setwd(cur_dir)
+	on.exit(setwd(cur_dir))
 }
 )
 #mbl$Export$Nimblegen$Graph_GSEA_KEGG_Pathways$handler=function(h,...)
@@ -6510,6 +6058,8 @@ mbl$Export$Nimblegen$Graph_GSEA_KEGG_Pathways=gaction(label="Graph_GSEA_KEGG_Pat
 	img<-paste(en,"png",sep=".")
 	png(img)
 	nA<-makeNodeAttrs(mapkG_gsea_kegg_N,fillcolor=logcol_gsea_kegg_N,width=10,height=1.2)
+	oldpar<-par(no.readonly=TRUE)
+	on.exit(par(oldpar))
 	par(mar=c(3,5,0,5),mgp=c(0,0,0))
 	layout(mat=matrix(c(rep(1,8),2),ncol=1,byrow=TRUE))
 	plot(mapkG_gsea_kegg_N,"dot",nodeAttrs=nA)
@@ -6520,7 +6070,7 @@ mbl$Export$Nimblegen$Graph_GSEA_KEGG_Pathways=gaction(label="Graph_GSEA_KEGG_Pat
 	mtext("up-regulation",side=1,at=1,line=1)
 	dev.off()
 	write.table(legend_gsea_kegg_N,file=en,sep="\t")
-	setwd(cur_dir)
+	on.exit(setwd(cur_dir))
 }
 )
 #mbl$Export$Nimblegen$Graph_GSTA_GO_Biological_Process$handler=function(h,...)
@@ -6538,7 +6088,7 @@ mbl$Export$Nimblegen$Graph_GSTA_GO_Biological_Process=gaction(label="Graph_GSTA_
 	plot(g_gsta_goBP_N,nodeAttrs=nAttrs)
 	dev.off()
 	write.table(legend_gsta_goBP_N,file=en,sep="\t")
-	setwd(cur_dir)
+	on.exit(setwd(cur_dir))
 }
 )
 #mbl$Export$Nimblegen$Graph_GSTA_GO_Molecular_Function$handler=function(h,...)
@@ -6556,7 +6106,7 @@ mbl$Export$Nimblegen$Graph_GSTA_GO_Molecular_Function=gaction(label="Graph_GSTA_
 	plot(g_gsta_goMF_N,nodeAttrs=nAttrs)
 	dev.off()
 	write.table(legend_gsta_goMF_N,file=en,sep="\t")
-	setwd(cur_dir)
+	on.exit(setwd(cur_dir))
 }
 )
 #mbl$Export$Nimblegen$Graph_GSTA_GO_Cellular_Component$handler=function(h,...)
@@ -6574,7 +6124,7 @@ mbl$Export$Nimblegen$Graph_GSTA_GO_Cellular_Component=gaction(label="Graph_GSTA_
 	plot(g_gsta_goCC_N,nodeAttrs=nAttrs)
 	dev.off()
 	write.table(legend_gsta_goCC_N,file=en,sep="\t")
-	setwd(cur_dir)
+	on.exit(setwd(cur_dir))
 }
 )
 #mbl$Export$Nimblegen$Graph_GSTA_KEGG_Pathways$handler=function(h,...)
@@ -6588,6 +6138,8 @@ mbl$Export$Nimblegen$Graph_GSTA_KEGG_Pathways=gaction(label="Graph_GSTA_KEGG_Pat
 	img<-paste(en,"png",sep=".")
 	png(img)
 	nA<-makeNodeAttrs(mapkG_gsta_kegg_N,fillcolor=logcol_gsta_kegg_N,width=10,height=1.2)
+	oldpar<-par(no.readonly=TRUE)
+	on.exit(par(oldpar))
 	par(mar=c(3,5,0,5),mgp=c(0,0,0))
 	layout(mat=matrix(c(rep(1,8),2),ncol=1,byrow=TRUE))
 	plot(mapkG_gsta_kegg_N,"dot",nodeAttrs=nA)
@@ -6598,7 +6150,7 @@ mbl$Export$Nimblegen$Graph_GSTA_KEGG_Pathways=gaction(label="Graph_GSTA_KEGG_Pat
 	mtext("up-regulation",side=1,at=1,line=1)
 	dev.off()
 	write.table(legend_gsta_kegg_N,file=en,sep="\t")
-	setwd(cur_dir)
+	on.exit(setwd(cur_dir))
 }
 )
 #mbl$Export$Nimblegen$Coexpression_Network_Data$handler=function(h,...)
@@ -6613,7 +6165,7 @@ mbl$Export$Nimblegen$Coexpression_Network_Data=gaction(label="Coexpression_Netwo
 	png(img)
 	plot(myGraph_N,nodeAttrs=makeNodeAttrs(myGraph_N,fontsize=18,fillcolor="grey"))
 	dev.off()
-	setwd(cur_dir)
+	on.exit(setwd(cur_dir))
 }
 )
 #mbl$Export$Nimblegen$SSE_Data$handler=function(h,...)
@@ -6628,7 +6180,7 @@ mbl$Export$Nimblegen$SSE_Data=gaction(label="SSE_Data",handler=function(h,...)
 	png(img)
 	ssize.plot(size_N,xlim=c(0,20),main=paste("Sample size to detect 2-fold change",sep=""))
 	dev.off()
-	setwd(cur_dir)
+	on.exit(setwd(cur_dir))
 }
 )
 #mbl$Export$Nimblegen$All$handler=function(h,...)
@@ -6670,6 +6222,8 @@ mbl$Export$Nimblegen$All=gaction(label="All",handler=function(h,...)
 	try(({img<-paste(en,".png",sep="_Graph_GSEA_Data_KEGG");
 	png(img);
 	nA<-makeNodeAttrs(mapkG_gsea_kegg_N,fillcolor=logcol_gsea_kegg_N,width=10,height=1.2)
+	oldpar<-par(no.readonly=TRUE)
+	on.exit(par(oldpar))
 	par(mar=c(3,5,0,5),mgp=c(0,0,0))
 	layout(mat=matrix(c(rep(1,8),2),ncol=1,byrow=TRUE))
 	plot(mapkG_gsea_kegg_N,"dot",nodeAttrs=nA)
@@ -6692,6 +6246,8 @@ mbl$Export$Nimblegen$All=gaction(label="All",handler=function(h,...)
 	try(({img<-paste(en,".png",sep="_Graph_GSTA_Data_KEGG");
 	png(img);
 	nA<-makeNodeAttrs(mapkG_gsta_kegg_N,fillcolor=logcol_gsta_kegg_N,width=10,height=1.2)
+	oldpar<-par(no.readonly=TRUE)
+	on.exit(par(oldpar))
 	par(mar=c(3,5,0,5),mgp=c(0,0,0))
 	layout(mat=matrix(c(rep(1,8),2),ncol=1,byrow=TRUE))
 	plot(mapkG_gsta_kegg_N,"dot",nodeAttrs=nA)
@@ -6706,7 +6262,7 @@ mbl$Export$Nimblegen$All=gaction(label="All",handler=function(h,...)
 	try(({img<-paste(en,".png",sep="_SSE_Plot");png(img);ssize.plot(size_N,xlim=c(0,20),main=paste("Sample size to detect 2-fold change",sep=""));dev.off()}),silent=TRUE)
 	try(({img<-paste(en,".png",sep="_Coexpression_Network");png(img);plot(myGraph_N,nodeAttrs=makeNodeAttrs(myGraph_N,fontsize=18,fillcolor="grey"));dev.off()}),silent=TRUE)	
 #	}),silent=TRUE)
-	setwd(cur_dir)
+	on.exit(setwd(cur_dir))
 }
 )
 
@@ -6719,7 +6275,7 @@ mbl$Export$Series_Matrix$Normalized_Data=gaction(label="Normalized_Data",handler
 	folderchoose=NULL
 	setwd(el)
 	write.table(data.matrixNorm.m,file=en)
-	setwd(cur_dir)
+	on.exit(setwd(cur_dir))
 }
 )
 #mbl$Export$Series_Matrix$QC_Data$handler=function(h,...)
@@ -6734,7 +6290,7 @@ mbl$Export$Series_Matrix$QC_Data=gaction(label="QC_Data",handler=function(h,...)
 	png(img)
 	boxplot(data.matrixNorm.m)
 	dev.off()
-	setwd(cur_dir)
+	on.exit(setwd(cur_dir))
 }
 )
 #mbl$Export$Series_Matrix$Filtered_Data$handler=function(h,...)
@@ -6747,7 +6303,7 @@ mbl$Export$Series_Matrix$Filtered_Data=gaction(label="Filtered_Data",handler=fun
 	setwd(el)
 	ps1<-as.data.frame(data.matrixNorm.f)
 	write.table(ps1,file=en)
-	setwd(cur_dir)
+	on.exit(setwd(cur_dir))
 }
 )
 #mbl$Export$Series_Matrix$Stat_Significant_Data$handler=function(h,...)
@@ -6759,7 +6315,7 @@ mbl$Export$Series_Matrix$Stat_Significant_Data=gaction(label="Stat_Significant_D
 	folderchoose=NULL
 	setwd(el)
 	write.table(data.matrixNorm.s,file=en,sep="\t")
-	setwd(cur_dir)
+	on.exit(setwd(cur_dir))
 }
 )
 #mbl$Export$Series_Matrix$DGE_Data$handler=function(h,...)
@@ -6771,7 +6327,7 @@ mbl$Export$Series_Matrix$DGE_Data=gaction(label="DGE_Data",handler=function(h,..
 	folderchoose=NULL
 	setwd(el)
 	write.table(DE_S,file=en)
-	setwd(cur_dir)
+	on.exit(setwd(cur_dir))
 }
 )
 #mbl$Export$Series_Matrix$PCA_Data$handler=function(h,...)
@@ -6786,7 +6342,7 @@ mbl$Export$Series_Matrix$PCA_Data=gaction(label="PCA_Data",handler=function(h,..
 	png(img)
 	plot(pca_S,main="Series_Matrix PCA")
 	dev.off()
-	setwd(cur_dir)
+	on.exit(setwd(cur_dir))
 }
 )
 #mbl$Export$Series_Matrix$Clusted_Data$handler=function(h,...)
@@ -6801,7 +6357,7 @@ mbl$Export$Series_Matrix$Clusted_Data=gaction(label="Clusted_Data",handler=funct
 	png(img)
 	hclust(sample.dist_S,method="complete")
 	dev.off()
-	setwd(cur_dir)
+	on.exit(setwd(cur_dir))
 }
 )
 #mbl$Export$Series_Matrix$Classification_Data$handler=function(h,...)
@@ -6817,7 +6373,7 @@ mbl$Export$Series_Matrix$Classification_Data=gaction(label="Classification_Data"
 	heatmap(Clas_S,margins=c(7,7),Rowv=NA,Colv=NA,cexCol=0.8,cexRow=0.8,col=heatcol)
 	dev.off()
 	write.table(Clas_S,file=en)
-	setwd(cur_dir)
+	on.exit(setwd(cur_dir))
 }
 )
 #mbl$Export$Series_Matrix$GSEA_GO_Biological_Process$handler=function(h,...)
@@ -6829,7 +6385,7 @@ mbl$Export$Series_Matrix$GSEA_GO_Biological_Process=gaction(label="GSEA_GO_Biolo
 	folderchoose=NULL
 	setwd(el)
 	write.table(GOresultBP_S,file=en,sep="\t")
-	setwd(cur_dir)
+	on.exit(setwd(cur_dir))
 }
 )
 #mbl$Export$Series_Matrix$GSEA_GO_Molecular_Function$handler=function(h,...)
@@ -6841,7 +6397,7 @@ mbl$Export$Series_Matrix$GSEA_GO_Molecular_Function=gaction(label="GSEA_GO_Molec
 	folderchoose=NULL
 	setwd(el)
 	write.table(GOresultMF_S,file=en,sep="\t")
-	setwd(cur_dir)
+	on.exit(setwd(cur_dir))
 }
 )
 #mbl$Export$Series_Matrix$GSEA_GO_Cellular_Component$handler=function(h,...)
@@ -6853,7 +6409,7 @@ mbl$Export$Series_Matrix$GSEA_GO_Cellular_Component=gaction(label="GSEA_GO_Cellu
 	folderchoose=NULL
 	setwd(el)
 	write.table(GOresultCC_S,file=en,sep="\t")
-	setwd(cur_dir)
+	on.exit(setwd(cur_dir))
 }
 )
 #mbl$Export$Series_Matrix$GSEA_KEGG_Pathways$handler=function(h,...)
@@ -6865,7 +6421,7 @@ mbl$Export$Series_Matrix$GSEA_KEGG_Pathways=gaction(label="GSEA_KEGG_Pathways",h
 	folderchoose=NULL
 	setwd(el)
 	write.table(KEGGresult_S,file=en,sep="\t")
-	setwd(cur_dir)
+	on.exit(setwd(cur_dir))
 }
 )
 #mbl$Export$Series_Matrix$GSTA_GO_Biological_Process$handler=function(h,...)
@@ -6877,7 +6433,7 @@ mbl$Export$Series_Matrix$GSTA_GO_Biological_Process=gaction(label="GSTA_GO_Biolo
 	folderchoose=NULL
 	setwd(el)
 	write.table(GOtable.outBP_S,file=en,sep="\t")
-	setwd(cur_dir)
+	on.exit(setwd(cur_dir))
 }
 )
 #mbl$Export$Series_Matrix$GSTA_GO_Molecular_Function$handler=function(h,...)
@@ -6889,7 +6445,7 @@ mbl$Export$Series_Matrix$GSTA_GO_Molecular_Function=gaction(label="GSTA_GO_Molec
 	folderchoose=NULL
 	setwd(el)
 	write.table(GOtable.outMF_S,file=en,sep="\t")
-	setwd(cur_dir)
+	on.exit(setwd(cur_dir))
 }
 )
 #mbl$Export$Series_Matrix$GSTA_GO_Cellular_Component$handler=function(h,...)
@@ -6901,7 +6457,7 @@ mbl$Export$Series_Matrix$GSTA_GO_Cellular_Component=gaction(label="GSTA_GO_Cellu
 	folderchoose=NULL
 	setwd(el)
 	write.table(GOtable.outCC_S,file=en,sep="\t")
-	setwd(cur_dir)
+	on.exit(setwd(cur_dir))
 }
 )
 #mbl$Export$Series_Matrix$GSTA_KEGG_Pathways$handler=function(h,...)
@@ -6913,7 +6469,7 @@ mbl$Export$Series_Matrix$GSTA_KEGG_Pathways=gaction(label="GSTA_KEGG_Pathways",h
 	folderchoose=NULL
 	setwd(el)
 	write.table(KEGGtable.out_S,file=en,sep="\t")
-	setwd(cur_dir)
+	on.exit(setwd(cur_dir))
 }
 )
 #mbl$Export$Series_Matrix$Identifier_Symbol$handler=function(h,...)
@@ -6925,7 +6481,7 @@ mbl$Export$Series_Matrix$Identifier_Symbol=gaction(label="Identifier_Symbol",han
 	folderchoose=NULL
 	setwd(el)
 	write.table(genes_S,file=en,sep="\t")
-	setwd(cur_dir)
+	on.exit(setwd(cur_dir))
 }
 )
 #mbl$Export$Series_Matrix$Graph_GSEA_GO_Biological_Process$handler=function(h,...)
@@ -6943,7 +6499,7 @@ mbl$Export$Series_Matrix$Graph_GSEA_GO_Biological_Process=gaction(label="Graph_G
 	plot(g_gsea_goBP_S,nodeAttrs=nAttrs)
 	dev.off()
 	write.table(legend_gsea_goBP_S,file=en,sep="\t")
-	setwd(cur_dir)
+	on.exit(setwd(cur_dir))
 }
 )
 #mbl$Export$Series_Matrix$Graph_GSEA_GO_Molecular_Function$handler=function(h,...)
@@ -6961,7 +6517,7 @@ mbl$Export$Series_Matrix$Graph_GSEA_GO_Molecular_Function=gaction(label="Graph_G
 	plot(g_gsea_goMF_S,nodeAttrs=nAttrs)
 	dev.off()
 	write.table(legend_gsea_goMF_S,file=en,sep="\t")
-	setwd(cur_dir)
+	on.exit(setwd(cur_dir))
 }
 )
 #mbl$Export$Series_Matrix$Graph_GSEA_GO_Cellular_Component$handler=function(h,...)
@@ -6979,7 +6535,7 @@ mbl$Export$Series_Matrix$Graph_GSEA_GO_Cellular_Component=gaction(label="Graph_G
 	plot(g_gsea_goCC_S,nodeAttrs=nAttrs)
 	dev.off()
 	write.table(legend_gsea_goCC_S,file=en,sep="\t")
-	setwd(cur_dir)
+	on.exit(setwd(cur_dir))
 }
 )
 #mbl$Export$Series_Matrix$Graph_GSEA_KEGG_Pathways$handler=function(h,...)
@@ -6993,6 +6549,8 @@ mbl$Export$Series_Matrix$Graph_GSEA_KEGG_Pathways=gaction(label="Graph_GSEA_KEGG
 	img<-paste(en,"png",sep=".")
 	png(img)
 	nA<-makeNodeAttrs(mapkG_gsea_kegg_S,fillcolor=logcol_gsea_kegg_S,width=10,height=1.2)
+	oldpar<-par(no.readonly=TRUE)
+	on.exit(par(oldpar))
 	par(mar=c(3,5,0,5),mgp=c(0,0,0))
 	layout(mat=matrix(c(rep(1,8),2),ncol=1,byrow=TRUE))
 	plot(mapkG_gsea_kegg_S,"dot",nodeAttrs=nA)
@@ -7003,7 +6561,7 @@ mbl$Export$Series_Matrix$Graph_GSEA_KEGG_Pathways=gaction(label="Graph_GSEA_KEGG
 	mtext("up-regulation",side=1,at=1,line=1)
 	dev.off()
 	write.table(legend_gsea_kegg_S,file=en,sep="\t")
-	setwd(cur_dir)
+	on.exit(setwd(cur_dir))
 }
 )
 #mbl$Export$Series_Matrix$Graph_GSTA_GO_Biological_Process$handler=function(h,...)
@@ -7021,7 +6579,7 @@ mbl$Export$Series_Matrix$Graph_GSTA_GO_Biological_Process=gaction(label="Graph_G
 	plot(g_gsta_goBP_S,nodeAttrs=nAttrs)
 	dev.off()
 	write.table(legend_gsta_goBP_S,file=en,sep="\t")
-	setwd(cur_dir)
+	on.exit(setwd(cur_dir))
 }
 )
 #mbl$Export$Series_Matrix$Graph_GSTA_GO_Molecular_Function$handler=function(h,...)
@@ -7039,7 +6597,7 @@ mbl$Export$Series_Matrix$Graph_GSTA_GO_Molecular_Function=gaction(label="Graph_G
 	plot(g_gsta_goMF_S,nodeAttrs=nAttrs)
 	dev.off()
 	write.table(legend_gsta_goMF_S,file=en,sep="\t")
-	setwd(cur_dir)
+	on.exit(setwd(cur_dir))
 }
 )
 #mbl$Export$Series_Matrix$Graph_GSTA_GO_Cellular_Component$handler=function(h,...)
@@ -7057,7 +6615,7 @@ mbl$Export$Series_Matrix$Graph_GSTA_GO_Cellular_Component=gaction(label="Graph_G
 	plot(g_gsta_goCC_S,nodeAttrs=nAttrs)
 	dev.off()
 	write.table(legend_gsta_goCC_S,file=en,sep="\t")
-	setwd(cur_dir)
+	on.exit(setwd(cur_dir))
 }
 )
 #mbl$Export$Series_Matrix$Graph_GSTA_KEGG_Pathways$handler=function(h,...)
@@ -7071,6 +6629,8 @@ mbl$Export$Series_Matrix$Graph_GSTA_KEGG_Pathways=gaction(label="Graph_GSTA_KEGG
 	img<-paste(en,"png",sep=".")
 	png(img)
 	nA<-makeNodeAttrs(mapkG_gsta_kegg_S,fillcolor=logcol_gsta_kegg_S,width=10,height=1.2)
+	oldpar<-par(no.readonly=TRUE)
+	on.exit(par(oldpar))
 	par(mar=c(3,5,0,5),mgp=c(0,0,0))
 	layout(mat=matrix(c(rep(1,8),2),ncol=1,byrow=TRUE))
 	plot(mapkG_gsta_kegg_S,"dot",nodeAttrs=nA)
@@ -7081,7 +6641,7 @@ mbl$Export$Series_Matrix$Graph_GSTA_KEGG_Pathways=gaction(label="Graph_GSTA_KEGG
 	mtext("up-regulation",side=1,at=1,line=1)
 	dev.off()
 	write.table(legend_gsta_kegg_S,file=en,sep="\t")
-	setwd(cur_dir)
+	on.exit(setwd(cur_dir))
 }
 )
 #mbl$Export$Series_Matrix$Coexpression_Network_Data$handler=function(h,...)
@@ -7096,7 +6656,7 @@ mbl$Export$Series_Matrix$Coexpression_Network_Data=gaction(label="Coexpression_N
 	png(img)
 	plot(myGraph_S,nodeAttrs=makeNodeAttrs(myGraph_S,fontsize=18,fillcolor="grey"))
 	dev.off()
-	setwd(cur_dir)
+	on.exit(setwd(cur_dir))
 }
 )
 #mbl$Export$Series_Matrix$SSE_Data$handler=function(h,...)
@@ -7111,7 +6671,7 @@ mbl$Export$Series_Matrix$SSE_Data=gaction(label="SSE_Data",handler=function(h,..
 	png(img)
 	ssize.plot(size_S,xlim=c(0,20),main=paste("Sample size to detect 2-fold change",sep=""))
 	dev.off()
-	setwd(cur_dir)
+	on.exit(setwd(cur_dir))
 }
 )
 #mbl$Export$Series_Matrix$All$handler=function(h,...)
@@ -7153,6 +6713,8 @@ mbl$Export$Series_Matrix$All=gaction(label="All",handler=function(h,...)
 	try(({img<-paste(en,".png",sep="_Graph_GSEA_Data_KEGG");
 	png(img);
 	nA<-makeNodeAttrs(mapkG_gsea_kegg_S,fillcolor=logcol_gsea_kegg_S,width=10,height=1.2)
+	oldpar<-par(no.readonly=TRUE)
+	on.exit(par(oldpar))
 	par(mar=c(3,5,0,5),mgp=c(0,0,0))
 	layout(mat=matrix(c(rep(1,8),2),ncol=1,byrow=TRUE))
 	plot(mapkG_gsea_kegg_S,"dot",nodeAttrs=nA)
@@ -7175,6 +6737,8 @@ mbl$Export$Series_Matrix$All=gaction(label="All",handler=function(h,...)
 	try(({img<-paste(en,".png",sep="_Graph_GSTA_Data_KEGG");
 	png(img);
 	nA<-makeNodeAttrs(mapkG_gsta_kegg_S,fillcolor=logcol_gsta_kegg_S,width=10,height=1.2)
+	oldpar<-par(no.readonly=TRUE)
+	on.exit(par(oldpar))
 	par(mar=c(3,5,0,5),mgp=c(0,0,0))
 	layout(mat=matrix(c(rep(1,8),2),ncol=1,byrow=TRUE))
 	plot(mapkG_gsta_kegg_S,"dot",nodeAttrs=nA)
@@ -7189,7 +6753,7 @@ mbl$Export$Series_Matrix$All=gaction(label="All",handler=function(h,...)
 	try(({img<-paste(en,".png",sep="_SSE_Plot");png(img);ssize.plot(size_S,xlim=c(0,20),main=paste("Sample size to detect 2-fold change",sep=""));dev.off()}),silent=TRUE)
 	try(({img<-paste(en,".png",sep="_Coexpression_Network");png(img);plot(myGraph_S,nodeAttrs=makeNodeAttrs(myGraph_S,fontsize=18,fillcolor="grey"));dev.off()}),silent=TRUE)	
 #	}),silent=TRUE)
-	setwd(cur_dir)
+	on.exit(setwd(cur_dir))
 }
 )
 
@@ -7202,7 +6766,7 @@ mbl$Export$Online_Data$Normalized_Data=gaction(label="Normalized_Data",handler=f
 	folderchoose=NULL
 	setwd(el)
 	write.table(data.matrix_onlineNorm.m,file=en)
-	setwd(cur_dir)
+	on.exit(setwd(cur_dir))
 }
 )
 #mbl$Export$Online_Data$QC_Data$handler=function(h,...)
@@ -7217,7 +6781,7 @@ mbl$Export$Online_Data$QC_Data=gaction(label="QC_Data",handler=function(h,...)
 	png(img)
 	boxplot(data.matrix_onlineNorm.m)
 	dev.off()
-	setwd(cur_dir)
+	on.exit(setwd(cur_dir))
 }
 )
 #mbl$Export$Online_Data$Filtered_Data$handler=function(h,...)
@@ -7230,7 +6794,7 @@ mbl$Export$Online_Data$Filtered_Data=gaction(label="Filtered_Data",handler=funct
 	setwd(el)
 	ps1<-as.data.frame(data.matrix_onlineNorm.f)
 	write.table(ps1,file=en)
-	setwd(cur_dir)
+	on.exit(setwd(cur_dir))
 }
 )
 #mbl$Export$Online_Data$Stat_Significant_Data$handler=function(h,...)
@@ -7242,7 +6806,7 @@ mbl$Export$Online_Data$Stat_Significant_Data=gaction(label="Stat_Significant_Dat
 	folderchoose=NULL
 	setwd(el)
 	write.table(data.matrix_onlineNorm.s,file=en,sep="\t")
-	setwd(cur_dir)
+	on.exit(setwd(cur_dir))
 }
 )
 #mbl$Export$Online_Data$DGE_Data$handler=function(h,...)
@@ -7254,7 +6818,7 @@ mbl$Export$Online_Data$DGE_Data=gaction(label="DGE_Data",handler=function(h,...)
 	folderchoose=NULL
 	setwd(el)
 	write.table(DE_O,file=en)
-	setwd(cur_dir)
+	on.exit(setwd(cur_dir))
 }
 )
 #mbl$Export$Online_Data$PCA_Data$handler=function(h,...)
@@ -7269,7 +6833,7 @@ mbl$Export$Online_Data$PCA_Data=gaction(label="PCA_Data",handler=function(h,...)
 	png(img)
 	plot(pca_O,main="Online_Data PCA")
 	dev.off()
-	setwd(cur_dir)
+	on.exit(setwd(cur_dir))
 }
 )
 #mbl$Export$Online_Data$Clusted_Data$handler=function(h,...)
@@ -7284,7 +6848,7 @@ mbl$Export$Online_Data$Clusted_Data=gaction(label="Clusted_Data",handler=functio
 	png(img)
 	hclust(sample.dist_O,method="complete")
 	dev.off()
-	setwd(cur_dir)
+	on.exit(setwd(cur_dir))
 }
 )
 #mbl$Export$Online_Data$Classification_Data$handler=function(h,...)
@@ -7300,7 +6864,7 @@ mbl$Export$Online_Data$Classification_Data=gaction(label="Classification_Data",h
 	heatmap(Clas_O,margins=c(7,7),Rowv=NA,Colv=NA,cexCol=0.8,cexRow=0.8,col=heatcol)
 	dev.off()
 	write.table(Clas_O,file=en)
-	setwd(cur_dir)
+	on.exit(setwd(cur_dir))
 }
 )
 #mbl$Export$Online_Data$GSEA_GO_Biological_Process$handler=function(h,...)
@@ -7312,7 +6876,7 @@ mbl$Export$Online_Data$GSEA_GO_Biological_Process=gaction(label="GSEA_GO_Biologi
 	folderchoose=NULL
 	setwd(el)
 	write.table(GOresultBP_O,file=en,sep="\t")
-	setwd(cur_dir)
+	on.exit(setwd(cur_dir))
 }
 )
 #mbl$Export$Online_Data$GSEA_GO_Molecular_Function$handler=function(h,...)
@@ -7324,7 +6888,7 @@ mbl$Export$Online_Data$GSEA_GO_Molecular_Function=gaction(label="GSEA_GO_Molecul
 	folderchoose=NULL
 	setwd(el)
 	write.table(GOresultMF_O,file=en,sep="\t")
-	setwd(cur_dir)
+	on.exit(setwd(cur_dir))
 }
 )
 #mbl$Export$Online_Data$GSEA_GO_Cellular_Component$handler=function(h,...)
@@ -7336,7 +6900,7 @@ mbl$Export$Online_Data$GSEA_GO_Cellular_Component=gaction(label="GSEA_GO_Cellula
 	folderchoose=NULL
 	setwd(el)
 	write.table(GOresultCC_O,file=en,sep="\t")
-	setwd(cur_dir)
+	on.exit(setwd(cur_dir))
 }
 )
 #mbl$Export$Online_Data$GSEA_KEGG_Pathways$handler=function(h,...)
@@ -7348,7 +6912,7 @@ mbl$Export$Online_Data$GSEA_KEGG_Pathways=gaction(label="GSEA_KEGG_Pathways",han
 	folderchoose=NULL
 	setwd(el)
 	write.table(KEGGresult_O,file=en,sep="\t")
-	setwd(cur_dir)
+	on.exit(setwd(cur_dir))
 }
 )
 #mbl$Export$Online_Data$GSTA_GO_Biological_Process$handler=function(h,...)
@@ -7360,7 +6924,7 @@ mbl$Export$Online_Data$GSTA_GO_Biological_Process=gaction(label="GSTA_GO_Biologi
 	folderchoose=NULL
 	setwd(el)
 	write.table(GOtable.outBP_O,file=en,sep="\t")
-	setwd(cur_dir)
+	on.exit(setwd(cur_dir))
 }
 )
 #mbl$Export$Online_Data$GSTA_GO_Molecular_Function$handler=function(h,...)
@@ -7372,7 +6936,7 @@ mbl$Export$Online_Data$GSTA_GO_Molecular_Function=gaction(label="GSTA_GO_Molecul
 	folderchoose=NULL
 	setwd(el)
 	write.table(GOtable.outMF_O,file=en,sep="\t")
-	setwd(cur_dir)
+	on.exit(setwd(cur_dir))
 }
 )
 #mbl$Export$Online_Data$GSTA_GO_Cellular_Component$handler=function(h,...)
@@ -7384,7 +6948,7 @@ mbl$Export$Online_Data$GSTA_GO_Cellular_Component=gaction(label="GSTA_GO_Cellula
 	folderchoose=NULL
 	setwd(el)
 	write.table(GOtable.outCC_O,file=en,sep="\t")
-	setwd(cur_dir)
+	on.exit(setwd(cur_dir))
 }
 )
 #mbl$Export$Online_Data$GSTA_KEGG_Pathways$handler=function(h,...)
@@ -7396,7 +6960,7 @@ mbl$Export$Online_Data$GSTA_KEGG_Pathways=gaction(label="GSTA_KEGG_Pathways",han
 	folderchoose=NULL
 	setwd(el)
 	write.table(KEGGtable.out_O,file=en,sep="\t")
-	setwd(cur_dir)
+	on.exit(setwd(cur_dir))
 }
 )
 #mbl$Export$Online_Data$Identifier_Symbol$handler=function(h,...)
@@ -7408,7 +6972,7 @@ mbl$Export$Online_Data$Identifier_Symbol=gaction(label="Identifier_Symbol",handl
 	folderchoose=NULL
 	setwd(el)
 	write.table(genes_O,file=en,sep="\t")
-	setwd(cur_dir)
+	on.exit(setwd(cur_dir))
 }
 )
 #mbl$Export$Online_Data$Graph_GSEA_GO_Biological_Process$handler=function(h,...)
@@ -7426,7 +6990,7 @@ mbl$Export$Online_Data$Graph_GSEA_GO_Biological_Process=gaction(label="Graph_GSE
 	plot(g_gsea_goBP_O,nodeAttrs=nAttrs)
 	dev.off()
 	write.table(legend_gsea_goBP_O,file=en,sep="\t")
-	setwd(cur_dir)
+	on.exit(setwd(cur_dir))
 }
 )
 #mbl$Export$Online_Data$Graph_GSEA_GO_Molecular_Function$handler=function(h,...)
@@ -7444,7 +7008,7 @@ mbl$Export$Online_Data$Graph_GSEA_GO_Molecular_Function=gaction(label="Graph_GSE
 	plot(g_gsea_goMF_O,nodeAttrs=nAttrs)
 	dev.off()
 	write.table(legend_gsea_goMF_O,file=en,sep="\t")
-	setwd(cur_dir)
+	on.exit(setwd(cur_dir))
 }
 )
 #mbl$Export$Online_Data$Graph_GSEA_GO_Cellular_Component$handler=function(h,...)
@@ -7462,7 +7026,7 @@ mbl$Export$Online_Data$Graph_GSEA_GO_Cellular_Component=gaction(label="Graph_GSE
 	plot(g_gsea_goCC_O,nodeAttrs=nAttrs)
 	dev.off()
 	write.table(legend_gsea_goCC_O,file=en,sep="\t")
-	setwd(cur_dir)
+	on.exit(setwd(cur_dir))
 }
 )
 #mbl$Export$Online_Data$Graph_GSEA_KEGG_Pathways$handler=function(h,...)
@@ -7476,6 +7040,8 @@ mbl$Export$Online_Data$Graph_GSEA_KEGG_Pathways=gaction(label="Graph_GSEA_KEGG_P
 	img<-paste(en,"png",sep=".")
 	png(img)
 	nA<-makeNodeAttrs(mapkG_gsea_kegg_O,fillcolor=logcol_gsea_kegg_O,width=10,height=1.2)
+	oldpar<-par(no.readonly=TRUE)
+	on.exit(par(oldpar))
 	par(mar=c(3,5,0,5),mgp=c(0,0,0))
 	layout(mat=matrix(c(rep(1,8),2),ncol=1,byrow=TRUE))
 	plot(mapkG_gsea_kegg_O,"dot",nodeAttrs=nA)
@@ -7486,7 +7052,7 @@ mbl$Export$Online_Data$Graph_GSEA_KEGG_Pathways=gaction(label="Graph_GSEA_KEGG_P
 	mtext("up-regulation",side=1,at=1,line=1)
 	dev.off()
 	write.table(legend_gsea_kegg_O,file=en,sep="\t")
-	setwd(cur_dir)
+	on.exit(setwd(cur_dir))
 }
 )
 #mbl$Export$Online_Data$Graph_GSTA_GO_Biological_Process$handler=function(h,...)
@@ -7504,7 +7070,7 @@ mbl$Export$Online_Data$Graph_GSTA_GO_Biological_Process=gaction(label="Graph_GST
 	plot(g_gsta_goBP_O,nodeAttrs=nAttrs)
 	dev.off()
 	write.table(legend_gsta_goBP_O,file=en,sep="\t")
-	setwd(cur_dir)
+	on.exit(setwd(cur_dir))
 }
 )
 #mbl$Export$Online_Data$Graph_GSTA_GO_Molecular_Function$handler=function(h,...)
@@ -7522,7 +7088,7 @@ mbl$Export$Online_Data$Graph_GSTA_GO_Molecular_Function=gaction(label="Graph_GST
 	plot(g_gsta_goMF_O,nodeAttrs=nAttrs)
 	dev.off()
 	write.table(legend_gsta_goMF_O,file=en,sep="\t")
-	setwd(cur_dir)
+	on.exit(setwd(cur_dir))
 }
 )
 #mbl$Export$Online_Data$Graph_GSTA_GO_Cellular_Component$handler=function(h,...)
@@ -7540,7 +7106,7 @@ mbl$Export$Online_Data$Graph_GSTA_GO_Cellular_Component=gaction(label="Graph_GST
 	plot(g_gsta_goCC_O,nodeAttrs=nAttrs)
 	dev.off()
 	write.table(legend_gsta_goCC_O,file=en,sep="\t")
-	setwd(cur_dir)
+	on.exit(setwd(cur_dir))
 }
 )
 #mbl$Export$Online_Data$Graph_GSTA_KEGG_Pathways$handler=function(h,...)
@@ -7554,6 +7120,8 @@ mbl$Export$Online_Data$Graph_GSTA_KEGG_Pathways=gaction(label="Graph_GSTA_KEGG_P
 	img<-paste(en,"png",sep=".")
 	png(img)
 	nA<-makeNodeAttrs(mapkG_gsta_kegg_O,fillcolor=logcol_gsta_kegg_O,width=10,height=1.2)
+	oldpar<-par(no.readonly=TRUE)
+	on.exit(par(oldpar))
 	par(mar=c(3,5,0,5),mgp=c(0,0,0))
 	layout(mat=matrix(c(rep(1,8),2),ncol=1,byrow=TRUE))
 	plot(mapkG_gsta_kegg_O,"dot",nodeAttrs=nA)
@@ -7564,7 +7132,7 @@ mbl$Export$Online_Data$Graph_GSTA_KEGG_Pathways=gaction(label="Graph_GSTA_KEGG_P
 	mtext("up-regulation",side=1,at=1,line=1)
 	dev.off()
 	write.table(legend_gsta_kegg_O,file=en,sep="\t")
-	setwd(cur_dir)
+	on.exit(setwd(cur_dir))
 }
 )
 #mbl$Export$Online_Data$Coexpression_Network_Data$handler=function(h,...)
@@ -7579,7 +7147,7 @@ mbl$Export$Online_Data$Coexpression_Network_Data=gaction(label="Coexpression_Net
 	png(img)
 	plot(myGraph_O,nodeAttrs=makeNodeAttrs(myGraph_O,fontsize=18,fillcolor="grey"))
 	dev.off()
-	setwd(cur_dir)
+	on.exit(setwd(cur_dir))
 }
 )
 #mbl$Export$Online_Data$SSE_Data$handler=function(h,...)
@@ -7594,7 +7162,7 @@ mbl$Export$Online_Data$SSE_Data=gaction(label="SSE_Data",handler=function(h,...)
 	png(img)
 	ssize.plot(size_O,xlim=c(0,20),main=paste("Sample size to detect 2-fold change",sep=""))
 	dev.off()
-	setwd(cur_dir)
+	on.exit(setwd(cur_dir))
 }
 )
 #mbl$Export$Online_Data$All$handler=function(h,...)
@@ -7636,6 +7204,8 @@ mbl$Export$Online_Data$All=gaction(label="All",handler=function(h,...)
 	try(({img<-paste(en,".png",sep="_Graph_GSEA_Data_KEGG");
 	png(img);
 	nA<-makeNodeAttrs(mapkG_gsea_kegg_O,fillcolor=logcol_gsea_kegg_O,width=10,height=1.2)
+	oldpar<-par(no.readonly=TRUE)
+	on.exit(par(oldpar))
 	par(mar=c(3,5,0,5),mgp=c(0,0,0))
 	layout(mat=matrix(c(rep(1,8),2),ncol=1,byrow=TRUE))
 	plot(mapkG_gsea_kegg_O,"dot",nodeAttrs=nA)
@@ -7658,6 +7228,8 @@ mbl$Export$Online_Data$All=gaction(label="All",handler=function(h,...)
 	try(({img<-paste(en,".png",sep="_Graph_GSTA_Data_KEGG");
 	png(img);
 	nA<-makeNodeAttrs(mapkG_gsta_kegg_O,fillcolor=logcol_gsta_kegg_O,width=10,height=1.2)
+	oldpar<-par(no.readonly=TRUE)
+	on.exit(par(oldpar))
 	par(mar=c(3,5,0,5),mgp=c(0,0,0))
 	layout(mat=matrix(c(rep(1,8),2),ncol=1,byrow=TRUE))
 	plot(mapkG_gsta_kegg_O,"dot",nodeAttrs=nA)
@@ -7672,13 +7244,13 @@ mbl$Export$Online_Data$All=gaction(label="All",handler=function(h,...)
 	try(({img<-paste(en,".png",sep="_SSE_Plot");png(img);ssize.plot(size_O,xlim=c(0,20),main=paste("Sample size to detect 2-fold change",sep=""));dev.off()}),silent=TRUE)
 	try(({img<-paste(en,".png",sep="_Coexpression_Network");png(img);plot(myGraph_O,nodeAttrs=makeNodeAttrs(myGraph_O,fontsize=18,fillcolor="grey"));dev.off()}),silent=TRUE)	
 #	}),silent=TRUE)
-	setwd(cur_dir)
+	on.exit(setwd(cur_dir))
 }
 )
 
 #mbl$Help$About_maGUI$handler=function(h,...){
 mbl$Help$About_maGUI=gaction(label="About_maGUI",handler=function(h,...){
-	abt_gui<-gmessage("This is maGUI Version 2.4 developed using gWidgets2 version 1.0.8. The gWidgets2 package was developed by John Verzani and the Graphical User Interface (GUI) by James Wettenhall. This package is developed and produced by Dhammapal Bharne.",title="About maGUI",icon="info")
+	abt_magui<-gmessage("This is maGUI version 3.0 developed and produced by Dhammapal Bharne. It can analyze and annotate microarray data of different platforms",title="About maGUI",icon="info")
 }
 )
 #mbl$Help$maGUI_Help$handler=function(h,...){
@@ -7688,12 +7260,12 @@ mbl$Help$maGUI_Help=gaction(label="maGUI_Help",handler=function(h,...){
 )
 #mbl$Help$maGUI_Manual$handler=function(h,...){
 mbl$Help$maGUI_Manual=gaction(label="maGUI_Manual",handler=function(h,...){
-	openPDF("http://bif.uohyd.ac.in/maGUI/maGUI_Manual.pdf")
+	openPDF("https://cran.r-project.org/web/packages/maGUI/maGUI.pdf")
 }
 )
 #mbl$Help$maGUI_Tutorial$handler=function(h,...){
 mbl$Help$maGUI_Tutorial_Documentation=gaction(label="maGUI_Tutorial_Documentation",handler=function(h,...){
-	openPDF("http://bif.uohyd.ac.in/maGUI/maGUI_Tutorial.pdf")
+	browseURL("https://www.researchgate.net/publication/344717933_maGUI_Tutorialpdf")
 }
 )
 mbl$Help$maGUI_Tutorial_YouTube=gaction(label="maGUI_Tutorial_YouTube",handler=function(h,...){
@@ -7701,6 +7273,10 @@ mbl$Help$maGUI_Tutorial_YouTube=gaction(label="maGUI_Tutorial_YouTube",handler=f
 }
 )
 mbl$Help$maGUI_Citation=gaction(label="maGUI_Citation",handler=function(h,...){
+	cite_magui<-gmessage("Dhammapal Bharne, Praveen Kant, Vaibhav Vindal (2018). maGUI: A Graphical User Interface for Analysis and Annotation of DNA Microarray Data. The Open Bioinformatics Journal, 12, 40-44. URL https://benthamopen.com/FULLTEXT/TOBIOIJ-12-40.",title="Cite maGUI",icon="info")
+}
+)
+mbl$Help$maGUI_Article=gaction(label="maGUI_Article",handler=function(h,...){
 	browseURL("https://benthamopen.com/FULLTEXT/TOBIOIJ-12-40")
 }
 )
@@ -7713,5 +7289,5 @@ mbl$Help$Contact=gaction(label="Contact",handler=function(h,...){
 mbl<-gmenu(mbl,container=w)
 svalue(sb)<-"Ready"
 visible(w)=TRUE
-setwd(cur_dir)
+on.exit(setwd(cur_dir))
 }

@@ -1,0 +1,153 @@
+qlchk<-function(h,...){
+	f<-function(h,...){
+		x<<-svalue(h$obj)
+		}
+		try(({
+		datAffy<-datAffy;datAgOne2.m<-datAgOne2.m;datAgTwo2.m<-datAgTwo2.m;datIllBA2.m2<-datIllBA2.m2;
+		lumi_NQ.m<-lumi_NQ.m;data.matrix_Nimblegen2.m<-data.matrix_Nimblegen2.m;
+		data.matrixNorm.m<-data.matrixNorm.m;data.matrix_onlineNorm.m<-data.matrix_onlineNorm.m;
+		qcAffy<-qcAffy;qcAgOne<-qcAgOne;qcAgTwo<-qcAgTwo;qcIl_B<-qcIl_B;qcIl_L<-qcIl_L;
+		qcNimblg<-qcNimblg;qcDmsm<-qcDmsm;qcDmo<-qcDmo;
+		}),silent=TRUE)
+			
+			
+	if(length(qcAffy)!=0)
+	{
+		setwd(folder_Affy)	
+		svalue(sb)<-"				Please wait while QC check.."
+		err<-try(({
+		aqc<<-qc(datAffy)
+		plot(aqc)
+		}),silent=TRUE)
+		if(length(grep("Error",err))!=0)plot(dat2Affy.m)
+		if(length(dat2Affy.m)!=0){
+			delete(g1,g1_1)
+			l$Affymetrix$QC_Plot<<-list()
+			g1_1<<-ggroup(container=g1)
+			tr<<-gtree(offspring=tree,container=g1_1)
+			size(tr)<-c(300,480)
+			}
+			display()
+		svalue(sb)<-"Done"
+		qcAffy=NULL
+	}
+	if(length(qcAgOne)!=0)
+	{
+		setwd(folder_Ag1)	
+		svalue(sb)<-"				Please wait while QC check.."
+		boxplot(datAgOne2.m)
+		if(length(datAgOne2.m)!=0){
+			delete(g1,g1_1)
+			l$Agilent_OneColor$QC_Plot<<-list()
+			g1_1<<-ggroup(container=g1)
+			tr<<-gtree(offspring=tree,container=g1_1)
+			size(tr)<-c(300,480)
+			}
+			display()	
+		svalue(sb)<-"Done"
+		qcAgOne=NULL
+	}
+	if(length(qcAgTwo)!=0)
+	{
+		setwd(folder_Ag2)	
+		svalue(sb)<-"				Please wait while QC check.."
+		boxplot(datAgTwo2.m)
+		if(length(datAgTwo2.m)!=0){
+			delete(g1,g1_1)
+			l$Agilent_TwoColor$QC_Plot<<-list()
+			g1_1<<-ggroup(container=g1)
+			tr<<-gtree(offspring=tree,container=g1_1)
+			size(tr)<-c(300,480)
+			}
+			display()	
+		svalue(sb)<-"Done"
+		qcAgTwo=NULL
+	}
+	if(length(qcIl_B)!=0)
+	{
+		setwd(folder_Il_B)	
+		svalue(sb)<-"				Please wait while QC check.."
+		boxplot(datIllBA2.m2)
+		if(length(datIllBA2.m2)!=0){
+			delete(g1,g1_1)
+			l$Illumina_Beadarray$QC_Plot<<-list()
+			g1_1<<-ggroup(container=g1)
+			tr<<-gtree(offspring=tree,container=g1_1)
+			size(tr)<-c(300,480)
+			}
+			display()	
+		svalue(sb)<-"Done"
+		qcIl_B=NULL
+	}
+	if(length(qcIl_L)!=0)
+	{
+		setwd(folder_Il_L)	
+		svalue(sb)<-"				Please wait while QC check.."
+		plot(lumi_NQ.m,what="boxplot")
+		if(length(lumi_NQ.m)!=0){
+			delete(g1,g1_1)
+			l$Illumina_Lumi$QC_Plot<<-list()
+			g1_1<<-ggroup(container=g1)
+			tr<<-gtree(offspring=tree,container=g1_1)
+			size(tr)<-c(300,480)
+			}
+			display()	
+		svalue(sb)<-"Done"
+		qcIl_L=NULL
+	}
+	if(length(qcNimblg)!=0)
+	{
+		setwd(folder_N)	
+		svalue(sb)<-"				Please wait while QC check.."
+		boxplot(data.matrix_Nimblegen2.m)
+		if(length(data.matrix_Nimblegen2.m)!=0){
+			delete(g1,g1_1)
+			l$Nimblegen$QC_Plot<<-list()
+			g1_1<<-ggroup(container=g1)
+			tr<<-gtree(offspring=tree,container=g1_1)
+			size(tr)<-c(300,480)
+			}
+			display()	
+		svalue(sb)<-"Done"
+		qcNimblg=NULL
+	}
+	if(length(qcDmsm)!=0)
+	{
+		setwd(folder_S)	
+		svalue(sb)<-"				Please wait while QC check.."
+		boxplot(data.matrixNorm.m)
+		if(length(data.matrixNorm.m)!=0){
+			delete(g1,g1_1)
+			l$Series_Matrix$QC_Plot<<-list()
+			g1_1<<-ggroup(container=g1)
+			tr<<-gtree(offspring=tree,container=g1_1)
+			size(tr)<-c(300,480)
+			}
+			display()	
+		svalue(sb)<-"Done"
+		qcDmsm=NULL
+	}
+	if(length(qcDmo)!=0)
+	{
+		svalue(sb)<-"				Please wait while QC check.."
+		boxplot(data.matrix_onlineNorm.m)
+		if(length(data.matrix_onlineNorm.m)!=0){
+			delete(g1,g1_1)
+			l$Online_Data$QC_Plot<<-list()
+			g1_1<<-ggroup(container=g1)
+			tr<<-gtree(offspring=tree,container=g1_1)
+			size(tr)<-c(300,480)
+			}
+			display()	
+		svalue(sb)<-"Done"
+		qcDmo=NULL
+	}
+}
+
+if (!requireNamespace("simpleaffy", quietly = TRUE))
+{
+	install.packages("simpleaffy")
+} else {
+	library(simpleaffy)
+}
+qlchk()

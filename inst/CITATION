@@ -1,0 +1,17 @@
+citHeader("To cite maGUI in publications use:")
+
+citEntry(entry = "Article",
+  title        = "maGUI: A Graphical User Interface for Analysis and Annotation of DNA Microarray Data",
+  author       = personList(as.person("Dhammapal Bharne"),as.person("Praveen Kant"),as.person("Vaibhav Vindal")),
+  journal      = "The Open Bioinformatics Journal",
+  year         = "2018",
+  volume       = "12",
+  pages        = "40--44",
+  url          = "https://benthamopen.com/FULLTEXT/TOBIOIJ-12-40",
+
+  textVersion  =
+  paste("Dhammapal Bharne, Praveen Kant, Vaibhav Vindal (2018).",
+        "maGUI: A Graphical User Interface for Analysis and Annotation of DNA Microarray Data.",
+        "The Open Bioinformatics Journal, 12, 40-44.",
+        "URL https://benthamopen.com/FULLTEXT/TOBIOIJ-12-40.")
+)
